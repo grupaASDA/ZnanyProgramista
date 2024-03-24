@@ -1,6 +1,7 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from .managers import CustomUserManager
 
 
@@ -9,8 +10,6 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     is_dev = models.BooleanField(default=False) #true / false
 
-
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name","is_dev"]
 
@@ -18,9 +17,6 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"User profile of {self.email}"
-
-
-
 
 
 class ProgramerProfile(models.Model):
@@ -48,8 +44,10 @@ class ProgramerProfile(models.Model):
 
     )
 
-    user_id = models.ForeignKey("CustomUser",on_delete=models.CASCADE)
-    rating = models.IntegerField(default=None)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="programmer", on_delete=models.CASCADE)
+    wage_min = models.PositiveIntegerField()
+    wage_max = models.PositiveIntegerField()
+    rating = models.FloatField(null=True)
     description = models.TextField(max_length=5000)
     experience = models.CharField(max_length=100,choices=EXP)
     portfolio = models.URLField(max_length=1000)

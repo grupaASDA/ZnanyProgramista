@@ -1,1 +1,34 @@
+from django import forms
+from django.core.exceptions import ValidationError
 
+from accounts.models import ProgramerProfile
+
+
+class ProgrammerCreationModelForm(forms.ModelForm):
+
+    class Meta:
+        model = ProgramerProfile
+        fields = ['description', 'experience', 'code_skils', 'frameworks', 'wage_min', 'wage_max', 'portfolio']
+
+    def clean_wage_min(self):
+        wage_min = self.cleaned_data["wage_min"]
+        if wage_min <= 0:
+            raise ValidationError("Wage_min must be bigger than zero")
+        return wage_min
+
+    def clean_wage_max(self):
+        wage_max = self.cleaned_data["wage_max"]
+        wage_min = self.cleaned_data["wage_min"]
+        if wage_max <= 0:
+            raise ValidationError("Wage_max must be bigger than zero")
+        if wage_min > wage_max:
+            raise ValidationError("Wage_max must be bigger than or equal to Wage_min")
+        return wage_max
+
+    def save(self, commit=True):
+        programmer = super(ProgrammerCreationModelForm, self).save(commit=False)
+        if commit:
+            programmer.save()
+        if self.cleaned_data['code_skils']:
+            programmer.technologies.set(self.cleaned_data['code_skils'])
+        return programmer

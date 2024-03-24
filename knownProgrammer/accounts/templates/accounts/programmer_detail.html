@@ -1,0 +1,34 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}
+Programmer details
+{% endblock title %}
+
+{% block body %}
+    <div>
+        Description: {{ programmer.description }}
+    </div>
+    <div>
+        Min wage [PLN/H]: {{ programmer.wage_min }}
+    </div>
+    <div>
+        Max wage [PLN/H]: {{ programmer.wage_max }}
+    </div>
+    <div>
+        Rating: {{ programmer.rating }}
+    </div>
+    <div>
+        Experience: {{ programmer.experience }}
+    </div>
+    <div>
+        Code skils: {{ programmer.code_skils }}
+    </div>
+    <div>
+        Frameworks: {{ programmer.frameworks }}
+    </div>
+    <div>
+        Portfolio: {{ programmer.portfolio }}
+    </div>
+<br>
+<a href="{% url 'programmers_list' %}">Return to main page</a>
+{% endblock body %}
