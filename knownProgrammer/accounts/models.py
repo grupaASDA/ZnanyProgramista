@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     is_dev = models.BooleanField(default=False) #true / false
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first_name", "last_name","is_dev"]
+    REQUIRED_FIELDS = ["first_name", "last_name", "is_dev"]
 
     objects = CustomUserManager()
 
@@ -21,38 +21,42 @@ class CustomUser(AbstractUser):
 
 class ProgramerProfile(models.Model):
     EXP = {
-        ("JUNIOR","JUNIOR"),
-        ("MIDDLE","MIDDLE"),
-        ("SENIOR","SENIOR"),
+        ("Junior", "Junior"),
+        ("Mid", "Mid"),
+        ("Senior", "Senior"),
     }
 
     CODE = (
-        ("javascript","javascript"),
-        ("python","python"),
-        ("java","java"),
-        ("c","c"),
-        ("c+","c+"),
-
-
-
+        ("JavaScript", "JavaScript"),
+        ("Python", "Python"),
+        ("Java", "Java"),
+        ("C", "C"),
+        ("C++", "C++"),
+        ("C#", "C#"),
+        ("R", "R"),
+        ("PHP", "PHP"),
+        ("SQL", "SQL"),
     )
 
-    FRAMEWORKS = (
-        ("Django","Django"),
-        ("Celery","Celery"),
-        ("Flask","Flask"),
-
+    TECH_STACK = (
+        ("Django", "Django"),
+        ("Celery", "Celery"),
+        ("Flask", "Flask"),
+        ("FastAPI", "FastAPI"),
+        ("Databases", "Databases"),
+        ("Docker", "Docker"),
+        ("Git | GitHub", "Git | GitHub"),
     )
 
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="programmer", on_delete=models.CASCADE)
+    user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     wage_min = models.PositiveIntegerField()
     wage_max = models.PositiveIntegerField()
-    rating = models.FloatField(null=True)
+    rating = models.FloatField(default=0)
     description = models.TextField(max_length=5000)
     experience = models.CharField(max_length=100,choices=EXP)
     portfolio = models.URLField(max_length=1000)
-    code_skils = MultiSelectField(choices=CODE,max_length=500)
-    frameworks = MultiSelectField(choices=FRAMEWORKS,max_length=500)
+    programming_languages = MultiSelectField(choices=CODE, max_length=500)
+    tech_stack = MultiSelectField(choices=TECH_STACK, max_length=500)
 
     def __str__(self):
         return f"{self.user_id}"

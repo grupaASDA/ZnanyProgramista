@@ -41,10 +41,64 @@ def programmer_create_form(request):
     elif request.method == 'POST':
         form = ProgrammerCreationModelForm(request.POST)
         if form.is_valid():
-            programmer = form.save()
+            programmer = form.save(commit=False)
+            programmer.user_id = request.user
+            programmer.save()
             return redirect(f'/programmers/detail/{programmer.id}')
         ctx = {
             "form": form,
             "error": "Something went wrong",
         }
         return render(request, template_name='accounts/programmer_create_model_form.html', context=ctx)
+
+
+def programmer_update_model_form(request, id):
+    programmer = get_object_or_404(ProgramerProfile, id=id)
+    if request.method == "GET":
+        form = ProgrammerCreationModelForm(instance=programmer)
+        ctx = {
+            "form": form,
+            "programmer": programmer,
+        }
+        return render(
+            request, "accounts/programmer_update_model_form.html", context=ctx
+        )
+    if request.method == "POST":
+        form = ProgrammerCreationModelForm(request.POST, instance=programmer)
+
+        if form.is_valid():
+            form.save()
+            ctx = {
+                "form": form,
+                "programmer": programmer,
+                "message": f"Programmer with id: {id} has been successfully updated",
+            }
+            return render(
+                request, "accounts/programmer_update_model_form.html", context=ctx
+            )
+
+        ctx = {
+            "form": form,
+            "programmer": programmer,
+            "message": "Something went wrong",
+        }
+        return render(
+            request, "accounts/programmer_update_model_form.html", context=ctx
+        )
+
+
+def programmer_delete_confirm(request, id):
+    programmer = get_object_or_404(ProgramerProfile, id=id)
+    if request.method == "GET":
+        ctx = {
+            "programmer": programmer,
+        }
+        return render(request, "accounts/programmer_delete_confirm.html", context=ctx)
+
+    if request.method == "POST":
+        programmer.delete()
+        messages.success(
+            request, f"Programmer with id: {id} has been successfully deleted"
+        )
+
+        return redirect("programmers_list")

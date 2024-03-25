@@ -1,19 +1,59 @@
 {% extends "accounts/base.html" %}
+{% load stars %}
 
 {% block title %}
 Programmers List
 {% endblock title %}
 
 {% block body %}
-    <h1>Programmers list:</h1>
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li>{{ message }}</li>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="col-12 mb-5">Programmers list:</h1>
+            {% if messages %}
+                <div class="col-12">
+                    <ul class="list-unstyled mb-5">
+                        {% for message in messages %}
+                            <li class="alert alert-info">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% for programmer in programmers %}
+                <div class="col-md-4">
+                    <a href="{% url 'programmer_detail' programmer.user_id.id %}" class="text-decoration-none text-reset">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h6>
+                                <div class="rating">
+                                    <span class="fw-bold">Rating:</span>
+                                    {% for star in programmer.rating|get_rating_stars %}
+                                        <span class="badge bg-primary ms-1">{{ star }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="experience">
+                                    <span class="fw-bold">Experience:</span> {{ programmer.experience }}
+                                </div>
+                                <div class="technologies mt-3">
+                                    <span class="fw-bold">Programming Languages:</span>
+                                    {% for language in programmer.programming_languages %}
+                                        <span class="badge bg-primary ms-2">{{ language }}</span>
+                                    {% empty %}
+                                        <span class="fw-italic">No languages listed</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="technologies mt-2">
+                                    <span class="fw-bold">Frameworks:</span>
+                                    {% for framework in programmer.tech_stack %}
+                                        <span class="badge bg-secondary ms-2">{{ framework }}</span>
+                                    {% empty %}
+                                        <span class="fw-italic">No frameworks listed</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             {% endfor %}
-        </ul>
-    {% endif %}
-    {% for programmer in programmers %}
-        <div>{{ programmer }} </div>
-    {% endfor %}
+        </div>
+    </div>
 {% endblock body %}
