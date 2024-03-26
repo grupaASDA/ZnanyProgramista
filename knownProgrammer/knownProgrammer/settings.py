@@ -89,6 +89,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        "USER": "admin",
+        "PASSWORD": "baX2BUTxZr",
+        "HOST": "sqlitecloud://admin:baX2BUTxZr@cy4z1ugxsz.sqlite.cloud:8860",
     }
 }
 
