@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound
 from django.contrib import messages
@@ -16,8 +17,6 @@ def programmers_list(request):
 
 
 def programmer_detail(request, id):
-    # Query ORM Djangowego, aby wyciągnąć konkrenty element z tabeli. Jeśli nie będzie żadnego
-    # wyniku lub więcej niż jeden, to zostanie wyrzucony błąd.
     try:
         programmer = ProgramerProfile.objects.get(id=id)
     except ProgramerProfile.DoesNotExist:
@@ -54,6 +53,9 @@ def programmer_create_form(request):
 
 def programmer_update_model_form(request, id):
     programmer = get_object_or_404(ProgramerProfile, id=id)
+    if request.user_id.id != programmer.user_id.id:
+        raise PermissionDenied("You do not have permission to edit this index.")
+
     if request.method == "GET":
         form = ProgrammerCreationModelForm(instance=programmer)
         ctx = {
@@ -89,6 +91,8 @@ def programmer_update_model_form(request, id):
 
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgramerProfile, id=id)
+    if request.user_id.id != programmer.user_id.id:
+        raise PermissionDenied("You do not have permission to delete this index.")
     if request.method == "GET":
         ctx = {
             "programmer": programmer,

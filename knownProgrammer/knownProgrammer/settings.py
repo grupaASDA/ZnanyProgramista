@@ -85,13 +85,18 @@ WSGI_APPLICATION = 'knownProgrammer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_PORT = os.getenv("DB_PORT")
+DB_HOST = os.getenv("DB_HOST")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        "USER": "admin",
-        "PASSWORD": "baX2BUTxZr",
-        "HOST": "sqlitecloud://admin:baX2BUTxZr@cy4z1ugxsz.sqlite.cloud:8860",
+        "USER": DB_USER,
+        "PASSWORD": DB_PASSWORD,
+        "HOST": f"sqlitecloud://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}",
     }
 }
 
