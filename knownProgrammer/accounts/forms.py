@@ -8,7 +8,7 @@ class ProgrammerCreationModelForm(forms.ModelForm):
 
     class Meta:
         model = ProgramerProfile
-        fields = ['description', 'experience', 'code_skils', 'frameworks', 'wage_min', 'wage_max', 'portfolio']
+        fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage_min', 'wage_max', 'portfolio']
 
     def clean_wage_min(self):
         wage_min = self.cleaned_data["wage_min"]
@@ -29,6 +29,6 @@ class ProgrammerCreationModelForm(forms.ModelForm):
         programmer = super(ProgrammerCreationModelForm, self).save(commit=False)
         if commit:
             programmer.save()
-        if self.cleaned_data['code_skils']:
-            programmer.technologies.set(self.cleaned_data['code_skils'])
+        if self.cleaned_data['programming_languages']:
+            programmer.programming_languages = self.cleaned_data['programming_languages']
         return programmer

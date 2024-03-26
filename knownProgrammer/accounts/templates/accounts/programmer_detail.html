@@ -1,34 +1,63 @@
 {% extends "accounts/base.html" %}
+{% load stars %}
 
 {% block title %}
 Programmer details
 {% endblock title %}
 
 {% block body %}
-    <div>
-        Description: {{ programmer.description }}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name}} details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <span class="fw-bold">Description:</span> {{ programmer.description }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="fw-bold">Min wage [PLN/H]:</span> {{ programmer.wage_min }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="fw-bold">Max wage [PLN/H]:</span> {{ programmer.wage_max }}
+                    </div>
+                    <div class="rating">
+                                    <span class="fw-bold">Rating:</span>
+                                    {% for star in programmer.rating|get_rating_stars %}
+                                        <span class="badge bg-primary ms-1">{{ star }}</span>
+                                    {% endfor %}
+                                </div>
+                    <br>
+                    <div class="mb-3">
+                        <span class="fw-bold">Experience:</span> {{ programmer.experience }}
+                    </div>
+                    <div class="technologies mt-3">
+                                    <span class="fw-bold">Programming Languages:</span>
+                                    {% for language in programmer.programming_languages %}
+                                        <span class="badge bg-primary ms-2">{{ language }}</span>
+                                    {% empty %}
+                                        <span class="fw-italic">No languages listed</span>
+                                    {% endfor %}
+                                </div>
+                    <div class="technologies mt-2">
+                                    <span class="fw-bold">Frameworks:</span>
+                                    {% for framework in programmer.tech_stack %}
+                                        <span class="badge bg-secondary ms-2">{{ framework }}</span>
+                                    {% empty %}
+                                        <span class="fw-italic">No frameworks listed</span>
+                                    {% endfor %}
+                                </div>
+                    <div class="mb-3">
+                        <span class="fw-bold">Portfolio:</span> {{ programmer.portfolio }}
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'programmers_list' %}" class="btn btn-primary">Return to programmers list</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        Min wage [PLN/H]: {{ programmer.wage_min }}
-    </div>
-    <div>
-        Max wage [PLN/H]: {{ programmer.wage_max }}
-    </div>
-    <div>
-        Rating: {{ programmer.rating }}
-    </div>
-    <div>
-        Experience: {{ programmer.experience }}
-    </div>
-    <div>
-        Code skils: {{ programmer.code_skils }}
-    </div>
-    <div>
-        Frameworks: {{ programmer.frameworks }}
-    </div>
-    <div>
-        Portfolio: {{ programmer.portfolio }}
-    </div>
-<br>
-<a href="{% url 'programmers_list' %}">Return to main page</a>
+</div>
 {% endblock body %}

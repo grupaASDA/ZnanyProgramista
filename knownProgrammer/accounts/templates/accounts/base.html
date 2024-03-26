@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,9 +37,6 @@
                 <a class="nav-link mx-lg-2" href="{% url 'programmers_list' %}">Programiści</a>
               </li>
                 <li class="nav-item">
-                <a class="nav-link mx-lg-2" href="{% url 'programmer_create_form' %}">Dodaj programistę</a>
-              </li>
-                <li class="nav-item">
                 <a class="nav-link mx-lg-2" href="#">Prywatność danych</a>
               </li>
                 <li class="nav-item">
@@ -46,10 +44,11 @@
               </li>
 
 
-            </ul>
-          </div>
-        </div>
+
             {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                <a class="nav-link mx-lg-2" href="{% url 'programmer_create_form' %}">Dodaj programistę</a>
+              </li>
                 <li class="nav-item">
                 <a class="nav-link mx-lg-2" href="#">Twój profil</a>
                 </li>
@@ -60,6 +59,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 {% endif %}
+                        </ul>
+          </div>
+        </div>
 
       </div>
     </nav>
