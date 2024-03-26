@@ -20,9 +20,9 @@ class ProgrammerCreationModelForm(forms.ModelForm):
         wage_max = self.cleaned_data["wage_max"]
         wage_min = self.cleaned_data["wage_min"]
         if wage_max <= 0:
-            raise ValidationError("Wage_max must be bigger than zero")
+            raise ValidationError("Wage max must be bigger than zero")
         if wage_min > wage_max:
-            raise ValidationError("Wage_max must be bigger than or equal to Wage_min")
+            raise ValidationError("Wage max must be bigger than or equal to wage min")
         return wage_max
 
     def save(self, commit=True):
