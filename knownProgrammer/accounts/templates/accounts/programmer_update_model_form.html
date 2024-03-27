@@ -1,0 +1,92 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}
+    Update programmer
+{% endblock title %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm">
+                    <h3 class="card-title text-center mb-4">
+                        Update programmer: <br>
+                        {{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}
+                        {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endif %}
+                    </h3>
+                    <form class="mb-4" action="/programmers/update/{{ programmer.id }}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="description" class="form-label">Description:</label>
+                                    {{ form.description }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="experience" class="form-label">Experience:</label>
+                                    {{ form.experience }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="programming_languages" class="form-label">Programming Languages:</label>
+                                    {{ form.programming_languages }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="tech_stack" class="form-label">Frameworks:</label>
+                                    {{ form.tech_stack }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="wage_min" class="form-label">Min wage [PLN/H]:</label>
+                                    {{ form.wage_min }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="wage_max" class="form-label">Max wage [PLN/H]:</label>
+                                    {{ form.wage_max }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label for="portfolio" class="form-label">Portfolio:</label>
+                                    {{ form.portfolio }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-outline-success">Update Programmer</button>
+                        </div>
+
+                        <br><br>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'programmer_detail' programmer.id %}"
+                               class="btn btn-outline-secondary btn-block">Return</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
