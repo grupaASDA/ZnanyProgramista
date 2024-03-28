@@ -73,7 +73,19 @@
     }
 }
 
+.hover-effect:hover {
+    transform: scale(1.1) !important;
+    transition: transform 0.3s ease !important;
+    box-shadow: 5px 6px 6px 2px #e9ecef !important;
+}
 
+.star {
+    color: grey;
+}
+
+.card-title {
+    color: teal;
+}
 #hero-section{
      background: url("../images/background.jpg") no-repeat center;
      background-size: cover;
