@@ -6,7 +6,6 @@ from accounts.views import (
     programmer_create_form,
     programmer_update_model_form,
     programmer_delete_confirm,
-
 )
 
 urlpatterns = [
