@@ -4,7 +4,6 @@ from accounts.views import (
     programmer_detail,
     programmers_list,
     programmer_create_form,
-
 )
 
 urlpatterns = [

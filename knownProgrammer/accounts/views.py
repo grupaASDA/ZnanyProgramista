@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound
 from django.contrib import messages
+from django.contrib.auth import logout
 
 from accounts.forms import ProgrammerCreationModelForm
 from accounts.models import ProgramerProfile
