@@ -20,14 +20,14 @@ Programmers List
             {% endif %}
             {% for programmer in programmers %}
                 <div class="col-md-4">
-                    <a href="{% url 'programmer_detail' programmer.user_id.id %}" class="text-decoration-none text-reset">
-                        <div class="card mb-4">
+                    <a href="{% url 'programmer_detail' programmer.id %}" class="text-decoration-none text-reset">
+                        <div class="card mb-4 hover-effect">
                             <div class="card-body">
-                                <h6 class="card-title">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h6>
+                                <h4 class="card-title fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
                                 <div class="rating">
                                     <span class="fw-bold">Rating:</span>
                                     {% for star in programmer.rating|get_rating_stars %}
-                                        <span class="badge bg-primary ms-1">{{ star }}</span>
+                                        <span class="badge rounded-pill star ms-1">{{ star }}</span>
                                     {% endfor %}
                                 </div>
                                 <div class="experience">
@@ -36,7 +36,7 @@ Programmers List
                                 <div class="technologies mt-3">
                                     <span class="fw-bold">Programming Languages:</span>
                                     {% for language in programmer.programming_languages %}
-                                        <span class="badge bg-primary ms-2">{{ language }}</span>
+                                        <span class="badge bg-success ms-2">{{ language }}</span>
                                     {% empty %}
                                         <span class="fw-italic">No languages listed</span>
                                     {% endfor %}

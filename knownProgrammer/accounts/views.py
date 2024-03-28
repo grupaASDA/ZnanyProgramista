@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound
 from django.contrib import messages
@@ -12,22 +13,33 @@ def programmers_list(request):
         "programmers": programmers,
     }
 
-    return render(request, template_name="accounts/programmers_list.html", context=ctx)
+    return render(
+        request,
+        template_name="accounts/programmers_list.html",
+        context=ctx,
+    )
 
 
 def programmer_detail(request, id):
-    # Query ORM Djangowego, aby wyciągnąć konkrenty element z tabeli. Jeśli nie będzie żadnego
-    # wyniku lub więcej niż jeden, to zostanie wyrzucony błąd.
     try:
         programmer = ProgramerProfile.objects.get(id=id)
     except ProgramerProfile.DoesNotExist:
         return HttpResponseNotFound("Page not found")
+    if request.user.id == programmer.user_id.id:
+        user = request.user.id
+    else:
+        user = None
 
     ctx = {
         "programmer": programmer,
+        "user": user,
     }
 
-    return render(request, template_name="accounts/programmer_detail.html", context=ctx)
+    return render(
+        request,
+        template_name="accounts/programmer_detail.html",
+        context=ctx,
+    )
 
 
 def programmer_create_form(request):
@@ -36,7 +48,11 @@ def programmer_create_form(request):
         ctx = {
             "form": form,
         }
-        return render(request, template_name='accounts/programmer_create_model_form.html', context=ctx)
+        return render(
+            request,
+            template_name='accounts/programmer_create_model_form.html',
+            context=ctx,
+        )
 
     elif request.method == 'POST':
         form = ProgrammerCreationModelForm(request.POST)
@@ -44,16 +60,31 @@ def programmer_create_form(request):
             programmer = form.save(commit=False)
             programmer.user_id = request.user
             programmer.save()
+            messages.success(
+                request,
+                message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully created",
+            )
             return redirect(f'/programmers/detail/{programmer.id}')
         ctx = {
             "form": form,
-            "error": "Something went wrong",
         }
-        return render(request, template_name='accounts/programmer_create_model_form.html', context=ctx)
+        messages.error(
+            request,
+            message="Something went wrong",
+        )
+        return render(
+            request,
+            template_name='accounts/programmer_create_model_form.html',
+            context=ctx,
+        )
 
 
 def programmer_update_model_form(request, id):
     programmer = get_object_or_404(ProgramerProfile, id=id)
+
+    if request.user.id != programmer.user_id.id:
+        raise PermissionDenied("You do not have permission to edit this index.")
+
     if request.method == "GET":
         form = ProgrammerCreationModelForm(instance=programmer)
         ctx = {
@@ -61,7 +92,9 @@ def programmer_update_model_form(request, id):
             "programmer": programmer,
         }
         return render(
-            request, "accounts/programmer_update_model_form.html", context=ctx
+            request,
+            template_name="accounts/programmer_update_model_form.html",
+            context=ctx,
         )
     if request.method == "POST":
         form = ProgrammerCreationModelForm(request.POST, instance=programmer)
@@ -71,34 +104,53 @@ def programmer_update_model_form(request, id):
             ctx = {
                 "form": form,
                 "programmer": programmer,
-                "message": f"Programmer with id: {id} has been successfully updated",
             }
+            messages.success(
+                request,
+                message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully edited",
+            )
             return render(
-                request, "accounts/programmer_update_model_form.html", context=ctx
+                request,
+                template_name="accounts/programmer_detail.html",
+                context=ctx,
             )
 
         ctx = {
             "form": form,
             "programmer": programmer,
-            "message": "Something went wrong",
         }
+        messages.error(
+            request,
+            message="Something went wrong",
+        )
+
         return render(
-            request, "accounts/programmer_update_model_form.html", context=ctx
+            request,
+            template_name="accounts/programmer_update_model_form.html",
+            context=ctx,
         )
 
 
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgramerProfile, id=id)
+
+    if request.user.id != programmer.user_id.id:
+        raise PermissionDenied("You do not have permission to delete this index.")
     if request.method == "GET":
         ctx = {
             "programmer": programmer,
         }
-        return render(request, "accounts/programmer_delete_confirm.html", context=ctx)
+        return render(
+            request,
+            template_name="accounts/programmer_delete_confirm.html",
+            context=ctx,
+        )
 
     if request.method == "POST":
         programmer.delete()
         messages.success(
-            request, f"Programmer with id: {id} has been successfully deleted"
+            request,
+            message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully deleted",
         )
 
         return redirect("programmers_list")
