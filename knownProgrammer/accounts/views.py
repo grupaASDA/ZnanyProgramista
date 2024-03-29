@@ -1,7 +1,8 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from accounts.forms import ProgrammerCreationModelForm
 from accounts.models import ProgramerProfile
@@ -20,6 +21,7 @@ def programmers_list(request):
     )
 
 
+@login_required
 def programmer_detail(request, id):
     try:
         programmer = ProgramerProfile.objects.get(id=id)
@@ -42,7 +44,11 @@ def programmer_detail(request, id):
     )
 
 
+@login_required
 def programmer_create_form(request):
+    print(request.user.is_dev)
+    if request.user.is_dev:
+        return HttpResponseForbidden("You have already created a programmer account")
     form = ProgrammerCreationModelForm(request.POST or None)
     if request.method == 'GET':
         ctx = {
@@ -60,10 +66,13 @@ def programmer_create_form(request):
             programmer = form.save(commit=False)
             programmer.user_id = request.user
             programmer.save()
+            request.user.is_dev = True
+            request.user.save()
             messages.success(
                 request,
                 message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully created",
             )
+
             return redirect(f'/programmers/detail/{programmer.id}')
         ctx = {
             "form": form,
@@ -79,6 +88,7 @@ def programmer_create_form(request):
         )
 
 
+@login_required
 def programmer_update_model_form(request, id):
     programmer = get_object_or_404(ProgramerProfile, id=id)
 
@@ -131,6 +141,7 @@ def programmer_update_model_form(request, id):
         )
 
 
+@login_required
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgramerProfile, id=id)
 
@@ -148,6 +159,8 @@ def programmer_delete_confirm(request, id):
 
     if request.method == "POST":
         programmer.delete()
+        request.user.is_dev = False
+        request.user.save()
         messages.success(
             request,
             message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully deleted",

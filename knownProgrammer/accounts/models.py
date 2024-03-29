@@ -48,15 +48,15 @@ class ProgramerProfile(models.Model):
         ("Git | GitHub", "Git | GitHub"),
     )
 
-    user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='programmer_profile')
     wage_min = models.PositiveIntegerField()
     wage_max = models.PositiveIntegerField()
     rating = models.FloatField(default=0)
     description = models.TextField(max_length=5000)
-    experience = models.CharField(max_length=100,choices=EXP)
+    experience = models.CharField(max_length=100, choices=EXP)
     portfolio = models.URLField(max_length=1000)
     programming_languages = MultiSelectField(choices=CODE, max_length=500)
     tech_stack = MultiSelectField(choices=TECH_STACK, max_length=500)
 
     def __str__(self):
-        return f"{self.user_id}"
+        return f"User profile of {self.user_id.email} ({self.user_id.first_name} {self.user_id.last_name})"
