@@ -1,0 +1,35 @@
+{% extends "accounts/base.html" %}
+{% block title %}Login{% endblock title %}
+
+{% block body %}
+    {% if request.user.is_authenticated %}
+    <div class="col-md-6 offset-md-4">
+        <h1>You have already logged in!</h1>
+    </div>
+    {% else %}
+    <div class="col-md-6 offset-md-4">
+        <h1>Login</h1>
+        <br/>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+          <div class="mb-3">
+            <input type="email" class="form-control" name="email" placeholder="Enter your email">
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" name="password" placeholder="Enter your password">
+          </div>
+          <br/>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+          <button type="submit" class="btn btn-secondary">Submit</button>
+        </form>
+    </div>
+    {% endif %}
+
+
+{% endblock body %}
