@@ -7,78 +7,87 @@
 
 {% block body %}
     {% if messages %}
-                <div class="col-12">
-                    <ul class="list-unstyled mb-5">
-                        {% for message in messages %}
-                            <li class="alert alert-info">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
+        <div class="col-12">
+            <ul class="list-unstyled mb-5">
+                {% for message in messages %}
+                    <li class="alert alert-info">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h3>{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h3>
+    <div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header card-title text-center">
+                <h3>{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <span class="fw-bold">Description:</span> {{ programmer.description }}
+                </div>
+                <div class="mb-3">
+                    <span class="fw-bold">Experience:</span>
+                    <h4 class="fw-bold {% if programmer.experience == "Junior" %}junior{% elif programmer.experience == "Mid" %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
+                </div>
+                <div class="rating">
+                    <span class="fw-bold">Rating:</span>
+                    {% for star in programmer.average_rating|get_rating_stars %}
+                        <span class="badge rounded-pill star ms-1">{{ star }}</span>
+                    {% endfor %} ({{ programmer.average_rating }})
+                </div>
+                <div class="technologies mt-3">
+                    <span class="fw-bold">Programming Languages:</span>
+                    {% for language in programmer.programming_languages %}
+                        <span class="badge bg-success ms-2">{{ language }}</span>
+                    {% empty %}
+                        <span class="fw-italic">No languages listed</span>
+                    {% endfor %}
+                </div>
+                <div class="technologies mt-2">
+                    <span class="fw-bold">Frameworks:</span>
+                    {% for framework in programmer.tech_stack %}
+                        <span class="badge bg-secondary ms-2">{{ framework }}</span>
+                    {% empty %}
+                        <span class="fw-italic">No frameworks listed</span>
+                    {% endfor %}
+                </div>
+                <br>
+                <br>
+                <div class="mb-3">
+                    <span class="fw-bold">Min wage [PLN/H]:</span> {{ programmer.wage_min }}
+                </div>
+                <div class="mb-3">
+                    <span class="fw-bold">Max wage [PLN/H]:</span> {{ programmer.wage_max }}
+                </div>
+
+                <div class="mb-3">
+                    <span class="fw-bold">Portfolio:</span> <a
+                        href="{{ programmer.portfolio }}">{{ programmer.portfolio }}</a>
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                {% if user != None %}
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'programmer_update_model_form' programmer.id %}"
+                           class="btn btn-outline-warning">Edit programmer</a>
+                        <a href="{% url 'programmer_delete_confirm' programmer.id %}" class="btn btn-outline-danger">Delete
+                            programmer</a>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <span class="fw-bold">Description:</span> {{ programmer.description }}
-                        </div>
-                            <div class="mb-3">
-                            <span class="fw-bold">Experience:</span> {{ programmer.experience }}
-                        </div>
-                        <div class="technologies mt-3">
-                            <span class="fw-bold">Programming Languages:</span>
-                            {% for language in programmer.programming_languages %}
-                                <span class="badge bg-success ms-2">{{ language }}</span>
-                            {% empty %}
-                                <span class="fw-italic">No languages listed</span>
-                            {% endfor %}
-                        </div>
-                        <div class="technologies mt-2">
-                            <span class="fw-bold">Frameworks:</span>
-                            {% for framework in programmer.tech_stack %}
-                                <span class="badge bg-secondary ms-2">{{ framework }}</span>
-                            {% empty %}
-                                <span class="fw-italic">No frameworks listed</span>
-                            {% endfor %}
-                        </div>
-                            <br>
-                        <div class="rating">
-                            <span class="fw-bold">Rating:</span>
-                            {% for star in programmer.rating|get_rating_stars %}
-                                <span class="badge rounded-pill star ms-1">{{ star }}</span>
-                            {% endfor %}
-                        </div>
-                        <br>
 
-                        <div class="mb-3">
-                            <span class="fw-bold">Min wage [PLN/H]:</span> {{ programmer.wage_min }}
-                        </div>
-                        <div class="mb-3">
-                            <span class="fw-bold">Max wage [PLN/H]:</span> {{ programmer.wage_max }}
-                        </div>
-
-
-                        <div class="mb-3">
-                            <span class="fw-bold">Portfolio:</span> <a
-                                href="{{ programmer.portfolio }}">{{ programmer.portfolio }}</a>
-                        </div>
+                {% else %}
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'rate_programmer' programmer.id %}" class="btn btn-outline-warning">Rate</a>
                     </div>
-                <div class="mb-3 text-center">
-                    {%  if user != None %}
-                        <a href="{% url 'programmer_update_model_form' programmer.id %}" class="btn btn-outline-warning">Edit programmer</a>
-                        <a href="{% url 'programmer_delete_confirm' programmer.id %}" class="btn btn-outline-danger">Delete programmer</a>
-                        {% else %}
-                        <a href="{% url 'programmer_update_model_form' programmer.id %}" class="btn btn-outline-warning">Rate</a>
-                    {% endif %}
+                {% endif %}
 
                 </div>
-                    <div class="card-footer text-center">
-                        <a href="{% url 'programmers_list' %}" class="btn btn-outline-primary">Return to programmers list</a>
+                <div class="card-footer text-center">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'programmers_list' %}" class="btn btn-outline-primary">Return to programmers
+                            list</a>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

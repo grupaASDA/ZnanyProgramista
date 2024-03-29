@@ -83,9 +83,30 @@
     color: grey;
 }
 
+.star-label {
+    display: inline-block;
+    font-size: 24px; /* Adjust as needed */
+    color: #FFD700; /* Gold color for stars */
+    margin-right: 5px; /* Adjust as needed */
+}
+
 .card-title {
     color: teal;
 }
+
+
+.junior {
+    color: #A5DD9B;
+}
+
+.mid {
+    color: #FF8911;
+}
+
+.senior {
+    color: #FF004D;
+}
+
 #hero-section{
      background: url("../images/background.jpg") no-repeat center;
      background-size: cover;

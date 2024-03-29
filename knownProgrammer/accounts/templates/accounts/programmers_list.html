@@ -8,7 +8,7 @@ Programmers List
 {% block body %}
     <div class="container mt-5">
         <div class="row">
-            <h1 class="col-12 mb-5">Programmers list:</h1>
+            <h1 class="col-12 mb-5 text-center">Programmers list:</h1>
             {% if messages %}
                 <div class="col-12">
                     <ul class="list-unstyled mb-5">
@@ -21,20 +21,23 @@ Programmers List
             {% for programmer in programmers %}
                 <div class="col-md-4">
                     <a href="{% url 'programmer_detail' programmer.id %}" class="text-decoration-none text-reset">
-                        <div class="card mb-4 hover-effect">
+                        <div class="card mb-4 hover-effect {% if programmer.user_id == request.user %}text-white bg-secondary{% endif %}">
                             <div class="card-body">
-                                <h4 class="card-title fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
+                                <h4 class="{% if programmer.user_id == request.user %}text-white{% else %}card-title{% endif %} fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
                                 <div class="rating">
                                     <span class="fw-bold">Rating:</span>
-                                    {% for star in programmer.rating|get_rating_stars %}
+                                    {% for star in programmer.average_rating|get_rating_stars %}
                                         <span class="badge rounded-pill star ms-1">{{ star }}</span>
-                                    {% endfor %}
+                                    {% endfor %} ({{ programmer.average_rating }})
                                 </div>
                                 <div class="experience">
-                                    <span class="fw-bold">Experience:</span> {{ programmer.experience }}
+                                    <span class="fw-bold">Experience:</span>
+                                    <h4 class="fw-bold {% if programmer.experience == "Junior" %}junior{% elif programmer.experience == "Mid" %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
+
                                 </div>
                                 <div class="technologies mt-3">
                                     <span class="fw-bold">Programming Languages:</span>
+
                                     {% for language in programmer.programming_languages %}
                                         <span class="badge bg-success ms-2">{{ language }}</span>
                                     {% empty %}
@@ -44,7 +47,7 @@ Programmers List
                                 <div class="technologies mt-2">
                                     <span class="fw-bold">Frameworks:</span>
                                     {% for framework in programmer.tech_stack %}
-                                        <span class="badge bg-secondary ms-2">{{ framework }}</span>
+                                        <span class="badge {% if programmer.user_id == request.user %}bg-primary{% else %}bg-secondary{% endif %} ms-2">{{ framework }}</span>
                                     {% empty %}
                                         <span class="fw-italic">No frameworks listed</span>
                                     {% endfor %}

@@ -1,13 +1,13 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from accounts.models import ProgramerProfile
+from accounts.models import ProgrammerProfile
 
 
 class ProgrammerCreationModelForm(forms.ModelForm):
 
     class Meta:
-        model = ProgramerProfile
+        model = ProgrammerProfile
         fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage_min', 'wage_max', 'portfolio']
 
     def clean_wage_min(self):
@@ -32,3 +32,14 @@ class ProgrammerCreationModelForm(forms.ModelForm):
         if self.cleaned_data['programming_languages']:
             programmer.programming_languages = self.cleaned_data['programming_languages']
         return programmer
+
+
+class RatingForm(forms.Form):
+    RATING_CHOICES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    ]
+    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.RadioSelect)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CustomUser, ProgramerProfile
+from .models import CustomUser, ProgrammerProfile
 
 admin.site.register(CustomUser)
-admin.site.register(ProgramerProfile)
+admin.site.register(ProgrammerProfile)

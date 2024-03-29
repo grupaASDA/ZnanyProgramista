@@ -6,6 +6,7 @@ from accounts.views import (
     programmer_create_form,
     programmer_update_model_form,
     programmer_delete_confirm,
+    rate_programmer,
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('create', programmer_create_form, name="programmer_create_form"),
     path('update/<int:id>', programmer_update_model_form, name="programmer_update_model_form"),
     path('delete/<int:id>', programmer_delete_confirm, name="programmer_delete_confirm"),
+    path('rate/<int:id>/', rate_programmer, name='rate_programmer'),
 ]
