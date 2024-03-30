@@ -19,7 +19,7 @@ class CustomUser(AbstractUser):
         return f"User profile of {self.email}"
 
 
-class ProgramerProfile(models.Model):
+class ProgrammerProfile(models.Model):
     EXP = {
         ("Junior", "Junior"),
         ("Mid", "Mid"),
@@ -51,7 +51,6 @@ class ProgramerProfile(models.Model):
     user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='programmer_profile')
     wage_min = models.PositiveIntegerField()
     wage_max = models.PositiveIntegerField()
-    rating = models.FloatField(default=0)
     description = models.TextField(max_length=5000)
     experience = models.CharField(max_length=100, choices=EXP)
     portfolio = models.URLField(max_length=1000)
@@ -59,4 +58,21 @@ class ProgramerProfile(models.Model):
     tech_stack = MultiSelectField(choices=TECH_STACK, max_length=500)
 
     def __str__(self):
-        return f"User profile of {self.user_id.email} ({self.user_id.first_name} {self.user_id.last_name})"
+        return f"Programmer profile of {self.user_id.email} ({self.user_id.first_name} {self.user_id.last_name})"
+
+    def average_rating(self):
+        ratings = self.ratings.all()
+        if ratings:
+            total_ratings = sum(r.rating for r in ratings)
+            return total_ratings / len(ratings)
+        else:
+            return 0
+
+
+class Rating(models.Model):
+    programmer = models.ForeignKey(ProgrammerProfile, related_name='ratings', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='ratings_given', on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Rating for {self.programmer.user_id.email} by {self.user_id.email}"
