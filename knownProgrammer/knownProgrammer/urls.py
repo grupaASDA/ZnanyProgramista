@@ -19,11 +19,13 @@ from django.urls import path, include
 from knownProgrammer.views import (
     homepage,
     login_user,
+    logout_user,
 )
 
 urlpatterns = [
     path('', homepage, name='homepage'),
     path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
     path('admin/', admin.site.urls),
     path('programmers/', include('accounts.urls_accounts')),
 ]
