@@ -2,7 +2,7 @@
 {% load stars %}
 
 {% block title %}
-Programmers List
+    Programmers List
 {% endblock title %}
 
 {% block body %}
@@ -21,11 +21,13 @@ Programmers List
             {% for programmer in programmers %}
                 <div class="col-md-4">
 
-                        <div class="card mb-4 hover-effect {% if programmer.user_id == request.user %}text-white bg-secondary{% endif %}">
-                            <div class="card-body">
-                            <a href="{% url 'programmer_detail' programmer.id %}" class="text-decoration-none text-reset">
-                     <img src="{{ programmer.user_id.avatar }}" alt="User Avatar" style="display: block; margin: 0 auto;">
-                         <h4 class="{% if programmer.user_id == request.user %}text-white{% else %}card-title{% endif %} fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
+                    <div class="card mb-4 hover-effect {% if programmer.user_id == request.user %}text-white bg-secondary{% endif %}">
+                        <div class="card-body">
+                            <a href="{% url 'programmer_detail' programmer.id %}"
+                               class="text-decoration-none text-reset">
+                                <img src="{{ programmer.user_id.avatar }}" alt="User Avatar"
+                                     style="display: block; margin: 0 auto;">
+                                <h4 class="{% if programmer.user_id == request.user %}text-white{% else %}card-title{% endif %} fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
 
 
                                 <div class="rating">
@@ -56,8 +58,8 @@ Programmers List
                                         <span class="fw-italic">No frameworks listed</span>
                                     {% endfor %}
                                 </div>
-                            </div>
                         </div>
+                    </div>
                     </a>
                 </div>
             {% endfor %}

@@ -1,13 +1,13 @@
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseNotFound, HttpResponseForbidden
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 import cloudinary
 import cloudinary.uploader
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseNotFound, HttpResponseForbidden
+from django.shortcuts import render, redirect, get_object_or_404
 
 from accounts.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
-from accounts.models import ProgrammerProfile, Rating, CustomUser
+from accounts.models import ProgrammerProfile, Rating
 from accounts.services.cloudinary import configure_cloudinary, generate_random_string
 
 
@@ -29,6 +29,7 @@ def programmers_list(request):
 @login_required
 def programmer_detail(request, id):
     rated = False
+    user = request.user.id
     try:
         programmer = get_object_or_404(ProgrammerProfile, id=id)
         programmer.average_rating = programmer.average_rating()
@@ -38,14 +39,15 @@ def programmer_detail(request, id):
     except ProgrammerProfile.DoesNotExist:
         return HttpResponseNotFound("Page not found")
     if request.user.id == programmer.user_id.id:
-        user = request.user.id
+        owner = True
     else:
-        user = None
+        owner = False
 
     ctx = {
         "programmer": programmer,
         "user": user,
         "rated": rated,
+        "owner": owner,
     }
 
     return render(
@@ -269,7 +271,6 @@ def upload_avatar(request, id):
     if request.method == 'POST':
         form = AvatarUploadForm(request.POST, request.FILES)
 
-
         if form.is_valid():
 
             configure_cloudinary()
@@ -279,7 +280,8 @@ def upload_avatar(request, id):
             version = r.get('version')
             if version:
                 src_url = cloudinary.CloudinaryImage(f'avatars/{picture_name}') \
-                    .build_url(background="auto", gravity="auto", width=250, height=250, crop='fill_pad', version=version)
+                    .build_url(background="auto", gravity="auto", width=250, height=250, crop='fill_pad',
+                               version=version)
                 user.avatar = src_url
                 user.save()
                 messages.success(
@@ -295,10 +297,10 @@ def upload_avatar(request, id):
             )
 
         ctx = {
-                "form": form,
-                "user": user,
-                "programmer": programmer,
-            }
+            "form": form,
+            "user": user,
+            "programmer": programmer,
+        }
 
         return render(
             request,

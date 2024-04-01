@@ -16,41 +16,43 @@
         </div>
     {% endif %}
     <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-header card-title text-center">
-                    <h3>{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h3>
-                </div>
-                <div class="card-body text-center">
-                    <form class="mb-4" action="{% url 'rate_programmer' programmer.id %}" method="post">
-                        {% csrf_token %}
-                        <div class="form-group fw-bold">
-                            <label for="id_rating">Choose rating:</label>
-                            <div>
-                                {% for choice in form.rating %}
-                                    <div>
-                                        {{ choice.tag }}
-                                        <label for="{{ choice.id_for_label }}" class="star-label">
-                                            {% for star in choice.choice_label|get_rating_stars %}
-                                                {{ star }} {% endfor %}({{ choice.choice_label }})</label>
-                                        </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <br><br>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-outline-primary">
-                        <span class="d-flex justify-content-center align-items-center">Rate Programmer</span>
-                        </button>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header card-title text-center">
+                        <h3>{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h3>
                     </div>
+                    <div class="card-body text-center">
+                        <form class="mb-4" action="{% url 'rate_programmer' programmer.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group fw-bold">
+                                <label for="id_rating">Choose rating:</label>
+                                <div>
+                                    {% for choice in form.rating %}
+                                        <div>
+                                            {{ choice.tag }}
+                                            <label for="{{ choice.id_for_label }}" class="star-label">
+                                                {% for star in choice.choice_label|get_rating_stars %}
+                                                    {{ star }} {% endfor %}({{ choice.choice_label }})</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <span class="d-flex justify-content-center align-items-center">Rate Programmer</span>
+                                </button>
+                            </div>
 
-                    </form>
-                <br>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
                         <div class="d-grid gap-2">
                             <a href="{% url 'programmer_detail' programmer.id %}"
                                class="btn btn-outline-secondary btn-block">Return</a>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>

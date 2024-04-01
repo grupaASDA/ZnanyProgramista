@@ -1,15 +1,18 @@
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from multiselectfield import MultiSelectField
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings
+
 from .managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
     username = None
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    phone = models.CharField(max_length=11, unique=True, null=True)
     is_dev = models.BooleanField(default=False)
-    avatar = models.CharField(max_length=1000, default="https://res.cloudinary.com/dbpcaze0b/image/upload/v1711977624/avatars/kuehdldiq5ffkhzxg9ov.png")
+    avatar = models.CharField(max_length=1000,
+                              default="https://res.cloudinary.com/dbpcaze0b/image/upload/v1711977624/avatars/kuehdldiq5ffkhzxg9ov.png")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "is_dev"]
@@ -49,7 +52,8 @@ class ProgrammerProfile(models.Model):
         ("Git | GitHub", "Git | GitHub"),
     )
 
-    user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='programmer_profile')
+    user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   related_name='programmer_profile')
     wage_min = models.PositiveIntegerField()
     wage_max = models.PositiveIntegerField()
     description = models.TextField(max_length=5000)
