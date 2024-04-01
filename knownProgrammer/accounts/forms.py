@@ -43,3 +43,7 @@ class RatingForm(forms.Form):
         (5, '5'),
     ]
     rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.RadioSelect)
+
+
+class AvatarUploadForm(forms.Form):
+    avatar = forms.ImageField()
