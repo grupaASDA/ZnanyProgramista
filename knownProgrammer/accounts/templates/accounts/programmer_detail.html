@@ -70,14 +70,13 @@
                 {% if user != None %}
                     <div class="d-grid gap-2">
                         <a href="{% url 'programmer_update_model_form' programmer.id %}"
-                           class="btn btn-outline-warning">Edit programmer</a>
-                        <a href="{% url 'programmer_delete_confirm' programmer.id %}" class="btn btn-outline-danger">Delete
-                            programmer</a>
+                           class="btn btn-outline-warning">Edit</a>
+                        <a href="{% url 'programmer_delete_confirm' programmer.id %}" class="btn btn-outline-danger">Delete</a>
                     </div>
 
                 {% else %}
                     <div class="d-grid gap-2">
-                        <a href="{% url 'rate_programmer' programmer.id %}" class="btn btn-outline-warning">Rate</a>
+                        <a href="{% url 'rate_programmer' programmer.id %}" class="btn btn-outline-warning">{% if rated %}Update rating {% else %} Rate {%  endif %} </a>
                     </div>
                 {% endif %}
 

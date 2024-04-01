@@ -3,9 +3,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import cloudinary
+import cloudinary.uploader
 
 from accounts.forms import ProgrammerCreationModelForm, RatingForm
-from accounts.models import ProgrammerProfile, Rating
+from accounts.models import ProgrammerProfile, Rating, CustomUser
+from accounts.cloudinary import configure_cloudinary, generate_random_string
 
 
 def programmers_list(request):
@@ -25,9 +28,13 @@ def programmers_list(request):
 
 @login_required
 def programmer_detail(request, id):
+    rated = False
     try:
         programmer = get_object_or_404(ProgrammerProfile, id=id)
         programmer.average_rating = programmer.average_rating()
+        users_ratings = Rating.objects.filter(user_id=request.user.id).first()
+        if users_ratings:
+            rated = True
     except ProgrammerProfile.DoesNotExist:
         return HttpResponseNotFound("Page not found")
     if request.user.id == programmer.user_id.id:
@@ -38,6 +45,7 @@ def programmer_detail(request, id):
     ctx = {
         "programmer": programmer,
         "user": user,
+        "rated": rated,
     }
 
     return render(
@@ -177,7 +185,11 @@ def rate_programmer(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
     if request.method == "GET":
-        form = RatingForm()
+        existing_rating = Rating.objects.filter(programmer=programmer, user=request.user).first()
+        if existing_rating:
+            form = RatingForm(initial={'rating': existing_rating.rating})
+        else:
+            form = RatingForm()
         ctx = {
             "programmer": programmer,
             "form": form,
@@ -231,3 +243,48 @@ def rate_programmer(request, id):
                 message="Invalid form submission."
             )
             return redirect('accounts/programmers_list')
+
+
+@login_required
+def upload_avatar(request, id, picture):
+    user = get_object_or_404(CustomUser, id=id)
+
+    if request.user.id != user.id:
+        raise PermissionDenied("You do not have permission to upload/ update this avatar.")
+
+    # if request.method == "GET":
+    #     form = RatingForm()
+    #     ctx = {
+    #         "form": form,
+    #     }
+    #     return render(
+    #         request,
+    #         template_name='accounts/rate_programmer.html',
+    #         context=ctx,
+    #     )
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+
+        configure_cloudinary()
+        picture_name = generate_random_string()
+        r = cloudinary.uploader.upload(picture.file, public_id=f'avatars/{picture_name}', overwrite=True)
+        src_url = cloudinary.CloudinaryImage(f'avatars/{picture_name}') \
+            .build_url(width=250, height=250, crop='fill', version=r.get('version'))
+        user.avatar = src_url
+        user.save()
+        messages.success(
+            request,
+            message="Your avatar has been successfully uploaded."
+        )
+
+        ctx = {
+                "form": form,
+                "user": user,
+            }
+
+        return render(
+            request,
+            template_name="accounts/programmer_detail.html",
+            context=ctx,
+        )

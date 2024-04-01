@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     is_dev = models.BooleanField(default=False) #true / false
+    # avatar = models.CharField(max_length=1000, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "is_dev"]
@@ -64,9 +65,13 @@ class ProgrammerProfile(models.Model):
         ratings = self.ratings.all()
         if ratings:
             total_ratings = sum(r.rating for r in ratings)
-            return total_ratings / len(ratings)
+            avg = total_ratings / len(ratings)
+            return avg.__round__(2)
         else:
             return 0
+
+    def is_rated(self, user):
+        return self.ratings.filter(user=user).exists()
 
 
 class Rating(models.Model):
