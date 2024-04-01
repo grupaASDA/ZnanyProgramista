@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 def homepage(request):
@@ -13,7 +13,6 @@ def login_user(request):
         user = authenticate(request, email=user_email, password=user_password)
         if user is not None:
             login(request, user)
-            messages.success(request, ("You have logged in successfully!"))
             return redirect("homepage")
         else:
             messages.error(request, ("Invalid Email or Password!"))
@@ -22,3 +21,7 @@ def login_user(request):
 
     if request.method == "GET":
         return render(request, template_name='accounts/login.html')
+
+def logout_user(request):
+        logout(request)
+        return redirect("homepage")
