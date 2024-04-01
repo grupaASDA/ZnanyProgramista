@@ -33,7 +33,7 @@ def programmer_detail(request, id):
     try:
         programmer = get_object_or_404(ProgrammerProfile, id=id)
         programmer.average_rating = programmer.average_rating()
-        users_ratings = Rating.objects.filter(user_id=request.user.id).first()
+        users_ratings = Rating.objects.filter(user_id=request.user.id, programmer_id=id).first()
         if users_ratings:
             rated = True
     except ProgrammerProfile.DoesNotExist:
