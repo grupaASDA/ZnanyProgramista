@@ -7,9 +7,9 @@ from random import choice
 dotenv.load_dotenv()
 
 
-CLOUDINARY_NAME = os.getenv("CLOUDINARY_NAME")
-CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
-CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
+CLOUDINARY_NAME = os.getenv("CLOUD_NAME")
+CLOUDINARY_API_KEY = os.getenv("API_KEY")
+CLOUDINARY_API_SECRET = os.getenv("API_SECRET")
 
 
 def configure_cloudinary():

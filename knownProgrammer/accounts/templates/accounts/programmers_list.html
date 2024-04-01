@@ -20,14 +20,18 @@ Programmers List
             {% endif %}
             {% for programmer in programmers %}
                 <div class="col-md-4">
-                    <a href="{% url 'programmer_detail' programmer.id %}" class="text-decoration-none text-reset">
+
                         <div class="card mb-4 hover-effect {% if programmer.user_id == request.user %}text-white bg-secondary{% endif %}">
                             <div class="card-body">
-                                <h4 class="{% if programmer.user_id == request.user %}text-white{% else %}card-title{% endif %} fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
+                            <a href="{% url 'programmer_detail' programmer.id %}" class="text-decoration-none text-reset">
+                     <img src="{{ programmer.user_id.avatar }}" alt="User Avatar" style="display: block; margin: 0 auto;">
+                         <h4 class="{% if programmer.user_id == request.user %}text-white{% else %}card-title{% endif %} fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
+
+
                                 <div class="rating">
                                     <span class="fw-bold">Rating:</span>
                                     {% for star in programmer.average_rating|get_rating_stars %}
-                                        <span class="badge rounded-pill star ms-1">{{ star }}</span>
+                                        <span class="badge rounded-pill {% if programmer.user_id == request.user %}star-active{% else %}star{% endif %} ms-1">{{ star }}</span>
                                     {% endfor %} ({{ programmer.average_rating }})
                                 </div>
                                 <div class="experience">
