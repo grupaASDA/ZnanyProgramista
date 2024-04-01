@@ -10,10 +10,10 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5 class="card-title">Upload new avatar</h5>
+                    <h4 class="card-title">Upload new avatar</h4>
                 </div>
                 <div class="card-body text-center">
-                    <h4>Actual avatar:</h4>
+                    <h5>Actual avatar:</h5>
                     <img src="{{ user.avatar }}" alt="User Avatar">
                     <br><br>
                     <form method="post" enctype="multipart/form-data">
@@ -22,6 +22,10 @@
                         <button type="submit" class="btn btn-outline-primary">Upload</button>
                     </form>
                 </div>
+                <div class="d-grid gap-2">
+                            <a href="{% url 'programmer_detail' programmer.id %}"
+                               class="btn btn-outline-secondary btn-block">Return</a>
+                        </div>
             </div>
         </div>
     </div>
