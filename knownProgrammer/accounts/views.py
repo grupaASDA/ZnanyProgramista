@@ -8,7 +8,7 @@ import cloudinary.uploader
 
 from accounts.forms import ProgrammerCreationModelForm, RatingForm
 from accounts.models import ProgrammerProfile, Rating, CustomUser
-from accounts.cloudinary import configure_cloudinary, generate_random_string
+from accounts.services.cloudinary import configure_cloudinary, generate_random_string
 
 
 def programmers_list(request):
