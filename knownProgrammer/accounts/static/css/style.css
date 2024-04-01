@@ -1,4 +1,9 @@
-{% load static %}
+{
+%
+load
+static
+%
+}
 
 .navbar {
     background-color: #3D3D3D;
@@ -7,7 +12,6 @@
     border-radius: 16px;
     padding: 0.5rem;
 }
-
 
 
 .navbar-brand {
@@ -35,6 +39,7 @@
     border: none;
     font-size: 1.25rem;
 }
+
 .navbar-toggler:focus, .btn-close:focus {
     box-shadow: none;
     outline: none;
@@ -68,8 +73,8 @@
     }
 
     .nav-link:hover::before, .nav-link:active::before {
-    width: 100%;
-    visibility: visible;
+        width: 100%;
+        visibility: visible;
     }
 }
 
@@ -111,20 +116,21 @@
     color: #FF004D;
 }
 
-#hero-section{
-     background: url("../images/background.jpg") no-repeat center;
-     background-size: cover;
+#hero-section {
+    background: url("../images/background.jpg") no-repeat center;
+    background-size: cover;
     width: 100%;
-     }
-#hero-section::before{
-     background-color: rgba(0, 0, 0, 0.6);
+}
+
+#hero-section::before {
+    background-color: rgba(0, 0, 0, 0.6);
     content: "";
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-     }
+}
 
 #hero-section .container {
     height: 100vh;
