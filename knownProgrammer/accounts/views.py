@@ -247,7 +247,8 @@ def rate_programmer(request, id):
 
 @login_required
 def upload_avatar(request, id):
-    user = get_object_or_404(CustomUser, id=id)
+    programmer = get_object_or_404(ProgrammerProfile, id=id)
+    user = programmer.user_id
 
     if request.user.id != user.id:
         raise PermissionDenied("You do not have permission to upload/ update this avatar.")
@@ -257,6 +258,7 @@ def upload_avatar(request, id):
         ctx = {
             "form": form,
             "user": user,
+            "programmer": programmer,
         }
         return render(
             request,
@@ -266,6 +268,7 @@ def upload_avatar(request, id):
 
     if request.method == 'POST':
         form = AvatarUploadForm(request.POST, request.FILES)
+
 
         if form.is_valid():
 
@@ -294,6 +297,7 @@ def upload_avatar(request, id):
         ctx = {
                 "form": form,
                 "user": user,
+                "programmer": programmer,
             }
 
         return render(
