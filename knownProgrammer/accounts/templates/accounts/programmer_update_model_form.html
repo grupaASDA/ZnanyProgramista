@@ -8,16 +8,16 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h4 class="card-title">Update programmer: <br>
-                        {{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
-                </div>
-                        {% if error %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ error }}
-                            </div>
-                        {% endif %}
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4 class="card-title">Update programmer: <br>
+                            {{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
+                    </div>
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                     </h3>
                     <form class="mb-4" action="/programmers/update/{{ programmer.id }}" method="post">
                         {% csrf_token %}
@@ -80,10 +80,12 @@
                         </div>
 
                     </form>
-            <div class="d-grid gap-2">
+                    <div class="card-footer text-center">
+                        <div class="d-grid gap-2">
                             <a href="{% url 'programmer_detail' programmer.id %}"
                                class="btn btn-outline-secondary btn-block">Return</a>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
