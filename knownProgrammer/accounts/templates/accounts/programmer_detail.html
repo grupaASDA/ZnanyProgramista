@@ -20,6 +20,7 @@
     <div class="col-md-6 offset-md-3">
         <div class="card">
             <div class="card-header card-title text-center">
+                <img src="{{ programmer.user_id.avatar }}" alt="User Avatar">
                 <h3>{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h3>
             </div>
             <div class="card-body">
@@ -71,6 +72,7 @@
                     <div class="d-grid gap-2">
                         <a href="{% url 'programmer_update_model_form' programmer.id %}"
                            class="btn btn-outline-warning">Edit</a>
+                        <a href="{% url 'upload_avatar' programmer.id %}" class="btn btn-outline-info">Upload new avatar</a>
                         <a href="{% url 'programmer_delete_confirm' programmer.id %}" class="btn btn-outline-danger">Delete</a>
                     </div>
 

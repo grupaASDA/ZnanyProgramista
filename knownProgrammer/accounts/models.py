@@ -8,8 +8,8 @@ from .managers import CustomUserManager
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
-    is_dev = models.BooleanField(default=False) #true / false
-    # avatar = models.CharField(max_length=1000, blank=True)
+    is_dev = models.BooleanField(default=False)
+    avatar = models.CharField(max_length=1000, default="https://res.cloudinary.com/dbpcaze0b/image/upload/v1711977624/avatars/kuehdldiq5ffkhzxg9ov.png")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "is_dev"]

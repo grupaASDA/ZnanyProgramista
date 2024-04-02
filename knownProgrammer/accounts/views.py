@@ -6,9 +6,9 @@ from django.contrib.auth.decorators import login_required
 import cloudinary
 import cloudinary.uploader
 
-from accounts.forms import ProgrammerCreationModelForm, RatingForm
+from accounts.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from accounts.models import ProgrammerProfile, Rating, CustomUser
-from accounts.cloudinary import configure_cloudinary, generate_random_string
+from accounts.services.cloudinary import configure_cloudinary, generate_random_string
 
 
 def programmers_list(request):
@@ -246,37 +246,50 @@ def rate_programmer(request, id):
 
 
 @login_required
-def upload_avatar(request, id, picture):
+def upload_avatar(request, id):
     user = get_object_or_404(CustomUser, id=id)
 
     if request.user.id != user.id:
         raise PermissionDenied("You do not have permission to upload/ update this avatar.")
 
-    # if request.method == "GET":
-    #     form = RatingForm()
-    #     ctx = {
-    #         "form": form,
-    #     }
-    #     return render(
-    #         request,
-    #         template_name='accounts/rate_programmer.html',
-    #         context=ctx,
-    #     )
+    if request.method == "GET":
+        form = AvatarUploadForm()
+        ctx = {
+            "form": form,
+            "user": user,
+        }
+        return render(
+            request,
+            template_name='accounts/programmer_avatar_update.html',
+            context=ctx,
+        )
 
     if request.method == 'POST':
-        form = RatingForm(request.POST)
+        form = AvatarUploadForm(request.POST, request.FILES)
 
-        configure_cloudinary()
-        picture_name = generate_random_string()
-        r = cloudinary.uploader.upload(picture.file, public_id=f'avatars/{picture_name}', overwrite=True)
-        src_url = cloudinary.CloudinaryImage(f'avatars/{picture_name}') \
-            .build_url(width=250, height=250, crop='fill', version=r.get('version'))
-        user.avatar = src_url
-        user.save()
-        messages.success(
-            request,
-            message="Your avatar has been successfully uploaded."
-        )
+        if form.is_valid():
+
+            configure_cloudinary()
+            picture_name = generate_random_string()
+            uploaded_file = request.FILES['avatar']
+            r = cloudinary.uploader.upload(uploaded_file, public_id=f'avatars/{picture_name}', overwrite=True)
+            version = r.get('version')
+            if version:
+                src_url = cloudinary.CloudinaryImage(f'avatars/{picture_name}') \
+                    .build_url(background="auto", gravity="auto", width=250, height=250, crop='fill_pad', version=version)
+                user.avatar = src_url
+                user.save()
+                messages.success(
+                    request,
+                    message="Your avatar has been successfully uploaded."
+                )
+                return redirect('programmer_detail', id=id)
+
+        else:
+            messages.error(
+                request,
+                message="Invalid form submission."
+            )
 
         ctx = {
                 "form": form,
@@ -285,6 +298,6 @@ def upload_avatar(request, id, picture):
 
         return render(
             request,
-            template_name="accounts/programmer_detail.html",
+            template_name="accounts/programmer_avatar_update.html",
             context=ctx,
         )

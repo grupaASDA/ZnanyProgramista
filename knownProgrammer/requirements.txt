@@ -6,6 +6,7 @@ Django==4.2.11
 django-bootstrap-v5==1.0.11
 django-multiselectfield==0.1.12
 django-phonenumber-field==7.3.0
+pillow==10.3.0
 python-dotenv==1.0.1
 six==1.16.0
 soupsieve==2.5
