@@ -29,7 +29,7 @@ def programmers_list(request):
 @login_required
 def programmer_detail(request, id):
     rated = False
-    user = request.user.id
+    user = request.user
     try:
         programmer = get_object_or_404(ProgrammerProfile, id=id)
         programmer.average_rating = programmer.average_rating()
