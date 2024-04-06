@@ -52,7 +52,7 @@ def programmers_list(request):
     )
 
 
-@login_required
+@login_required(login_url="/login/")
 def programmer_detail(request, id):
     rated = False
     user = request.user
@@ -83,7 +83,7 @@ def programmer_detail(request, id):
     )
 
 
-@login_required
+@login_required(login_url="/login/")
 def programmer_create_form(request):
     programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=request.user.id).exists()
     if programmer_profile_exists:
@@ -127,7 +127,7 @@ def programmer_create_form(request):
         )
 
 
-@login_required
+@login_required(login_url="/login/")
 def programmer_update_model_form(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
@@ -180,7 +180,7 @@ def programmer_update_model_form(request, id):
         )
 
 
-@login_required
+@login_required(login_url="/login/")
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
@@ -208,7 +208,7 @@ def programmer_delete_confirm(request, id):
         return redirect("programmers_list")
 
 
-@login_required
+@login_required(login_url="/login/")
 def rate_programmer(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
@@ -286,7 +286,7 @@ def rate_programmer(request, id):
             return redirect('accounts/programmers_list')
 
 
-@login_required
+@login_required(login_url="/login/")
 def upload_avatar(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
     user = programmer.user_id
