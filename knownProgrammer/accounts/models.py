@@ -13,7 +13,6 @@ DEFAULT_AVATAR = os.getenv("DEFAULT_AVATAR")
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True, null=False, blank=False)
-    phone = models.CharField(max_length=11, unique=True, null=True)
     is_dev = models.BooleanField(default=False)
     avatar = models.CharField(max_length=1000, default=DEFAULT_AVATAR)
 

@@ -15,6 +15,7 @@ def programmers_list(request):
     programmers = ProgrammerProfile.objects.all()
     for programmer in programmers:
         programmer.average_rating = programmer.average_rating()
+        programmer.count = programmer.ratings_count()
     ctx = {
         "programmers": programmers,
     }
@@ -36,6 +37,7 @@ def programmer_detail(request, id):
         users_ratings = Rating.objects.filter(user_id=request.user.id, programmer_id=id).first()
         if users_ratings:
             rated = True
+            programmer.count = programmer.ratings_count()
     except ProgrammerProfile.DoesNotExist:
         return HttpResponseNotFound("Page not found")
     if request.user.id == programmer.user_id.id:

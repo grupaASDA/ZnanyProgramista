@@ -37,7 +37,7 @@
                             <span class="fw-bold">Rating:</span>
                             {% for star in programmer.average_rating|get_rating_stars %}
                                 <span class="badge rounded-pill star ms-1">{{ star }}</span>
-                            {% endfor %} ({{ programmer.average_rating }})
+                            {% endfor %} <br> ( {{ programmer.average_rating }} from {{ programmer.count }} rating(s) )
                         </div>
                         <div class="technologies mb-3">
                             <span class="fw-bold">Programming Languages:</span>
@@ -82,10 +82,10 @@
                             <div class="mb-4">
                                 <h5>Contact</h5>
                             </div>
-                            {% if programmer.user_id.phone != None %}
+                            {% if programmer.phone != None %}
                                 <div class="mb-3">
                                     <span class="fw-bold">Phone: </span>
-                                    <a href="tel:{{ programmer.user_id.phone }}">{{ programmer.user_id.phone }}</a>
+                                    <a href="tel:{{ programmer.phone }}">{{ programmer.phone }}</a>
                                 </div>
                             {% endif %}
                             <div class="mb-5">

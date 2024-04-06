@@ -11,8 +11,7 @@
       "is_active": 1,
       "email": "admin@admin.com",
       "is_dev": 1,
-      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/b_auto,c_fill_pad,g_auto,h_250,w_250/v1711983435/avatars/PQekUdIW4V7JmyDaLLccRVezDkcWQj",
-      "phone": 666999666
+      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/b_auto,c_fill_pad,g_auto,h_250,w_250/v1711983435/avatars/PQekUdIW4V7JmyDaLLccRVezDkcWQj"
     }
   },
   {
@@ -27,8 +26,7 @@
       "is_active": 1,
       "email": "admin2@admin.com",
       "is_dev": 1,
-      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/b_auto,c_fill_pad,g_auto,h_250,w_250/v1711982417/avatars/95YbxmfzfwdALdi4z6sUxTTNceHnDi",
-      "phone": 505055505
+      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/b_auto,c_fill_pad,g_auto,h_250,w_250/v1711982417/avatars/95YbxmfzfwdALdi4z6sUxTTNceHnDi"
     }
   },
   {
@@ -43,8 +41,7 @@
       "is_active": 1,
       "email": "admin3@admin.com",
       "is_dev": 1,
-      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/v1711977624/avatars/kuehdldiq5ffkhzxg9ov.png",
-      "phone": null
+      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/v1711977624/avatars/kuehdldiq5ffkhzxg9ov.png"
     }
   },
   {
@@ -59,8 +56,7 @@
       "is_active": 1,
       "email": "admin4@admin.com",
       "is_dev": 1,
-      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/b_auto,c_fill_pad,g_auto,h_250,w_250/v1712000025/avatars/zSrLNcuU2xDuheVZ5nm5kJQ9WTd5TZ",
-      "phone": 587412123
+      "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/b_auto,c_fill_pad,g_auto,h_250,w_250/v1712000025/avatars/zSrLNcuU2xDuheVZ5nm5kJQ9WTd5TZ"
     }
   },
   {
@@ -74,6 +70,7 @@
       "portfolio": "http://example.com",
       "programming_languages": "Python,SQL",
       "tech_stack": "Django,Databases,Git | GitHub",
+      "phone": 666999666,
       "user_id_id": 1
     }
   },
@@ -88,6 +85,7 @@
       "portfolio": "http://example.com",
       "programming_languages": "Python,SQL",
       "tech_stack": "Django,Databases,Docker,Git | GitHub",
+      "phone": 505055505,
       "user_id_id": 2
     }
   },
@@ -102,6 +100,7 @@
       "portfolio": "http://example.com",
       "programming_languages": "JavaScript,Python,R,SQL",
       "tech_stack": "Django,Flask,FastAPI,Databases,Docker,Git | GitHub",
+      "phone": null,
       "user_id_id": 3
     }
   },
@@ -116,6 +115,7 @@
       "portfolio": "http://example.com",
       "programming_languages": "Python,SQL",
       "tech_stack": "Django,FastAPI,Databases,Docker,Git | GitHub",
+      "phone": 587412123,
       "user_id_id": 4
     }
   },
