@@ -8,7 +8,7 @@ class ProgrammerCreationModelForm(forms.ModelForm):
     class Meta:
         model = ProgrammerProfile
         fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage_min', 'wage_max',
-                  'portfolio']
+                  'portfolio', 'phone']
 
     def clean_wage_min(self):
         wage_min = self.cleaned_data["wage_min"]

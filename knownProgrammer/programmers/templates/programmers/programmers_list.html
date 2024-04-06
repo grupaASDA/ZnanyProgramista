@@ -34,7 +34,9 @@
                                     <span class="fw-bold">Rating:</span>
                                     {% for star in programmer.average_rating|get_rating_stars %}
                                         <span class="badge rounded-pill {% if programmer.user_id == request.user %}star-active{% else %}star{% endif %} ms-1">{{ star }}</span>
-                                    {% endfor %} ({{ programmer.average_rating }})
+                                    {% endfor %} <br> ( {{ programmer.average_rating }} from {{ programmer.count }}
+                                    rating(s)
+                                    )
                                 </div>
                                 <div class="experience">
                                     <span class="fw-bold">Experience:</span>

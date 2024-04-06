@@ -54,6 +54,7 @@ class ProgrammerProfile(models.Model):
     portfolio = models.URLField(max_length=1000)
     programming_languages = MultiSelectField(choices=CODE, max_length=500)
     tech_stack = MultiSelectField(choices=TECH_STACK, max_length=500)
+    phone = models.CharField(max_length=11, unique=True, null=True)
 
     def __str__(self):
         return f"Programmer profile of {self.user_id.email} ({self.user_id.first_name} {self.user_id.last_name})"
@@ -66,6 +67,9 @@ class ProgrammerProfile(models.Model):
             return avg.__round__(2)
         else:
             return 0
+
+    def ratings_count(self):
+        return self.ratings.count()
 
     def is_rated(self, user):
         return self.ratings.filter(user=user).exists()
