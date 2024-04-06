@@ -21,6 +21,14 @@ class ProgrammerProfile(models.Model):
         ("R", "R"),
         ("PHP", "PHP"),
         ("SQL", "SQL"),
+        ("RUST", "RUST"),
+        ("Kotlin", "Kotlin"),
+        ("HTML", "HTML"),
+        ("CSS", "CSS"),
+        ("TypeScript", "TypeScript"),
+        ("Scala", "Scala"),
+        ("SWIFT", "SWIFT"),
+
     )
 
     TECH_STACK = (
@@ -31,6 +39,10 @@ class ProgrammerProfile(models.Model):
         ("Databases", "Databases"),
         ("Docker", "Docker"),
         ("Git | GitHub", "Git | GitHub"),
+        ("Node.js", "Node.js"),
+        ("React", "React"),
+        ("Symphony", "Symphony"),
+        ("Ruby on Rails", "Ruby on Rails"),
     )
 
     user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,

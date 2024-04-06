@@ -12,3 +12,4 @@ six==1.16.0
 soupsieve==2.5
 sqlparse==0.4.4
 urllib3==2.2.1
+django-filter==24.2
