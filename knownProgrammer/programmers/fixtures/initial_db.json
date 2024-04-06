@@ -64,7 +64,7 @@
     }
   },
   {
-    "model": "accounts.ProgrammerProfile",
+    "model": "programmers.ProgrammerProfile",
     "pk": 1,
     "fields": {
       "wage_min": 30,
@@ -78,7 +78,7 @@
     }
   },
   {
-    "model": "accounts.ProgrammerProfile",
+    "model": "programmers.ProgrammerProfile",
     "pk": 2,
     "fields": {
       "wage_min": 50,
@@ -92,7 +92,7 @@
     }
   },
   {
-    "model": "accounts.ProgrammerProfile",
+    "model": "programmers.ProgrammerProfile",
     "pk": 3,
     "fields": {
       "wage_min": 80,
@@ -106,7 +106,7 @@
     }
   },
   {
-    "model": "accounts.ProgrammerProfile",
+    "model": "programmers.ProgrammerProfile",
     "pk": 4,
     "fields": {
       "wage_min": 10,
@@ -120,7 +120,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 1,
     "fields": {
       "rating": 2,
@@ -129,7 +129,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 2,
     "fields": {
       "rating": 4,
@@ -138,7 +138,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 3,
     "fields": {
       "rating": 3,
@@ -147,7 +147,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 4,
     "fields": {
       "rating": 3,
@@ -156,7 +156,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 5,
     "fields": {
       "rating": 3,
@@ -165,7 +165,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 6,
     "fields": {
       "rating": 5,
@@ -174,7 +174,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 7,
     "fields": {
       "rating": 5,
@@ -183,7 +183,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 8,
     "fields": {
       "rating": 5,
@@ -192,7 +192,7 @@
     }
   },
   {
-    "model": "accounts.Rating",
+    "model": "programmers.Rating",
     "pk": 9,
     "fields": {
       "rating": 4,
