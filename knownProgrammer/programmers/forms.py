@@ -7,23 +7,14 @@ from programmers.models import ProgrammerProfile
 class ProgrammerCreationModelForm(forms.ModelForm):
     class Meta:
         model = ProgrammerProfile
-        fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage_min', 'wage_max',
+        fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage',
                   'portfolio', 'phone']
 
-    def clean_wage_min(self):
-        wage_min = self.cleaned_data["wage_min"]
-        if wage_min <= 0:
-            raise ValidationError("Wage_min must be bigger than zero")
-        return wage_min
-
-    def clean_wage_max(self):
-        wage_max = self.cleaned_data["wage_max"]
-        wage_min = self.cleaned_data["wage_min"]
-        if wage_max <= 0:
-            raise ValidationError("Wage max must be bigger than zero")
-        if wage_min > wage_max:
-            raise ValidationError("Wage max must be bigger than or equal to wage min")
-        return wage_max
+    def clean_wage(self):
+        wage = self.cleaned_data["wage"]
+        if wage <= 0:
+            raise ValidationError("Wage must be bigger than zero")
+        return wage
 
     def save(self, commit=True):
         programmer = super(ProgrammerCreationModelForm, self).save(commit=False)

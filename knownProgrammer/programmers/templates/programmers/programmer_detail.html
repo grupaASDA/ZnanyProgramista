@@ -37,7 +37,8 @@
                             <span class="fw-bold">Rating:</span>
                             {% for star in programmer.average_rating|get_rating_stars %}
                                 <span class="badge rounded-pill star ms-1">{{ star }}</span>
-                            {% endfor %} <br> ( {{ programmer.average_rating }} from {{ programmer.count }} rating(s) )
+                            {% endfor %}
+                            <span class="ratings"> {{ programmer.count }} rating(s)</span>
                         </div>
                         <div class="technologies mb-3">
                             <span class="fw-bold">Programming Languages:</span>
@@ -56,12 +57,8 @@
                             {% endfor %}
                         </div>
                         <div class="mb-3">
-                            <span class="fw-bold">Min wage [PLN/H]:</span> {{ programmer.wage_min }}
+                            <span class="fw-bold">Wage [PLN/H]:</span> {{ programmer.wage }}
                         </div>
-                        <div class="mb-3">
-                            <span class="fw-bold">Max wage [PLN/H]:</span> {{ programmer.wage_max }}
-                        </div>
-
                         <div class="mb-3">
                             <span class="fw-bold">Portfolio:</span> <a
                                 href="{{ programmer.portfolio }}">{{ programmer.portfolio }}</a>

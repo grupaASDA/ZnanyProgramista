@@ -27,7 +27,7 @@ def programmers_list(request):
     )
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def programmer_detail(request, id):
     rated = False
     user = request.user
@@ -59,7 +59,7 @@ def programmer_detail(request, id):
     )
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def programmer_create_form(request):
     programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=request.user.id).exists()
     if programmer_profile_exists:
@@ -103,17 +103,23 @@ def programmer_create_form(request):
         )
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def programmer_update_model_form(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
+    user = request.user
+    owner = False
 
-    if request.user.id != programmer.user_id.id:
+    if request.user.id == programmer.user_id.id:
+        owner = True
+    else:
         raise PermissionDenied("You do not have permission to edit this index.")
 
     if request.method == "GET":
         form = ProgrammerCreationModelForm(instance=programmer)
         ctx = {
             "form": form,
+            "user": user,
+            'owner': owner,
             "programmer": programmer,
         }
         return render(
@@ -128,6 +134,8 @@ def programmer_update_model_form(request, id):
             form.save()
             ctx = {
                 "form": form,
+                "user": user,
+                'owner': owner,
                 "programmer": programmer,
             }
             messages.success(
@@ -142,6 +150,7 @@ def programmer_update_model_form(request, id):
 
         ctx = {
             "form": form,
+            "user": user,
             "programmer": programmer,
         }
         messages.error(
@@ -156,7 +165,7 @@ def programmer_update_model_form(request, id):
         )
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
@@ -184,7 +193,7 @@ def programmer_delete_confirm(request, id):
         return redirect("programmers_list")
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def rate_programmer(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
@@ -262,7 +271,7 @@ def rate_programmer(request, id):
             return redirect('programmers/programmers_list')
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/accounts/login/")
 def upload_avatar(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
     user = programmer.user_id
