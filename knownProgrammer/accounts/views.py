@@ -205,9 +205,10 @@ def rate_programmer(request, id):
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if request.user.id == programmer.user_id.id:
-            user = request.user.id
+            owner = True
         else:
-            user = None
+            owner = False
+        user = request.user.id
 
         if form.is_valid():
             user_rating = form.cleaned_data['rating']
@@ -227,10 +228,22 @@ def rate_programmer(request, id):
                     message="Your rating has been submitted.",
                 )
 
+            rated = False
+            try:
+                programmer = get_object_or_404(ProgrammerProfile, id=id)
+                programmer.average_rating = programmer.average_rating()
+                users_ratings = Rating.objects.filter(user_id=request.user.id, programmer_id=id).first()
+                if users_ratings:
+                    rated = True
+            except ProgrammerProfile.DoesNotExist:
+                return HttpResponseNotFound("Page not found")
+
             ctx = {
                 "form": form,
                 "programmer": programmer,
                 "user": user,
+                "rated": rated,
+                "owner": owner,
             }
 
             return render(
