@@ -1,7 +1,6 @@
 import cloudinary
 import cloudinary.uploader
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
@@ -10,32 +9,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from accounts.models import ProgrammerProfile, Rating
 from accounts.services.cloudinary import configure_cloudinary, generate_random_string
-
-
-def homepage(request):
-    return render(request, template_name="accounts/home_page.html")
-
-
-def login_user(request):
-    if request.method == "POST":
-        user_email = request.POST['email']
-        user_password = request.POST['password']
-        user = authenticate(request, email=user_email, password=user_password)
-        if user is not None:
-            login(request, user)
-            return redirect("homepage")
-        else:
-            messages.error(request, ("Invalid Email or Password!"))
-            return redirect("login")
-
-    if request.method == "GET":
-        return render(request, template_name='accounts/login.html')
-
-
-def logout_user(request):
-    logout(request)
-    return redirect("homepage")
-
 
 def programmers_list(request):
     programmers = ProgrammerProfile.objects.all()

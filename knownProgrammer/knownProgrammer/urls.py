@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
-from accounts.views import homepage, login_user, logout_user
+from django.contrib.auth import views
+from knownProgrammer.views import (
+    homepage,
+    login_user,
+    logout_user,
+)
 
 urlpatterns = [
     path('', homepage, name='homepage'),
@@ -25,4 +29,8 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('admin/', admin.site.urls),
     path('programmers/', include('accounts.urls_accounts')),
+    path('reset_password/', views.PasswordResetView.as_view(template_name="accounts/reset_password.html"), name="reset_password"),
+    path('reset_password_done/', views.PasswordResetDoneView.as_view(template_name="accounts/password_reset_done.html"), name="password_reset_done"),
+    path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(template_name="accounts/password_reset_confirm.html"), name="password_reset_confirm"),
+    path('reset_password_completed/', views.PasswordResetCompleteView.as_view(template_name="accounts/password_reset_complete.html"), name="password_reset_complete"),
 ]
