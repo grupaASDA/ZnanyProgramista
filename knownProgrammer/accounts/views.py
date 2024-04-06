@@ -1,6 +1,7 @@
 import cloudinary
 import cloudinary.uploader
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
@@ -9,6 +10,31 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from accounts.models import ProgrammerProfile, Rating
 from accounts.services.cloudinary import configure_cloudinary, generate_random_string
+
+
+def homepage(request):
+    return render(request, template_name="accounts/home_page.html")
+
+
+def login_user(request):
+    if request.method == "POST":
+        user_email = request.POST['email']
+        user_password = request.POST['password']
+        user = authenticate(request, email=user_email, password=user_password)
+        if user is not None:
+            login(request, user)
+            return redirect("homepage")
+        else:
+            messages.error(request, ("Invalid Email or Password!"))
+            return redirect("login")
+
+    if request.method == "GET":
+        return render(request, template_name='accounts/login.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("homepage")
 
 
 def programmers_list(request):
@@ -59,8 +85,8 @@ def programmer_detail(request, id):
 
 @login_required
 def programmer_create_form(request):
-    print(request.user.is_dev)
-    if request.user.is_dev:
+    programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=request.user.id).exists()
+    if programmer_profile_exists:
         return HttpResponseForbidden("You have already created a programmer account")
     form = ProgrammerCreationModelForm(request.POST or None)
     if request.method == 'GET':
@@ -187,9 +213,9 @@ def rate_programmer(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
     if request.method == "GET":
-        existing_rating = Rating.objects.filter(programmer=programmer, user=request.user).first()
-        if existing_rating:
-            form = RatingForm(initial={'rating': existing_rating.rating})
+        rating_exists = Rating.objects.filter(programmer=programmer, user=request.user).first()
+        if rating_exists:
+            form = RatingForm(initial={'rating': rating_exists.rating})
         else:
             form = RatingForm()
         ctx = {
@@ -212,10 +238,10 @@ def rate_programmer(request, id):
 
         if form.is_valid():
             user_rating = form.cleaned_data['rating']
-            existing_rating = Rating.objects.filter(programmer=programmer, user=request.user).first()
-            if existing_rating:
-                existing_rating.rating = user_rating
-                existing_rating.save()
+            rating_exists = Rating.objects.filter(programmer=programmer, user=request.user).first()
+            if rating_exists:
+                rating_exists.rating = user_rating
+                rating_exists.save()
                 messages.success(
                     request,
                     message="Your rating has been updated."

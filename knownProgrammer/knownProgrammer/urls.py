@@ -16,11 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from knownProgrammer.views import (
-    homepage,
-    login_user,
-    logout_user,
-)
+
+from accounts.views import homepage, login_user, logout_user
 
 urlpatterns = [
     path('', homepage, name='homepage'),
