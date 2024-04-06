@@ -53,7 +53,7 @@ class ProgrammerProfile(models.Model):
     portfolio = models.URLField(max_length=1000)
     programming_languages = MultiSelectField(choices=CODE, max_length=500)
     tech_stack = MultiSelectField(choices=TECH_STACK, max_length=500)
-    phone = models.CharField(max_length=11, unique=True, null=True)
+    phone = models.CharField(max_length=11, unique=True, null=True, blank=True)
 
     def __str__(self):
         return f"Programmer profile of {self.user_id.email} ({self.user_id.first_name} {self.user_id.last_name})"
