@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 
 
 def homepage(request):
-    return render(request, template_name="accounts/home_page.html")
+    return render(request, template_name="knownProgrammer/home_page.html")
 
 def login_user(request):
     if request.method == "POST":
@@ -20,7 +20,7 @@ def login_user(request):
 
 
     if request.method == "GET":
-        return render(request, template_name='accounts/login.html')
+        return render(request, template_name='knownProgrammer/login.html')
 
 def logout_user(request):
         logout(request)
