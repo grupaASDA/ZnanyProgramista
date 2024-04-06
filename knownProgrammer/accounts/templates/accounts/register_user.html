@@ -1,0 +1,23 @@
+{% extends "accounts/base.html" %}
+{% block title %}Register{% endblock title %}
+
+{% block body %}
+    {% if request.user.is_authenticated %}
+    <div class="col-md-6 offset-md-4">
+        <h1>You have already logged in!</h1>
+    </div>
+    {% else %}
+        {% for message in messages %}
+                            <li class="alert alert-info">{{ message }}</li>
+        {% endfor %}
+    <div class="col-md-6 offset-md-4">
+        <h1>Register</h1>
+        <br/>
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+          <button type="submit" class="btn btn-outline-secondary">Submit</button>
+        </form>
+    </div>
+    {% endif %}
+{% endblock body %}
