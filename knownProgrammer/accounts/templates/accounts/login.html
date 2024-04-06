@@ -26,7 +26,9 @@
                 {% endfor %}
             </ul>
             {% endif %}
-          <button type="submit" class="btn btn-secondary">Submit</button>
+
+          <button type="submit" class="btn btn-outline-primary">Login</button>
+        <a href="{% url 'register' %}" class="btn btn-outline-secondary">Register</a>
         </form>
         <br>
         <a href="{% url 'reset_password' %}" style="color: blue; font-size: 14px; text-decoration: none">Forget your password?</a>
