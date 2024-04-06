@@ -4,6 +4,9 @@
 {% endblock title %}
 
 {% block body %}
+    {% for message in messages %}
+        <li class="alert alert-info">{{ message }}</li>
+    {% endfor %}
      <section id="hero-section">
     <div class="container d-flex align-items-center justify-content-center fs-1 text-white flex-column">
         <h1>Known Programmer</h1>
