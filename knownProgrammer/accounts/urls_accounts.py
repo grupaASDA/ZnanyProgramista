@@ -1,21 +1,22 @@
+from django.contrib.auth import views
 from django.urls import path
 
 from accounts.views import (
-    programmer_detail,
-    programmers_list,
-    programmer_create_form,
-    programmer_update_model_form,
-    programmer_delete_confirm,
-    rate_programmer,
-    upload_avatar,
+    login_user,
+    logout_user,
 )
 
 urlpatterns = [
-    path('list', programmers_list, name="programmers_list"),
-    path('detail/<int:id>', programmer_detail, name="programmer_detail"),
-    path('create', programmer_create_form, name="programmer_create_form"),
-    path('update/<int:id>', programmer_update_model_form, name="programmer_update_model_form"),
-    path('delete/<int:id>', programmer_delete_confirm, name="programmer_delete_confirm"),
-    path('rate/<int:id>/', rate_programmer, name='rate_programmer'),
-    path('avatar/<int:id>/', upload_avatar, name='upload_avatar'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('reset_password/', views.PasswordResetView.as_view(template_name="accounts/reset_password.html"),
+         name="reset_password"),
+    path('reset_password_done/', views.PasswordResetDoneView.as_view(template_name="accounts/password_reset_done.html"),
+         name="password_reset_done"),
+    path('reset/<uidb64>/<token>/',
+         views.PasswordResetConfirmView.as_view(template_name="accounts/password_reset_confirm.html"),
+         name="password_reset_confirm"),
+    path('reset_password_completed/',
+         views.PasswordResetCompleteView.as_view(template_name="accounts/password_reset_complete.html"),
+         name="password_reset_complete"),
 ]

@@ -1,14 +1,14 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from accounts.models import ProgrammerProfile
+from programmers.models import ProgrammerProfile
 
 
 class ProgrammerCreationModelForm(forms.ModelForm):
-
     class Meta:
         model = ProgrammerProfile
-        fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage_min', 'wage_max', 'portfolio']
+        fields = ['description', 'experience', 'programming_languages', 'tech_stack', 'wage_min', 'wage_max',
+                  'portfolio']
 
     def clean_wage_min(self):
         wage_min = self.cleaned_data["wage_min"]
