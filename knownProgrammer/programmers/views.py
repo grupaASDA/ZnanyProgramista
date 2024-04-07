@@ -168,6 +168,7 @@ def programmer_update_model_form(request, id):
 @login_required(login_url="/accounts/login/")
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
+    programmer.count = programmer.ratings_count()
 
     if request.user.id != programmer.user_id.id:
         raise PermissionDenied("You do not have permission to delete this index.")

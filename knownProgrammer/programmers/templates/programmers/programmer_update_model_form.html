@@ -27,7 +27,7 @@
                             {{ error }}
                         </div>
                     {% endif %}
-                    </h3>
+
                     <form class="mb-4" action="/programmers/update/{{ programmer.id }}" method="post">
                         {% csrf_token %}
                         <div class="row">
@@ -79,6 +79,7 @@
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group mb-4">
+                                    <span class="ratings"> *optional</span><br>
                                     <label for="portfolio" class="form-label">Phone:</label>
                                     {{ form.phone }}
                                 </div>

@@ -19,16 +19,14 @@
                             <span class="fw-bold">Description:</span> {{ programmer.description }}
                         </div>
                         <div class="mb-3">
-                            <span class="fw-bold">Min wage [PLN/H]:</span> {{ programmer.wage_min }}
-                        </div>
-                        <div class="mb-3">
-                            <span class="fw-bold">Max wage [PLN/H]:</span> {{ programmer.wage_max }}
+                            <span class="fw-bold">Wage [PLN/H]:</span> {{ programmer.wage }}
                         </div>
                         <div class="rating">
                             <span class="fw-bold">Rating:</span>
                             {% for star in programmer.average_rating|get_rating_stars %}
                                 <span class="badge rounded-pill star ms-1">{{ star }}</span>
                             {% endfor %}
+                            <span class="ratings"> {{ programmer.count }} rating(s)</span>
                         </div>
                         <br>
                         <div class="mb-3">
@@ -67,13 +65,13 @@
                             <form method="POST" action="{% url 'programmer_delete_confirm' programmer.id %}">
                                 {% csrf_token %}
                                 <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-outline-danger">Yes</button>
-                                    </div>
+                                    <button type="submit" class="btn btn-outline-danger">Yes</button>
+                                </div>
                             </form>
                             <br>
                             <div class="d-grid gap-2">
                                 <a href="{% url 'programmer_detail' programmer.id %}"
-                               class="btn btn-outline-secondary btn-block">No</a>
+                                   class="btn btn-outline-secondary btn-block">No</a>
                             </div>
                         </div>
                     </div>
