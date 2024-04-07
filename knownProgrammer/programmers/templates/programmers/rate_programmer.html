@@ -1,5 +1,6 @@
 {% extends 'accounts/base.html' %}
 {% load stars %}
+{% load static %}
 
 {% block title %}
     Programmer Rate Form
@@ -32,8 +33,7 @@
                                         <div>
                                             {{ choice.tag }}
                                             <label for="{{ choice.id_for_label }}" class="star-label">
-                                                {% for star in choice.choice_label|get_rating_stars %}
-                                                    {{ star }} {% endfor %}({{ choice.choice_label }})</label>
+                                                {{ choice.choice_label|get_rating_stars|safe }}</label>
                                         </div>
                                     {% endfor %}
                                 </div>
