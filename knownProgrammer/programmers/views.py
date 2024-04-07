@@ -35,9 +35,9 @@ def programmer_detail(request, id):
         programmer = get_object_or_404(ProgrammerProfile, id=id)
         programmer.average_rating = programmer.average_rating()
         users_ratings = Rating.objects.filter(user_id=request.user.id, programmer_id=id).first()
+        programmer.count = programmer.ratings_count()
         if users_ratings:
             rated = True
-            programmer.count = programmer.ratings_count()
     except ProgrammerProfile.DoesNotExist:
         return HttpResponseNotFound("Page not found")
     if request.user.id == programmer.user_id.id:
@@ -107,11 +107,11 @@ def programmer_create_form(request):
 def programmer_update_model_form(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
     user = request.user
-    owner = False
 
     if request.user.id == programmer.user_id.id:
         owner = True
     else:
+        owner = False
         raise PermissionDenied("You do not have permission to edit this index.")
 
     if request.method == "GET":
@@ -198,7 +198,8 @@ def rate_programmer(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
 
     if request.method == "GET":
-        rating_exists = Rating.objects.filter(programmer=programmer, user=request.user).first()
+        user = request.user
+        rating_exists = Rating.objects.filter(programmer=programmer, user=user).first()
         if rating_exists:
             form = RatingForm(initial={'rating': rating_exists.rating})
         else:
@@ -215,15 +216,15 @@ def rate_programmer(request, id):
 
     if request.method == 'POST':
         form = RatingForm(request.POST)
-        if request.user.id == programmer.user_id.id:
+        user = request.user
+        if user.id == programmer.user_id.id:
             owner = True
         else:
             owner = False
-        user = request.user.id
 
         if form.is_valid():
             user_rating = form.cleaned_data['rating']
-            rating_exists = Rating.objects.filter(programmer=programmer, user=request.user).first()
+            rating_exists = Rating.objects.filter(programmer=programmer, user=user).first()
             if rating_exists:
                 rating_exists.rating = user_rating
                 rating_exists.save()
@@ -232,7 +233,7 @@ def rate_programmer(request, id):
                     message="Your rating has been updated."
                 )
             else:
-                new_rating = Rating.objects.create(programmer=programmer, user=request.user, rating=user_rating)
+                new_rating = Rating.objects.create(programmer=programmer, user=user, rating=user_rating)
                 new_rating.save()
                 messages.success(
                     request,
@@ -243,7 +244,8 @@ def rate_programmer(request, id):
             try:
                 programmer = get_object_or_404(ProgrammerProfile, id=id)
                 programmer.average_rating = programmer.average_rating()
-                users_ratings = Rating.objects.filter(user_id=request.user.id, programmer_id=id).first()
+                programmer.count = programmer.ratings_count()
+                users_ratings = Rating.objects.filter(user_id=user.id, programmer_id=id).first()
                 if users_ratings:
                     rated = True
             except ProgrammerProfile.DoesNotExist:
