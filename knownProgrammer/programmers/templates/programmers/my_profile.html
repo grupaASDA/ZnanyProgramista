@@ -83,7 +83,7 @@
                             <div class="d-grid gap-2">
                                 <a href="{% url 'upload_avatar' user.id %}" class="btn btn-outline-info">Upload
                                     new avatar</a>
-                                <a href="#"
+                                <a href="{% url 'update_user' user.id %}"
                                    class="btn btn-outline-success">Edit user profile</a>
                                 {% if user.is_dev == True %}
                                 <a href="{% url 'programmer_update_model_form' programmer.id %}"

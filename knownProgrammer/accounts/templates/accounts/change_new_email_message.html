@@ -1,0 +1,9 @@
+{% autoescape off %}
+Hi {{ user.first_name }}!
+
+Please click on the link below to change your actual email to {{ user.new_email }}:
+
+http://{{ domain }}{% url 'change_new_email' uidb64=uid token=token %}
+
+
+{% endautoescape %}
