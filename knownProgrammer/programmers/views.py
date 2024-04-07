@@ -14,12 +14,13 @@ from programmers.services.cloudinary import configure_cloudinary, generate_rando
 
 
 def programmers_list(request):
-    filtered_programmers = ProgrammerFilter(request.GET, queryset=ProgrammerProfile.objects.all())
+    filtered_programmers = ProgrammerFilter(request.GET,
+                                            queryset=ProgrammerProfile.objects.exclude(id=request.user.id))
 
     if filtered_programmers:
         active_programmers = filtered_programmers.qs
     else:
-        active_programmers = ProgrammerProfile.objects.all()
+        active_programmers = ProgrammerProfile.objects.exclude(programmer_id=request.user.id)
 
     for programmer in active_programmers:
         programmer.average_rating = programmer.average_rating()
