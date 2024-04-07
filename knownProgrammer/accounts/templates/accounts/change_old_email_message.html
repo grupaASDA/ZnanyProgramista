@@ -1,0 +1,9 @@
+{% autoescape off %}
+Hi {{ user.first_name }}!
+
+Click the link below to go to the next step and change your email address to {{ user.new_email }}:
+
+http://{{ domain }}{% url 'change_old_email' uidb64=uid token=token %}
+
+
+{% endautoescape %}

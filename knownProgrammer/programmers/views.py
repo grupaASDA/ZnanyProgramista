@@ -6,6 +6,9 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
+
+from accounts.models import CustomUser
+
 from programmers.filters import ProgrammerFilter
 from programmers.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from programmers.models import ProgrammerProfile, Rating
@@ -46,6 +49,7 @@ def programmer_detail(request, id):
         programmer.count = programmer.ratings_count()
         if users_ratings:
             rated = True
+            programmer.count = programmer.ratings_count()
     except ProgrammerProfile.DoesNotExist:
         return HttpResponseNotFound("Page not found")
     if request.user.id == programmer.user_id.id:
@@ -342,3 +346,22 @@ def upload_avatar(request, id):
             template_name="programmers/programmer_avatar_update.html",
             context=ctx,
         )
+
+@login_required(login_url="/login/")
+def my_profile_view(request, id):
+    if request.user.id != id:
+        raise PermissionDenied("You do not have permission to see someone profile.")
+    user = get_object_or_404(CustomUser, id=id)
+    if request.method == "GET":
+        if user.is_dev == False:
+            ctx = {
+                'user': user
+            }
+            return render(request, "programmers/my_profile.html", context=ctx)
+        else:
+            programmer = get_object_or_404(ProgrammerProfile, id=id)
+            ctx = {
+                'user': user,
+                'programmer': programmer,
+            }
+            return render(request, "programmers/my_profile.html", context=ctx)

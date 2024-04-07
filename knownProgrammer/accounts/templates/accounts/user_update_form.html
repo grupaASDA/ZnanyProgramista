@@ -1,0 +1,68 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+
+{% block title %}Update your profile{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <style>
+                    .btn-secondary {
+                        background-color: #696969;
+                        border: none;
+                        color: #ffffff;
+                    }
+                    .btn-secondary:hover {
+                        background-color: #3D3D3D;
+                        color: #ffffff;
+                    }
+                    .btn-password {
+                        background-color: #9c9c9c;
+                        border: none;
+                        color: #000000;
+                        padding: 0.2rem 0.5rem;
+                        font-size: 0.875rem; /* Adjusted font size */
+                        font-family: inherit; /* Inherit font family */
+                    }
+                    .btn-password:hover {
+                        background-color: #737373;
+                        color: #000000;
+                    }
+                    .form-group {
+                        margin-bottom: 10px; /* Increased margin between form groups */
+                    }
+                </style>
+                <div class="card-header" style="background-color: #696969; color: #ffffff;">Update your profile</div>
+                <div class="card-body" style="padding: 20px;">
+                    <form method="post" action="{% url 'update_user' user.id %}" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            <div class="invalid-feedback">{{ form.email.errors }}</div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label_tag }}
+                            <a class="btn btn-password" href="{% url 'change_password' %}">Change Password</a>
+                        </div>
+                        <div class="form-group">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                            <div class="invalid-feedback">{{ form.first_name.errors }}</div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                            <div class="invalid-feedback">{{ form.last_name.errors }}</div>
+                        </div>
+                        <button class="btn btn-secondary" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
