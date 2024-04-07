@@ -1,9 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
-from accounts.forms import SignUpForm
-from accounts.models import CustomUser
 from accounts.tokens import account_activation_token
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, redirect, get_object_or_404
+from accounts.forms import SignUpForm, UserUpdateForm
+from accounts.models import CustomUser
+from accounts.tokens import change_email_token
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -45,17 +48,7 @@ def activeEmail(request, user, to_email):
         messages.success(request, f"Dear {user.first_name}, please go to your email {to_email} inbox and click on received activation link to confirm and complete te registration. Check your spam folder.")
     else:
         messages.error(request, f"There is problem sending email to {to_email}. Check if you typed the email correctly")
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect, get_object_or_404
-from accounts.forms import SignUpForm, UserUpdateForm
-from accounts.models import CustomUser
-from accounts.tokens import change_email_token
-from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.core.mail import EmailMessage
+
 
 
 def homepage(request):
