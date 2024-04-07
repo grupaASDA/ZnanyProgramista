@@ -8,7 +8,6 @@ from programmers.views import (
     programmer_delete_confirm,
     rate_programmer,
     upload_avatar,
-    index,
 )
 
 urlpatterns = [
@@ -19,5 +18,4 @@ urlpatterns = [
     path('delete/<int:id>', programmer_delete_confirm, name="programmer_delete_confirm"),
     path('rate/<int:id>/', rate_programmer, name='rate_programmer'),
     path('avatar/<int:id>/', upload_avatar, name='upload_avatar'),
-    path('index/', index, name="index"),
 ]
