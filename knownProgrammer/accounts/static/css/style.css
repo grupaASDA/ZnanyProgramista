@@ -116,6 +116,11 @@ static
     color: #FF004D;
 }
 
+.ratings {
+    font-size: 0.7rem;
+    color: grey;
+}
+
 #hero-section {
     background: url("../images/background.jpg") no-repeat center;
     background-size: cover;

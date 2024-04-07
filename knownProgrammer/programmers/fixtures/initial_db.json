@@ -63,8 +63,7 @@
     "model": "programmers.ProgrammerProfile",
     "pk": 1,
     "fields": {
-      "wage_min": 30,
-      "wage_max": 40,
+      "wage": 30,
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cumque deleniti dolorem excepturi illo impedit in, obcaecati officia quas qui quod, quos repellendus sint, suscipit tempora temporibus vero! Iure, laboriosam.",
       "experience": "Junior",
       "portfolio": "http://example.com",
@@ -78,8 +77,7 @@
     "model": "programmers.ProgrammerProfile",
     "pk": 2,
     "fields": {
-      "wage_min": 50,
-      "wage_max": 55,
+      "wage": 50,
       "description": "Asperiores cumque deleniti dolorem excepturi illo impedit in, obcaecati officia quas qui quod, quos repellendus sint, suscipit tempora temporibus vero! Iure, laboriosam.",
       "experience": "Mid",
       "portfolio": "http://example.com",
@@ -93,8 +91,7 @@
     "model": "programmers.ProgrammerProfile",
     "pk": 3,
     "fields": {
-      "wage_min": 80,
-      "wage_max": 100,
+      "wage": 80,
       "description": "Iure, laboriosam.",
       "experience": "Senior",
       "portfolio": "http://example.com",
@@ -108,8 +105,7 @@
     "model": "programmers.ProgrammerProfile",
     "pk": 4,
     "fields": {
-      "wage_min": 10,
-      "wage_max": 12,
+      "wage": 10,
       "description": "Lorem asperiores cumque deleniti dolorem excepturi, quos repellendus sint, suscipit tempora temporibus vero! Iure, laboriosam.",
       "experience": "Mid",
       "portfolio": "http://example.com",

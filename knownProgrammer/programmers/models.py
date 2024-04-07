@@ -47,8 +47,7 @@ class ProgrammerProfile(models.Model):
 
     user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                    related_name='programmer_profile')
-    wage_min = models.PositiveIntegerField()
-    wage_max = models.PositiveIntegerField()
+    wage = models.PositiveIntegerField()
     description = models.TextField(max_length=5000)
     experience = models.CharField(max_length=100, choices=EXP)
     portfolio = models.URLField(max_length=1000)
