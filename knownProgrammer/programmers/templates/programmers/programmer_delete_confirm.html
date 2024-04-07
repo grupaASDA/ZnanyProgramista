@@ -30,7 +30,8 @@
                         </div>
                         <br>
                         <div class="mb-3">
-                            <span class="fw-bold">Experience:</span> {{ programmer.experience }}
+                            <span class="fw-bold">Experience:</span>
+                            <h4 class="fw-bold {% if programmer.experience == "Junior" %}junior{% elif programmer.experience == "Mid" %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
                         </div>
                         <div class="technologies mt-3">
                             <span class="fw-bold">Programming Languages:</span>
@@ -70,7 +71,7 @@
                             </form>
                             <br>
                             <div class="d-grid gap-2">
-                                <a href="{% url 'programmer_detail' programmer.id %}"
+                                <a href="{% url 'my_profile' user.id %}"
                                    class="btn btn-outline-secondary btn-block">No</a>
                             </div>
                         </div>
