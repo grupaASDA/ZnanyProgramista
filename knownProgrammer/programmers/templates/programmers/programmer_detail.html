@@ -1,5 +1,6 @@
 {% extends "accounts/base.html" %}
 {% load stars %}
+{% load static %}
 
 {% block title %}
     Programmer details
@@ -35,9 +36,8 @@
                         </div>
                         <div class="rating mb-3">
                             <span class="fw-bold">Rating:</span>
-                            {% for star in programmer.average_rating|get_rating_stars %}
-                                <span class="badge rounded-pill star ms-1">{{ star }}</span>
-                            {% endfor %}
+                            {{ programmer.average_rating|get_rating_stars|safe }}
+
                             <span class="ratings"> {{ programmer.count }} rating(s)</span>
                         </div>
                         <div class="technologies mb-3">

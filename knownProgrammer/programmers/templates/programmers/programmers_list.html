@@ -1,5 +1,6 @@
 {% extends "accounts/base.html" %}
 {% load stars %}
+{% load static %}
 
 {% block title %}
     Programmers List
@@ -32,9 +33,11 @@
 
                                 <div class="rating">
                                     <span class="fw-bold">Rating:</span>
-                                    {% for star in programmer.average_rating|get_rating_stars %}
-                                        <span class="badge rounded-pill {% if programmer.user_id == request.user %}star-active{% else %}star{% endif %} ms-1">{{ star }}</span>
-                                    {% endfor %}
+                                    {#                                    {% for star in programmer.average_rating|get_rating_stars|safe %}#}
+                                    {#                                        <span class="badge rounded-pill {% if programmer.user_id == request.user %}star-active{% else %}star{% endif %} ms-1">{{ star }}</span>#}
+                                    {#                                    {% endfor %}#}
+                                    {{ programmer.average_rating|get_rating_stars|safe }}
+
                                     <span class="ratings"> {{ programmer.count }} rating(s)</span>
                                 </div>
                                 <div class="experience">
