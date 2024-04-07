@@ -6,9 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
-
 from accounts.models import CustomUser
-
 from programmers.filters import ProgrammerFilter
 from programmers.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from programmers.models import ProgrammerProfile, Rating
@@ -75,6 +73,7 @@ def programmer_detail(request, id):
 def programmer_create_form(request):
     programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=request.user.id).exists()
     if programmer_profile_exists:
+        print("Exists")
         return HttpResponseForbidden("You have already created a programmer account")
     form = ProgrammerCreationModelForm(request.POST or None)
     if request.method == 'GET':
@@ -156,7 +155,7 @@ def programmer_update_model_form(request, id):
             )
             return render(
                 request,
-                template_name="programmers/programmer_detail.html",
+                template_name="programmers/my_profile.html",
                 context=ctx,
             )
 
@@ -181,12 +180,14 @@ def programmer_update_model_form(request, id):
 def programmer_delete_confirm(request, id):
     programmer = get_object_or_404(ProgrammerProfile, id=id)
     programmer.count = programmer.ratings_count()
+    user = request.user
 
     if request.user.id != programmer.user_id.id:
         raise PermissionDenied("You do not have permission to delete this index.")
     if request.method == "GET":
         ctx = {
             "programmer": programmer,
+            "user": user,
         }
         return render(
             request,
@@ -203,7 +204,7 @@ def programmer_delete_confirm(request, id):
             message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully deleted",
         )
 
-        return redirect("programmers_list")
+        return redirect("my_profile", id=id)
 
 
 @login_required(login_url="/accounts/login/")
@@ -327,7 +328,7 @@ def upload_avatar(request, id):
                     request,
                     message="Your avatar has been successfully uploaded."
                 )
-                return redirect('programmer_detail', id=id)
+                return redirect('my_profile', id=id)
 
         else:
             messages.error(
@@ -347,7 +348,8 @@ def upload_avatar(request, id):
             context=ctx,
         )
 
-@login_required(login_url="/login/")
+
+@login_required(login_url="/accounts/login/")
 def my_profile_view(request, id):
     if request.user.id != id:
         raise PermissionDenied("You do not have permission to see someone profile.")
