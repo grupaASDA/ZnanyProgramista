@@ -19,12 +19,114 @@
                     </ul>
                 </div>
             {% endif %}
-            <form method="get" action="{% url 'programmers_list' %}">
-                {{ form.as_p }}
-                <div class="d-grid gap-2 mb-5">
-                    <input type="submit" value="Filter" class="btn btn-outline-primary"/>
-                </div>
-            </form>
+                <form method="get" action="{% url 'programmers_list' %}">
+                    <div class="container">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="id_experience" class="form-label">Experience:</label>
+                                <select name="experience" id="id_experience" class="form-select">
+                                    <option value="" selected>---------</option>
+                                    <option value="Mid">Mid</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Senior">Senior</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="id_programming_languages__contains" class="form-label">Programming languages:</label>
+                                <select name="programming_languages__contains" id="id_programming_languages__contains" class="form-select">
+                                    <option value="" selected>--------</option>
+                                    <option value="JavaScript">JavaScript</option>
+
+                                    <option value="Python">Python</option>
+
+                                    <option value="Java">Java</option>
+
+                                    <option value="C">C</option>
+
+                                    <option value="C++">C++</option>
+
+                                    <option value="C#">C#</option>
+
+                                    <option value="R">R</option>
+
+                                    <option value="PHP">PHP</option>
+
+                                    <option value="SQL">SQL</option>
+
+                                    <option value="RUST">RUST</option>
+
+                                    <option value="Kotlin">Kotlin</option>
+
+                                    <option value="HTML">HTML</option>
+
+                                    <option value="CSS">CSS</option>
+
+                                    <option value="TypeScript">TypeScript</option>
+
+                                    <option value="Scala">Scala</option>
+
+                                    <option value="SWIFT">SWIFT</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="id_tech_stack__contains" class="form-label">Tech stack:</label>
+                                <select name="tech_stack__contains" id="id_tech_stack__contains" class="form-select">
+                                    <option value="" selected>---------</option>
+                                    <option value="Django">Django</option>
+
+                                    <option value="Flask">Flask</option>
+
+                                    <option value="FastAPI">FastAPI</option>
+
+                                    <option value="Databases">Databases</option>
+
+                                    <option value="Docker">Docker</option>
+
+                                    <option value="Git | GitHub">Git | GitHub</option>
+
+                                    <option value="Node.js">Node.js</option>
+
+                                    <option value="React">React</option>
+
+                                    <option value="Symphony">Symphony</option>
+
+                                    <option value="Ruby on Rails">Ruby on Rails</option>
+
+                                    <option value="Celery">Celery</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Wage:</label>
+                                <div class="input-group">
+                                    <input type="text" name="wage_min" id="id_wage_0" class="form-control">
+                                    <span class="input-group-text">-</span>
+                                    <input type="text" name="wage_max" id="id_wage_1" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="id_first_name" class="form-label">Name:</label>
+                                <input type="text" name="first_name" id="id_first_name" class="form-control">
+                            </div>
+                            <div class="col">
+                                <label for="id_last_name" class="form-label">Last name:</label>
+                                <input type="text" name="last_name" id="id_last_name" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-outline-primary">Filter</button>
+                                <a href="{% url 'programmers_list' %}" class="btn btn-outline-dark">Reset filters</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+        <div class="row">
 
             {% for programmer in programmers %}
                 <div class="col-md-4">
@@ -66,10 +168,10 @@
                                     {% empty %}
                                         <span class="fw-italic">No frameworks listed</span>
                                     {% endfor %}
-                                </div>
+                            </a>    </div>
                         </div>
                     </div>
-                    </a>
+
                 </div>
             {% endfor %}
         </div>
