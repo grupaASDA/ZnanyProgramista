@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from accounts.views import (
+from accounts.views.function_based_views import (
     homepage,
 )
 

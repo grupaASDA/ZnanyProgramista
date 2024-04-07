@@ -38,6 +38,3 @@ class RatingForm(forms.Form):
 
 class AvatarUploadForm(forms.Form):
     avatar = forms.ImageField()
-
-
-
