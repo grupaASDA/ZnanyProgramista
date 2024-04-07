@@ -6,19 +6,26 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
+from programmers.filters import ProgrammerFilter
 from programmers.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from programmers.models import ProgrammerProfile, Rating
 from programmers.services.cloudinary import configure_cloudinary, generate_random_string
-from programmers.filters import ProgrammerFilter
 
 
 def programmers_list(request):
-    programmers = ProgrammerProfile.objects.all()
-    for programmer in programmers:
+    filtered_programmers = ProgrammerFilter(request.GET, queryset=ProgrammerProfile.objects.all())
+
+    if filtered_programmers:
+        active_programmers = filtered_programmers.qs
+    else:
+        active_programmers = ProgrammerProfile.objects.all()
+
+    for programmer in active_programmers:
         programmer.average_rating = programmer.average_rating()
         programmer.count = programmer.ratings_count()
     ctx = {
-        "programmers": programmers,
+        "programmers": active_programmers,
+        'form': filtered_programmers.form,
     }
 
     return render(
@@ -335,13 +342,3 @@ def upload_avatar(request, id):
             template_name="programmers/programmer_avatar_update.html",
             context=ctx,
         )
-
-
-
-def index(request):
-    programerfiltrer = ProgrammerFilter(request.GET , queryset= ProgrammerProfile.objects.all())
-    context = {
-        'form': programerfiltrer.form,
-        'programmers': programerfiltrer.qs
-    }
-    return render(request, "filtered/programmers_list_filtered.html",context)
