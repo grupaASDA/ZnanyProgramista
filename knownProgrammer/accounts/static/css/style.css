@@ -121,6 +121,13 @@ static
     color: grey;
 }
 
+.vertical-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+}
+
 #hero-section {
     background: url("../images/background.jpg") no-repeat center;
     background-size: cover;
