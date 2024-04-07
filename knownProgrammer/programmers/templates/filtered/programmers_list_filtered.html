@@ -1,0 +1,41 @@
+{% extends "accounts/base.html" %}
+
+{% block body %}
+    <div>
+        {% block content %}
+
+        <form method="get" action="{% url 'index' %}">
+            {{ form.as_p }}
+            <input type="submit" value="submit" class="btn btn-primary"/>
+        </form>
+
+        <hr/>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Wage</th>
+                <th>Experience</th>
+                <th>Programming languages</th>
+                <th>Tech Stack</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                {% for programmer in programmers%}
+                    <tr>
+                        <td>{{programmer.user_id.first_name}}</td>
+                        <td>{{programmer.user_id.last_name}}</td>
+                        <td>{{programmer.wage}}</td>
+                        <td>{{programmer.experience}}</td>
+                        <td>{{programmer.programming_languages}}</td>
+                        <td>{{programmer.tech_stack}}</td>
+
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endblock content %}
+    </div>
+{% endblock body %}
