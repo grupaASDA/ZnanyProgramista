@@ -10,6 +10,7 @@ from accounts.views.function_based_views import (
     change_old_email,
     change_new_email,
     activate,
+    account_delete_confirm,
 )
 from accounts.views.generic_views import (
     PasswordsChangeView,
@@ -21,6 +22,8 @@ urlpatterns = [
     path('register/', register_user, name='register'),
 
     path('activate/<uidb64>/<token>', activate, name='activate'),
+
+    path('account_delete_confirm/<int:id>', account_delete_confirm, name='account_delete_confirm'),
 
     path('update_user/<int:id>', user_update_form, name="update_user"),
     path('change_old_email/<uidb64>/<token>', change_old_email, name='change_old_email'),

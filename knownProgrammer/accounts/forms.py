@@ -31,3 +31,15 @@ class PasswordChangedForm(PasswordChangeForm):
     class Meta:
         model = CustomUser
         fields = ['old_password', 'new_password1', 'new_password2']
+
+class DeleteAccountForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}), label="Password")
+
+    class Meta:
+        model = CustomUser
+        fields = ['old_password']
+
+    def __init__(self, *args, **kwargs):
+        super(DeleteAccountForm, self).__init__(*args, **kwargs)
+        del self.fields['new_password1']
+        del self.fields['new_password2']

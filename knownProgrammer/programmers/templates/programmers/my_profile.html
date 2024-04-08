@@ -39,7 +39,7 @@
                     </div>
                     <div class="mb-3">
                         <span class="fw-bold">Experience:</span>
-                        <h4 class="fw-bold {% if programmer.experience == "Junior" %}junior{% elif programmer.experience == "Mid" %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
+                        <h4 class="fw-bold {% if programmer.experience == 'Junior' %}junior{% elif programmer.experience == 'Mid' %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
                     </div>
                     <div class="technologies mb-3">
                         <span class="fw-bold">Programming Languages:</span>
@@ -86,15 +86,16 @@
                             <a href="{% url 'programmer_update_model_form' programmer.id %}"
                                class="btn btn-outline-warning">Edit programmer profile</a>
                             <a href="{% url 'programmer_delete_confirm' programmer.id %}"
-                               class="btn btn-outline-danger">Delete</a>
+                               class="btn btn-outline-danger">Delete programmer profile</a>
                         {% else %}
                             <a href="{% url 'programmer_create_form' %}"
-                               class="btn btn-outline-dark">Create Programmer Profile</a>
+                               class="btn btn-outline-dark">Create programmer profile</a>
                         {% endif %}
                     </div>
                 </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock body %}

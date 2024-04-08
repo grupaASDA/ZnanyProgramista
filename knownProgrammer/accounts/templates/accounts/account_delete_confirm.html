@@ -1,0 +1,73 @@
+{% extends "accounts/base.html" %}
+{% load stars %}
+{% load static %}
+
+{% block title %}
+    Deleting programmer
+{% endblock title %}
+
+{% block body %}
+<style>
+    .deletion-info-item {
+        background-color: #f8d7da; /* Light red background */
+        color: #721c24; /* Dark red text */
+        border-color: #f5c6cb; /* Border color */
+    }
+
+    .deletion-info-item:hover {
+        background-color: #dc3545; /* Red background on hover */
+        color: #fff; /* White text on hover */
+    }
+</style>
+    {% for message in messages %}
+        <li class="alert alert-info">{{ message }}</li>
+    {% endfor %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" style="background-color: #696969; color: #ffffff;">About account</div>
+                <div class="card-body" style="padding: 20px;">
+                        <div>
+                        <span class="fw-bold">Email:</span> {{ user.email }}
+                        </div>
+                        <div>
+                        <span class="fw-bold">First name:</span> {{ user.first_name }}
+                        </div>
+                        <div>
+                        <span class="fw-bold">Last name:</span> {{ user.last_name }}
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                    <div class="card mb-12">
+                        <div class="card-body">
+                            <h5 class="card-title">Delete Account</h5>
+                            <form method="POST" action="{% url 'account_delete_confirm' user.id %}">
+                                {% csrf_token %}
+                                Password:
+                                {{ form.old_password }}
+                                <br>
+                                <ul class="list-group">
+                                    <li class="list-group-item deletion-info-item">When you click the button, your account will be deleted.</li>
+                                    <li class="list-group-item deletion-info-item">This action cannot be undone.</li>
+                                    <li class="list-group-item deletion-info-item">To confirm the deletion, please enter your account password.</li>
+                                </ul>
+                                <br>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-danger">Yes</button>
+                                </div>
+                            </form>
+                            <br>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'update_user' user.id %}"
+                                   class="btn btn-outline-secondary btn-block">No</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
