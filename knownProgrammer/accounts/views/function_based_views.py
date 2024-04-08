@@ -4,7 +4,7 @@ from accounts.tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.forms import SignUpForm, UserUpdateForm
+from accounts.forms import SignUpForm, UserUpdateForm, DeleteAccountForm
 from accounts.models import CustomUser
 from accounts.tokens import change_email_token
 from django.template.loader import render_to_string
@@ -167,7 +167,7 @@ def changeNewEmail(request, user, to_email):
         pass
     else:
         messages.error(request, f"There is problem sending email to {to_email}. Check if you typed the email correctly")
-@login_required(login_url='/login/')
+@login_required(login_url='accounts/login/')
 def user_update_form(request, id):
     if request.user.id != id:
         raise PermissionDenied("You can't update someone's profile")
@@ -202,6 +202,28 @@ def user_update_form(request, id):
             return render(request, 'accounts/user_update_form.html', context=ctx)
 
 
-
-
-
+@login_required(login_url="accounts/login/")
+def account_delete_confirm(request, id):
+    if request.user.id != id:
+        raise PermissionDenied("You do not have permission to delete someone profile.")
+    user = get_object_or_404(CustomUser, id=id)
+    if request.method == "GET":
+        form = DeleteAccountForm(user=request.user)
+        ctx = {
+            'user': user,
+            'form': form,
+        }
+        return render(request, "accounts/account_delete_confirm.html", context=ctx)
+    if request.method == "POST":
+        form = DeleteAccountForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            user.delete()
+            messages.success(request, (f"User Profile {user.first_name} {user.last_name} has been successfully deleted"))
+            return redirect("homepage")
+        else:
+            ctx = {
+                'user': user,
+                'form': form,
+            }
+            messages.error(request, "Wrong password, please try again")
+            return render(request, "accounts/account_delete_confirm.html", context=ctx)
