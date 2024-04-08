@@ -64,15 +64,24 @@
                                 {{ form.last_name }}
                                 <div class="invalid-feedback">{{ form.last_name.errors }}</div>
                             </div>
+                            <div class="mb-4 text-center">
                             <div class="d-grid gap-2">
                                 <button class="btn btn-secondary" type="submit">Update</button>
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'account_delete_confirm' user.id %}"
+                                           class="btn btn-outline-danger">Delete account</a>
+                                </div>
 
                                 <a href="{% url 'my_profile' user.id %}"
                                    class="btn btn-outline-secondary btn-block">Return</a>
                             </div>
+                            </div>
                         </form>
                     </div>
                 </div>
+
+
+
             </div>
         </div>
     </div>
