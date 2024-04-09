@@ -73,6 +73,13 @@ class ProgrammerProfile(models.Model):
     def is_rated(self, user):
         return self.ratings.filter(user=user).exists()
 
+    @classmethod
+    def get_profile_by_user_id(cls, user_id):
+        try:
+            return cls.objects.get(user_id=user_id)
+        except ProgrammerProfile.DoesNotExist:
+            return None
+
 
 class Rating(models.Model):
     programmer = models.ForeignKey(ProgrammerProfile, related_name='ratings', on_delete=models.CASCADE)
