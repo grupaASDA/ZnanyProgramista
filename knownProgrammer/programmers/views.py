@@ -6,7 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
-from accounts.models import CustomUser
+from accounts.models import CustomUser, DEFAULT_AVATAR
 from programmers.filters import ProgrammerFilter
 from programmers.forms import ProgrammerCreationModelForm, RatingForm, AvatarUploadForm
 from programmers.models import ProgrammerProfile, Rating
@@ -315,8 +315,6 @@ def upload_avatar(request, id):
         form = AvatarUploadForm(request.POST, request.FILES)
 
         if form.is_valid():
-            print(request.FILES['avatar'].name)
-
             configure_cloudinary()
             random_str = generate_random_string()
             picture_name = f"{request.FILES['avatar'].name}_{random_str}"
@@ -325,11 +323,14 @@ def upload_avatar(request, id):
             version = r.get('version')
             if version:
                 src_url = cloudinary.CloudinaryImage(f'avatars/{picture_name}') \
-                    .build_url(transformation=[
-                    {'gravity': "face", 'height': 200, 'width': 200, 'crop': "thumb"},
-                    {'radius': "max"},
-                    {'fetch_format': "auto"}
-                ], version=version)
+                    .build_url(
+                    transformation=[
+                        {'gravity': "face", 'height': 200, 'width': 200, 'crop': "thumb"},
+                        {'radius': "max"},
+                        {'fetch_format': "auto"}
+                    ],
+                    version=version
+                )
                 user.avatar = src_url
                 user.save()
                 messages.success(
@@ -354,6 +355,36 @@ def upload_avatar(request, id):
             template_name="programmers/programmer_avatar_update.html",
             context=ctx,
         )
+
+
+@login_required(login_url="/accounts/login/")
+def restore_avatar(request, id):
+    logged_user = request.user
+    user = get_object_or_404(CustomUser, id=request.user.id)
+
+    if logged_user.id != user.id:
+        raise PermissionDenied("You do not have permission to upload/ update this avatar.")
+
+    if request.method == 'POST':
+        user.avatar = DEFAULT_AVATAR
+        user.save()
+        messages.success(
+            request,
+            message="Your avatar has been successfully restored to default."
+        )
+        return redirect('my_profile', id=id)
+
+    form = AvatarUploadForm()
+    ctx = {
+        "form": form,
+        "user": user
+    }
+
+    return render(
+        request,
+        template_name="programmers/programmer_avatar_update.html",
+        context=ctx,
+    )
 
 
 @login_required(login_url="/accounts/login/")
