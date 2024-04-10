@@ -7,21 +7,21 @@
 {% endblock title %}
 
 {% block body %}
-<div class="p-3 mb-2 bg-white text-black">
+    <div class="p-3 mb-2 bg-white text-black">
 
 
-    <div class="container mt-5">
-        <div class="row">
+        <div class="container mt-5">
+            <div class="row">
 
-            {% if messages %}
-                <div class="col-12">
-                    <ul class="list-unstyled mb-5">
-                        {% for message in messages %}
-                            <li class="alert alert-info">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
+                {% if messages %}
+                    <div class="col-12">
+                        <ul class="list-unstyled mb-5">
+                            {% for message in messages %}
+                                <li class="alert alert-info">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
                 <form method="get" action="{% url 'programmers_list' %}">
                     <div class="container">
                         <div class="row mb-3">
@@ -35,8 +35,10 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <label for="id_programming_languages__contains" class="form-label">Programming languages:</label>
-                                <select name="programming_languages__contains" id="id_programming_languages__contains" class="form-select">
+                                <label for="id_programming_languages__contains" class="form-label">Programming
+                                    languages:</label>
+                                <select name="programming_languages__contains" id="id_programming_languages__contains"
+                                        class="form-select">
                                     <option value="" selected>--------</option>
                                     <option value="JavaScript">JavaScript</option>
 
@@ -127,57 +129,57 @@
                         </div>
                     </div>
                 </form>
-        </div>
+            </div>
 
-        <div class="row">
+            <div class="row">
 
-            {% for programmer in programmers %}
-                <div class="col-md-4">
+                {% for programmer in programmers %}
+                    <div class="col-md-4">
 
-                    <div class="card mb-4 hover-effect {% if programmer.user_id == request.user %}text-white bg-secondary{% endif %}">
-                        <div class="card-body">
-                            <a href="{% url 'programmer_detail' programmer.id %}"
-                               class="text-decoration-none text-reset">
-                                <img src="{{ programmer.user_id.avatar }}" alt="User Avatar"
-                                     style="display: block; margin: 0 auto;">
-                                <h4 class="{% if programmer.user_id == request.user %}text-white{% else %}card-title{% endif %} fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
+                        <div class="card mb-4 hover-effect {% if programmer.user_id_id in creators %}card-creators{% endif %}">
+                            <div class="card-body">
+                                <a href="{% url 'programmer_detail' programmer.id %}"
+                                   class="text-decoration-none text-reset">
+                                    <img src="{{ programmer.user_id.avatar }}" alt="User Avatar"
+                                         style="display: block; margin: 0 auto;">
+                                    <h4 class="card-title fw-bold text-center">{{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}</h4>
 
+                                    <div class="rating">
+                                        <span class="fw-bold">Rating:</span>
+                                        {{ programmer.average_rating|get_rating_stars|safe }}
+                                        <span class="ratings"> {{ programmer.count }} rating(s)</span>
+                                    </div>
 
-                                <div class="rating">
-                                    <span class="fw-bold">Rating:</span>
+                                    <div class="experience">
+                                        <span class="fw-bold">Experience:</span>
+                                        <h4 class="fw-bold {% if programmer.experience == "Junior" %}junior{% elif programmer.experience == "Mid" %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
+                                    </div>
 
-                                    {{ programmer.average_rating|get_rating_stars|safe }}
+                                    <div class="technologies mt-3">
+                                        <span class="fw-bold">Programming Languages:</span>
 
-                                    <span class="ratings"> {{ programmer.count }} rating(s)</span>
-                                </div>
-                                <div class="experience">
-                                    <span class="fw-bold">Experience:</span>
-                                    <h4 class="fw-bold {% if programmer.experience == "Junior" %}junior{% elif programmer.experience == "Mid" %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
+                                        {% for language in programmer.programming_languages %}
+                                            <span class="badge bg-success ms-2">{{ language }}</span>
+                                        {% empty %}
+                                            <span class="fw-italic">No languages listed</span>
+                                        {% endfor %}
+                                    </div>
 
-                                </div>
-                                <div class="technologies mt-3">
-                                    <span class="fw-bold">Programming Languages:</span>
-
-                                    {% for language in programmer.programming_languages %}
-                                        <span class="badge bg-success ms-2">{{ language }}</span>
-                                    {% empty %}
-                                        <span class="fw-italic">No languages listed</span>
-                                    {% endfor %}
-                                </div>
-                                <div class="technologies mt-2">
-                                    <span class="fw-bold">Frameworks:</span>
-                                    {% for framework in programmer.tech_stack %}
-                                        <span class="badge {% if programmer.user_id == request.user %}bg-primary{% else %}bg-secondary{% endif %} ms-2">{{ framework }}</span>
-                                    {% empty %}
-                                        <span class="fw-italic">No frameworks listed</span>
-                                    {% endfor %}
-                            </a>    </div>
+                                    <div class="technologies mt-2">
+                                        <span class="fw-bold">Tech stack:</span>
+                                        {% for framework in programmer.tech_stack %}
+                                            <span class="badge bg-secondary ms-2">{{ framework }}</span>
+                                        {% empty %}
+                                            <span class="fw-italic">No Tech stack listed</span>
+                                        {% endfor %}
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
-            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock body %}

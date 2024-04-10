@@ -14,13 +14,14 @@ from programmers.services.cloudinary import configure_cloudinary, generate_rando
 
 
 def programmers_list(request):
+    creators_ids = [1, 2, 3]
     filtered_programmers = ProgrammerFilter(request.GET,
-                                            queryset=ProgrammerProfile.objects.exclude(id=request.user.id))
+                                            queryset=ProgrammerProfile.objects.exclude(user_id=request.user.id))
 
     if filtered_programmers:
         active_programmers = filtered_programmers.qs
     else:
-        active_programmers = ProgrammerProfile.objects.exclude(programmer_id=request.user.id)
+        active_programmers = ProgrammerProfile.objects.exclude(user_id=request.user.id)
 
     for programmer in active_programmers:
         programmer.average_rating = programmer.average_rating()
@@ -28,6 +29,7 @@ def programmers_list(request):
     ctx = {
         "programmers": active_programmers,
         'form': filtered_programmers.form,
+        "creators": creators_ids,
     }
 
     return render(
@@ -72,7 +74,8 @@ def programmer_detail(request, id):
 
 @login_required(login_url="/accounts/login/")
 def programmer_create_form(request):
-    programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=request.user.id).exists()
+    user_id = request.user.id
+    programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=user_id).exists()
     if programmer_profile_exists:
         print("Exists")
         return HttpResponseForbidden("You have already created a programmer account")
@@ -100,7 +103,7 @@ def programmer_create_form(request):
                 message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully created",
             )
 
-            return redirect(f'/programmers/detail/{programmer.id}')
+            return redirect(f'/programmers/myprofile/{user_id}')
         ctx = {
             "form": form,
         }
@@ -205,7 +208,7 @@ def programmer_delete_confirm(request, id):
             message=f"Programmer {programmer.user_id.first_name} {programmer.user_id.last_name} has been successfully deleted",
         )
 
-        return redirect("my_profile", id=id)
+        return redirect("my_profile", id=user.id)
 
 
 @login_required(login_url="/accounts/login/")
@@ -290,18 +293,17 @@ def rate_programmer(request, id):
 
 @login_required(login_url="/accounts/login/")
 def upload_avatar(request, id):
-    programmer = get_object_or_404(ProgrammerProfile, id=id)
-    user = programmer.user_id
+    logged_user = request.user
+    user = get_object_or_404(CustomUser, id=request.user.id)
 
-    if request.user.id != user.id:
+    if logged_user.id != user.id:
         raise PermissionDenied("You do not have permission to upload/ update this avatar.")
 
     if request.method == "GET":
         form = AvatarUploadForm()
         ctx = {
             "form": form,
-            "user": user,
-            "programmer": programmer,
+            "user": user
         }
         return render(
             request,
@@ -313,16 +315,21 @@ def upload_avatar(request, id):
         form = AvatarUploadForm(request.POST, request.FILES)
 
         if form.is_valid():
+            print(request.FILES['avatar'].name)
 
             configure_cloudinary()
-            picture_name = generate_random_string()
+            random_str = generate_random_string()
+            picture_name = f"{request.FILES['avatar'].name}_{random_str}"
             uploaded_file = request.FILES['avatar']
             r = cloudinary.uploader.upload(uploaded_file, public_id=f'avatars/{picture_name}', overwrite=True)
             version = r.get('version')
             if version:
                 src_url = cloudinary.CloudinaryImage(f'avatars/{picture_name}') \
-                    .build_url(background="auto", gravity="auto", width=250, height=250, crop='fill_pad',
-                               version=version)
+                    .build_url(transformation=[
+                    {'gravity': "face", 'height': 200, 'width': 200, 'crop': "thumb"},
+                    {'radius': "max"},
+                    {'fetch_format': "auto"}
+                ], version=version)
                 user.avatar = src_url
                 user.save()
                 messages.success(
@@ -340,7 +347,6 @@ def upload_avatar(request, id):
         ctx = {
             "form": form,
             "user": user,
-            "programmer": programmer,
         }
 
         return render(
@@ -354,7 +360,7 @@ def upload_avatar(request, id):
 def my_profile_view(request, id):
     if request.user.id != id:
         raise PermissionDenied("You do not have permission to see someone profile.")
-    user = get_object_or_404(CustomUser, id=id)
+    user = get_object_or_404(CustomUser, id=request.user.id)
     if request.method == "GET":
         if user.is_dev == False:
             ctx = {
@@ -362,7 +368,7 @@ def my_profile_view(request, id):
             }
             return render(request, "programmers/my_profile.html", context=ctx)
         else:
-            programmer = get_object_or_404(ProgrammerProfile, id=id)
+            programmer = ProgrammerProfile.get_profile_by_user_id(user.id)
             ctx = {
                 'user': user,
                 'programmer': programmer,
