@@ -12,6 +12,14 @@
                     <div class="card-header text-center">
                         <h4 class="card-title">Upload new avatar</h4>
                     </div>
+                    <br>
+                    <div class="d-grid gap-2">
+                        <form method="POST" action="{% url 'restore_avatar' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-block">Restore default avatar
+                            </button>
+                        </form>
+                    </div>
                     <div class="card-body text-center">
                         <h5>Actual avatar:</h5>
                         <img src="{{ user.avatar }}" alt="User Avatar">
@@ -22,6 +30,7 @@
                             <button type="submit" class="btn btn-outline-primary">Upload</button>
                         </form>
                     </div>
+
                     <div class="card-footer text-center">
                         <div class="d-grid gap-2">
                             <a href="{% url 'my_profile' user.id %}"
