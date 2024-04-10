@@ -38,7 +38,8 @@
                             margin-bottom: 10px; /* Increased margin between form groups */
                         }
                     </style>
-                    <div class="card-header" style="background-color: #696969; color: #ffffff;">Update your profile
+                    <div class="card-header text-center" style="background-color: #696969; color: #ffffff;">Update your
+                        profile
                     </div>
                     <div class="card-body" style="padding: 20px;">
                         <form method="post" action="{% url 'update_user' user.id %}" class="needs-validation"
@@ -64,25 +65,37 @@
                                 {{ form.last_name }}
                                 <div class="invalid-feedback">{{ form.last_name.errors }}</div>
                             </div>
+                            <br>
+
                             <div class="mb-4 text-center">
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-secondary" type="submit">Update</button>
-                                <div class="d-grid gap-2">
-                                    <a href="{% url 'account_delete_confirm' user.id %}"
-                                           class="btn btn-outline-danger">Delete account</a>
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-secondary" type="submit">Update</button>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2">
+                                            <a href="{% url 'account_delete_confirm' user.id %}"
+                                               class="btn btn-outline-danger">Delete account</a>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <a href="{% url 'my_profile' user.id %}"
-                                   class="btn btn-outline-secondary btn-block">Return</a>
                             </div>
+                            <div class="card-footer">
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'my_profile' user.id %}"
+                                       class="btn btn-outline-secondary btn-block">Return</a>
+                                </div>
                             </div>
-                        </form>
                     </div>
+                    </form>
                 </div>
-
-
-
             </div>
+
+
         </div>
+    </div>
     </div>
 {% endblock body %}
