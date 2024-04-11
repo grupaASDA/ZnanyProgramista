@@ -24,7 +24,7 @@
       "last_name": "Tworek",
       "is_staff": 1,
       "is_active": 1,
-      "email": "",
+      "email": "krystianoffsite@proton.me",
       "is_dev": 1,
       "avatar": "https://res.cloudinary.com/dbpcaze0b/image/upload/c_thumb,g_face,h_200,w_200/r_max/f_auto/v1712690929/avatars/a328m26x7yY0RsmfofCW11EDeaYKjw"
     }
@@ -319,7 +319,7 @@
     "pk": 1,
     "fields": {
       "wage": 50,
-      "description": "I'm the one of three creators of this app",
+      "description": "I am one of the three creators of this application.",
       "experience": "Junior",
       "portfolio": "https://github.com/jpol1",
       "programming_languages": "Python,SQL,HTML",
@@ -333,9 +333,9 @@
     "pk": 2,
     "fields": {
       "wage": 40,
-      "description": "I'm the one of three creators of this app",
+      "description": "I am one of the three creators of this application.",
       "experience": "Junior",
-      "portfolio": "",
+      "portfolio": "www.linkedin.com/in/krystiantworek",
       "programming_languages": "Python,SQL,HTML",
       "tech_stack": "Django,Git | GitHub",
       "phone": null,
@@ -347,7 +347,7 @@
     "pk": 3,
     "fields": {
       "wage": 60,
-      "description": "I'm the one of three creators of this app",
+      "description": "I am one of the three creators of this application.",
       "experience": "Junior",
       "portfolio": "https://github.com/OktawianCzakiert",
       "programming_languages": "Python,SQL",
