@@ -1,0 +1,49 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Contacts{% endblock title %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <h2>Contacts who sent me messages:</h2>
+    <div class="list-group">
+        {% if people_who_sent_message %}
+        {% for person in people_who_sent_message %}
+            <a href="{% url 'messages_with_list' person.id %}" class="list-group-item">
+                <div class="media">
+                    <img src="{{ person.avatar }}" class="mr-3 rounded-circle" alt="{{ person.first_name }} Avatar" style="width: 50px; height: 50px;">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{ person.first_name }} {{ person.last_name }}</h5>
+                        <p class="mb-0">Email: {{ person.email }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+        {% else %}
+            <a style="color: #b00414">You haven't received any messages yet</a>
+        {% endif %}
+    </div>
+
+
+    <h2>Contacts I sent messages to:</h2>
+    <div class="list-group">
+    {% if people_i_sent_message %}
+        {% for person in people_i_sent_message %}
+            <a href="{% url 'messages_with_list' person.id  %}" class="list-group-item">
+                <div class="media">
+                    <img src="{{ person.avatar }}" class="mr-3 rounded-circle" alt="{{ person.first_name }} Avatar" style="width: 50px; height: 50px;">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{ person.first_name }} {{ person.last_name }}</h5>
+                        <p class="mb-0">Email: {{ person.email }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+        {% else %}
+            <a style="color: #b00414">You haven't sent any messages yet</a>
+        {% endif %}
+    </div>
+    <div class="col-md-12">
+            <a href="{% url 'homepage' %}" class="btn btn-outline-secondary mt-3">Return to main page</a>
+    </div>
+</div>
+{% endblock body %}

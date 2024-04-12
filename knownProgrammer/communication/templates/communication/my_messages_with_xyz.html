@@ -1,0 +1,64 @@
+{% extends 'accounts/base.html' %}
+{% block title %}My messages with {{ user_info.first_name }} {{ user_info.last_name }}{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card my-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Programmer Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ user_info.avatar }}" class="img-fluid rounded-circle" alt="Avatar">
+                        </div>
+                        <div class="col-md-10">
+                            <p><strong>Name:</strong> {{ user_info.first_name }} {{ user_info.last_name }}</p>
+                            <p><strong>Email:</strong> {{ user_info.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Messages</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Sent to me:</h6>
+                    {% if messages_sent_by_me %}
+                    <ul class="list-group">
+                        {% for message in messages_sent_by_me %}
+                        <li class="list-group-item">Title: {{ message.title }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <a style="color: #b00414">You haven't received any messages yet</a>
+                    {% endif %}
+                    <h6 class="mt-4">Sent by me:</h6>
+                    {% if messages_sent_to_me %}
+                    <ul class="list-group">
+                        {% for message in messages_sent_to_me %}
+                        <li class="list-group-item"><a>Title: </a><a href="{% url 'message' message.id %}">{{ message.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <a style="color: #b00414">You haven't sent any messages yet</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-md-12">
+                <a href="{% url 'messages_person_list' %}" class="btn btn-outline-secondary mt-3">Return to contacts list</a>
+            </div>
+        </div>
+</div>
+{% endblock body %}
