@@ -16,9 +16,11 @@ from communication.models import Communicate
 
 @login_required(login_url="/accounts/login/")
 def send_message_view(request, id):
-    programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=id).exists()
-    if not programmer_profile_exists:
-        raise PermissionDenied("Programmer not found")
+    user_profile_exists = CustomUser.objects.filter(id=id).exists()
+    if not user_profile_exists:
+        raise PermissionDenied("User not found")
+    elif request.user.id == id:
+        raise PermissionDenied("You can't send message to yourself")
     user_id = request.user.id
     sent_by_user = get_object_or_404(CustomUser, id=user_id)
     sent_to_user = get_object_or_404(CustomUser, id=id)
@@ -84,13 +86,11 @@ def my_messages_with_xyz_view(request, id):
 @login_required(login_url="/accounts/login/")
 def message_view(request, id):
     message = get_object_or_404(Communicate, id=id)
-    previous_page = request.META.get('HTTP_REFERER')
     if message.sent_by != request.user and message.sent_to != request.user:
         raise PermissionDenied("You can't see this message")
     if request.method == 'GET':
         ctx = {
             'message': message,
-            'previous_page': previous_page,
         }
         return render(request, 'communication/message.html', context=ctx)
 

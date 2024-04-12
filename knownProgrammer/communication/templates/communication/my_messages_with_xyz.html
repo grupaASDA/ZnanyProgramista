@@ -31,21 +31,21 @@
                     <h5 class="card-title mb-0">Messages</h5>
                 </div>
                 <div class="card-body">
-                    <h6>Sent to me:</h6>
+                    <h6>Sent by me:</h6>
                     {% if messages_sent_by_me %}
                     <ul class="list-group">
                         {% for message in messages_sent_by_me %}
-                        <li class="list-group-item">Title: {{ message.title }}</li>
+                        <li class="list-group-item"><a>Title: </a><a href="{% url 'message' message.id %}" style="text-decoration: none; font-weight: bold; color: black">{{ message.title }}</a></li>
                         {% endfor %}
                     </ul>
                     {% else %}
                         <a style="color: #b00414">You haven't received any messages yet</a>
                     {% endif %}
-                    <h6 class="mt-4">Sent by me:</h6>
+                    <h6 class="mt-4">Sent to me:</h6>
                     {% if messages_sent_to_me %}
                     <ul class="list-group">
                         {% for message in messages_sent_to_me %}
-                        <li class="list-group-item"><a>Title: </a><a href="{% url 'message' message.id %}">{{ message.title }}</a></li>
+                        <li class="list-group-item"><a>Title: </a><a href="{% url 'message' message.id %}"  style="text-decoration: none; font-weight: bold; color: black">{{ message.title }}</a></li>
                         {% endfor %}
                     </ul>
                     {% else %}
