@@ -16,6 +16,7 @@
 </head>
 
 {% block navbar %}
+    <div class="around-navbar">
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand me-auto" href="#">
@@ -23,6 +24,15 @@
                      src="{% static 'images/logo1.jpg' %}"
                      width="60" height="60">
             </a>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item d-flex justify-content-end pe-2">
+                    <a id="unseen"></a>
+            {% else %}
+                <li class="nav-item d-flex justify-content-end pe-2">
+                    <a id="unseen1"></a>
+            {% endif %}
+
+            </li>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                  aqria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
@@ -82,12 +92,14 @@
             </div>
         </div>
     </nav>
+    </div>
 
 
 
 {% endblock navbar %}
-<body style="margin-top: 90px">
+<body style="margin-top: 100px">
 {% block body %}
+
 {% endblock body %}
 </body>
 </html>
