@@ -6,7 +6,6 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
-from django.contrib.auth.forms import UserCreationForm
 
 from accounts.models import CustomUser, DEFAULT_AVATAR
 from programmers.filters import ProgrammerFilter
@@ -14,14 +13,6 @@ from programmers.forms import ProgrammerCreationModelForm, RatingForm, AvatarUpl
 from programmers.models import ProgrammerProfile, Rating
 from programmers.services.cloudinary import configure_cloudinary, generate_random_string
 
-# def index(request):
-#     programmer_filter = ProgrammerFilter(request.GET, queryset=ProgrammerProfile.objects.all())
-#     context = {
-#         'form': ProgrammerFilter.form,
-#         'programmers': programmer_filter.qs,
-#     }
-#     print(context['form'])
-#     return render(request, 'programmers/programmers_list.html', context)
 
 class ProgrammerListView(ListView):
     creators_ids = [1, 2, 3]
