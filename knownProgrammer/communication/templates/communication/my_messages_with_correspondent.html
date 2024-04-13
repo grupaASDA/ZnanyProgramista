@@ -32,9 +32,9 @@
                 </div>
                 <div class="card-body">
                     <h6>Sent by me:</h6>
-                    {% if messages_sent_by_me %}
+                    {% if sent_by_me %}
                     <ul class="list-group">
-                        {% for message in messages_sent_by_me %}
+                        {% for message in sent_by_me %}
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-10">
@@ -51,9 +51,9 @@
                         <a style="color: #b00414">You haven't received any messages yet</a>
                     {% endif %}
                     <h6 class="mt-4">Sent to me:</h6>
-                    {% if messages_sent_to_me %}
+                    {% if sent_to_me %}
                     <ul class="list-group">
-                        {% for message in messages_sent_to_me %}
+                        {% for message in sent_to_me %}
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-10">
