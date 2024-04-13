@@ -31,77 +31,78 @@
                             {{ error }}
                         </div>
                     {% endif %}
+                    <div class="card-body">
+                        <form class="mb-4" action="/programmers/create" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="description" class="form-label fw-bold">Description:</label>
+                                        {{ form.description }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="experience" class="form-label fw-bold">Experience:</label>
+                                        {{ form.experience }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="programming_languages" class="form-label fw-bold">Programming
+                                            Languages:</label>
+                                        {{ form.programming_languages }}
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="tech_stack" class="form-label fw-bold">Tech stack:</label>
+                                        {{ form.tech_stack }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="wage" class="form-label fw-bold">Wage [PLN/H]:</label><br>
+                                        {{ form.wage }}
+                                    </div>
+                                </div>
 
-                    <form class="mb-4" action="/programmers/create" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="description" class="form-label">Description:</label>
-                                    {{ form.description }}
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="portfolio" class="form-label fw-bold">Portfolio:</label><br>
+                                        {{ form.portfolio }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="experience" class="form-label">Experience:</label>
-                                    {{ form.experience }}
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <span class="ratings"> *optional</span><br>
+                                        <label for="portfolio" class="form-label fw-bold">Phone:</label>
+                                        {{ form.phone }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="programming_languages" class="form-label">Programming Languages:</label>
-                                    {{ form.programming_languages }}
-                                </div>
+                            <br>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-outline-primary">Create Programmer's Profile
+                                </button>
                             </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="tech_stack" class="form-label">Tech stack:</label>
-                                    {{ form.tech_stack }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="wage_min" class="form-label">Wage [PLN/H]:</label>
-                                    {{ form.wage }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <label for="portfolio" class="form-label">Portfolio:</label>
-                                    {{ form.portfolio }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-4">
-                                    <span class="ratings"> *optional</span><br>
-                                    <label for="portfolio" class="form-label">Phone:</label>
-                                    {{ form.phone }}
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-outline-primary">Create Programmer's Profile</button>
-                        </div>
 
-                    </form>
-                    <div class="card-footer text-center">
-                        <div class="d-grid gap-2">
-                            <a href="{% url 'programmers_list' %}" class="btn btn-outline-secondary">Return to
-                                programmers list</a>
+                        </form>
+                        <div class="card-footer text-center">
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'programmers_list' %}" class="btn btn-outline-secondary">Return to
+                                    programmers list</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 {% endblock body %}

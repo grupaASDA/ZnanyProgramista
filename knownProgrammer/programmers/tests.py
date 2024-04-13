@@ -17,30 +17,35 @@ class ProgrammerProfileTests(TestCase):
     def setUp(self):
         # USERS
         self.user1 = User.objects.create(
+            id=1,
             email="admin333@admin.com",
             first_name="John",
             last_name="Doe",
             is_dev=True,
         )
         self.user2 = User.objects.create(
+            id=2,
             email="admin666@admin.com",
             first_name="Jane",
             last_name="Smith",
             is_dev=True,
         )
         self.user3 = User.objects.create(
+            id=3,
             email="admin999@admin.com",
             first_name="Mike",
             last_name="Black",
             is_dev=True,
         )
         self.user4 = User.objects.create(
+            id=4,
             email="admin123@admin.com",
             first_name="Tim",
             last_name="White",
             is_dev=True,
         )
         self.user5 = User.objects.create(
+            id=5,
             email="admin000@admin.com",
             first_name="Test",
             last_name="User",
@@ -56,6 +61,7 @@ class ProgrammerProfileTests(TestCase):
 
         # PROGRAMMERS
         self.programmer1 = ProgrammerProfile.objects.create(
+            id=1,
             wage=70,
             description="Lorem asperiores cumque deleniti dolorem excepturi, quos repellendus sint, suscipit tempora temporibus vero! Iure, laboriosam.",
             experience="Mid",
@@ -66,6 +72,7 @@ class ProgrammerProfileTests(TestCase):
             user_id_id=1,
         )
         self.programmer2 = ProgrammerProfile.objects.create(
+            id=2,
             wage=100,
             description="Lorem asperiores cumque deleniti dolorem excepturi vero! Iure, laboriosam.",
             experience="Senior",
@@ -76,6 +83,7 @@ class ProgrammerProfileTests(TestCase):
             user_id_id=2,
         )
         self.programmer3 = ProgrammerProfile.objects.create(
+            id=3,
             wage=40,
             description="Iure, laboriosam.",
             experience="Junior",
@@ -86,6 +94,7 @@ class ProgrammerProfileTests(TestCase):
             user_id_id=3,
         )
         self.programmer4 = ProgrammerProfile.objects.create(
+            id=4,
             wage=60,
             description="Iure,asperiores cumque deleniti dolorem laboriosam.",
             experience="Mid",
@@ -205,10 +214,140 @@ class ProgrammerProfileTests(TestCase):
         self.assertEqual(response.status_code, expected_status_code)
         self.assertEqual(expected_programmers_count, programmers_count)
 
-    def test_list_view_displays_proper_amount_of_programmers(self):
-        response = self.client.get(self.programmer_list_url)
-        response_programmers = response.context["programmers"].order_by("id")
-        expected_programmers = ProgrammerProfile.objects.all().order_by("id")
+    def test_create_programmer_when_exists(self):
+        self.client.force_login(user=self.user4)
+        expected_programmers_count = 4
+        expected_status_code = 403
+        response = self.client.post(self.programmer_create_url, data=self.programmer_data)
+        programmers_count = ProgrammerProfile.objects.count()
+        self.assertEqual(response.status_code, expected_status_code)
+        self.assertEqual(expected_programmers_count, programmers_count)
 
-        self.assertQuerysetEqual(expected_programmers, response_programmers)
+    def test_list_view_displays_proper_amount_of_programmers(self):
+        logged_in_user = self.user4
+        self.client.force_login(user=logged_in_user)
+        response = self.client.get(self.programmer_list_url)
+        response_programmers = response.context["programmers"]
+        expected_programmers = ProgrammerProfile.objects.exclude(user_id=logged_in_user.id)
+        self.assertQuerysetEqual(expected_programmers, response_programmers, ordered=False)
         self.assertEqual(response.status_code, 200)
+
+    def test_display_programmer_when_logged_in(self):
+        self.client.force_login(user=self.user5)
+
+        id_to_get = self.user4.id
+        programmer_profile_url = reverse('programmer_detail', kwargs={'id': id_to_get})
+        response = self.client.get(programmer_profile_url)
+
+        expected_programmer = ProgrammerProfile.objects.get(user_id=id_to_get)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "programmers/programmer_detail.html")
+        self.assertEqual(expected_programmer.user_id_id, response.context['programmer'].user_id_id)
+        self.assertEqual(expected_programmer.user_id.first_name, response.context['programmer'].user_id.first_name)
+        self.assertEqual(expected_programmer.user_id.last_name, response.context['programmer'].user_id.last_name)
+        self.assertEqual(expected_programmer.user_id.email, response.context['programmer'].user_id.email)
+        self.assertEqual(expected_programmer.description, response.context['programmer'].description)
+        self.assertEqual(expected_programmer.wage, response.context['programmer'].wage)
+        self.assertEqual(expected_programmer.experience, response.context['programmer'].experience)
+        self.assertEqual(expected_programmer.portfolio, response.context['programmer'].portfolio)
+        self.assertEqual(expected_programmer.programming_languages,
+                         response.context['programmer'].programming_languages)
+        self.assertEqual(expected_programmer.tech_stack, response.context['programmer'].tech_stack)
+        self.assertEqual(expected_programmer.phone, response.context['programmer'].phone)
+
+    def test_display_programmer_when_logged_out(self):
+        self.client.logout()
+        id_to_get = self.user4.id
+        programmer_profile_url = reverse('programmer_detail', kwargs={'id': id_to_get})
+        response = self.client.get(programmer_profile_url, follow=True)
+
+        self.assertRedirects(response, "/accounts/login/?next=/programmers/detail/4")
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_programmer_when_valid_data_given(self):
+        edited_user = self.user4
+        self.client.force_login(user=edited_user)
+
+        id_programmer_to_edit = ProgrammerProfile.get_profile_by_user_id(edited_user.id).id
+        edit_programmer_profile_url = reverse('programmer_update_model_form',
+                                              kwargs={'id': id_programmer_to_edit}
+                                              )
+        response = self.client.get(edit_programmer_profile_url, data=self.programmer_data)
+
+        expected_programmer = ProgrammerProfile.objects.get(user_id=id_programmer_to_edit)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "programmers/programmer_update_model_form.html")
+        self.assertEqual(expected_programmer.user_id_id, response.context['programmer'].user_id_id)
+        self.assertEqual(expected_programmer.user_id.first_name, response.context['programmer'].user_id.first_name)
+        self.assertEqual(expected_programmer.user_id.last_name, response.context['programmer'].user_id.last_name)
+        self.assertEqual(expected_programmer.user_id.email, response.context['programmer'].user_id.email)
+        self.assertEqual(expected_programmer.description, response.context['programmer'].description)
+        self.assertEqual(expected_programmer.wage, response.context['programmer'].wage)
+        self.assertEqual(expected_programmer.experience, response.context['programmer'].experience)
+        self.assertEqual(expected_programmer.portfolio, response.context['programmer'].portfolio)
+        self.assertEqual(expected_programmer.programming_languages,
+                         response.context['programmer'].programming_languages)
+        self.assertEqual(expected_programmer.tech_stack, response.context['programmer'].tech_stack)
+        self.assertEqual(expected_programmer.phone, response.context['programmer'].phone)
+
+    def test_edit_programmer_when_valid_data_given_but_without_permission_given(self):
+        edited_user = self.user4
+
+        id_programmer_to_edit = ProgrammerProfile.get_profile_by_user_id(edited_user.id).id
+        edit_programmer_profile_url = reverse('programmer_update_model_form',
+                                              kwargs={'id': id_programmer_to_edit}
+                                              )
+        response = self.client.get(edit_programmer_profile_url, data=self.programmer_data)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_edit_programmer_when_invalid_data_given(self):
+        edited_user = self.user4
+        self.client.force_login(user=edited_user)
+
+        id_programmer_to_edit = ProgrammerProfile.get_profile_by_user_id(edited_user.id).id
+        edit_programmer_profile_url = reverse('programmer_update_model_form',
+                                              kwargs={'id': id_programmer_to_edit}
+                                              )
+        invalid_data = self.programmer_data
+        invalid_data['experience'] = "Super Senior"
+
+        response = self.client.get(edit_programmer_profile_url, data=invalid_data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.context['programmer'].experience, "Super Senior")
+
+    def test_delete_programmer_profile_with_permission_given(self):
+        deleted_programmer = self.user4
+        self.client.force_login(user=deleted_programmer)
+        no_of_programmers_before_delete = ProgrammerProfile.objects.count()
+
+        id_programmer_to_delete = ProgrammerProfile.get_profile_by_user_id(deleted_programmer.id).id
+
+        delete_programmer_profile_url = reverse('programmer_delete_confirm',
+                                                kwargs={'id': id_programmer_to_delete}
+                                                )
+        response = self.client.post(delete_programmer_profile_url)
+
+        no_of_programmers_after_delete = ProgrammerProfile.objects.count()
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(no_of_programmers_before_delete, no_of_programmers_after_delete + 1)
+
+    def test_delete_programmer_profile_without_permission_given(self):
+        deleted_programmer = self.user4
+        no_of_programmers_before_delete = ProgrammerProfile.objects.count()
+
+        id_programmer_to_delete = ProgrammerProfile.get_profile_by_user_id(deleted_programmer.id).id
+
+        delete_programmer_profile_url = reverse('programmer_delete_confirm',
+                                                kwargs={'id': id_programmer_to_delete}
+                                                )
+        response = self.client.post(delete_programmer_profile_url)
+
+        no_of_programmers_after_delete = ProgrammerProfile.objects.count()
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(no_of_programmers_before_delete, no_of_programmers_after_delete)

@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
+from django.contrib.auth.forms import UserCreationForm
 
 from accounts.models import CustomUser, DEFAULT_AVATAR
 from programmers.filters import ProgrammerFilter
@@ -12,31 +14,54 @@ from programmers.forms import ProgrammerCreationModelForm, RatingForm, AvatarUpl
 from programmers.models import ProgrammerProfile, Rating
 from programmers.services.cloudinary import configure_cloudinary, generate_random_string
 
+# def index(request):
+#     programmer_filter = ProgrammerFilter(request.GET, queryset=ProgrammerProfile.objects.all())
+#     context = {
+#         'form': ProgrammerFilter.form,
+#         'programmers': programmer_filter.qs,
+#     }
+#     print(context['form'])
+#     return render(request, 'programmers/programmers_list.html', context)
 
-def programmers_list(request):
+class ProgrammerListView(ListView):
     creators_ids = [1, 2, 3]
-    filtered_programmers = ProgrammerFilter(request.GET,
-                                            queryset=ProgrammerProfile.objects.exclude(user_id=request.user.id))
+    queryset = ProgrammerProfile.objects.all()
+    template_name = 'programmers/programmers_list.html'
+    context_object_name = 'programmers'
 
-    if filtered_programmers:
-        active_programmers = filtered_programmers.qs
-    else:
-        active_programmers = ProgrammerProfile.objects.exclude(user_id=request.user.id)
+    def get_queryset(self):
+        queryset = ProgrammerFilter(self.request.GET, queryset=self.queryset).qs
 
-    for programmer in active_programmers:
-        programmer.average_rating = programmer.average_rating()
-        programmer.count = programmer.ratings_count()
-    ctx = {
-        "programmers": active_programmers,
-        'form': filtered_programmers.form,
-        "creators": creators_ids,
-    }
+        return queryset
 
-    return render(
-        request,
-        template_name="programmers/programmers_list.html",
-        context=ctx,
-    )
+    def get_context_data(self, **kwargs):
+        filters = self.request.GET
+        context = super().get_context_data(**kwargs)
+        context['form'] = ProgrammerFilter.form
+        context['creators'] = self.creators_ids
+        # context['filters'] = filters
+        print(filters)
+        if 'experience' in self.request.GET:
+            context['experience'] = self.request.GET['experience']
+
+        if 'programming_languages__contains' in self.request.GET:
+            context['programming_languages'] = self.request.GET['programming_languages__contains']
+
+        if 'tech_stack__contains' in self.request.GET:
+            context['tech_stack'] = self.request.GET['tech_stack__contains']
+
+        if 'wage_min' in self.request.GET:
+            context['wage_min'] = self.request.GET['wage_min']
+
+        if 'wage_max' in self.request.GET:
+            context['wage_max'] = self.request.GET['wage_max']
+            print(context['wage_max'])
+        if 'first_name' in self.request.GET:
+            context['first_name'] = self.request.GET['first_name']
+
+        if 'last_name' in self.request.GET:
+            context['last_name'] = self.request.GET['last_name']
+        return context
 
 
 @login_required(login_url="/accounts/login/")
@@ -77,7 +102,6 @@ def programmer_create_form(request):
     user_id = request.user.id
     programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=user_id).exists()
     if programmer_profile_exists:
-        print("Exists")
         return HttpResponseForbidden("You have already created a programmer account")
     form = ProgrammerCreationModelForm(request.POST or None)
     if request.method == 'GET':
