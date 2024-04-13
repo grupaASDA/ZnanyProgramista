@@ -61,19 +61,26 @@
                     <div class="card mb-12">
                         <div class="card-body">
                             <h5 class="card-title">Delete Programmer</h5>
-                            <p>Do you want to
-                                delete {{ programmer.user_id.first_name }} {{ programmer.user_id.last_name }}?</p>
+                            <p>Do you want to delete programmer profile?</p>
+
                             <form method="POST" action="{% url 'programmer_delete_confirm' programmer.id %}">
                                 {% csrf_token %}
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-outline-danger">Yes</button>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-outline-danger">Yes</button>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2">
+                                            <a href="{% url 'my_profile' user.id %}"
+                                               class="btn btn-outline-secondary btn-block">No</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
-                            <br>
-                            <div class="d-grid gap-2">
-                                <a href="{% url 'my_profile' user.id %}"
-                                   class="btn btn-outline-secondary btn-block">No</a>
-                            </div>
+
+
                         </div>
                     </div>
                 </div>

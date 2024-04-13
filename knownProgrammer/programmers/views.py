@@ -77,7 +77,6 @@ def programmer_create_form(request):
     user_id = request.user.id
     programmer_profile_exists = ProgrammerProfile.objects.filter(user_id=user_id).exists()
     if programmer_profile_exists:
-        print("Exists")
         return HttpResponseForbidden("You have already created a programmer account")
     form = ProgrammerCreationModelForm(request.POST or None)
     if request.method == 'GET':

@@ -24,47 +24,42 @@
                         <img src="{{ user.avatar }}" alt="User Avatar">
                         <h3>{{ user.first_name }} {{ user.last_name }}</h3>
                     </div>
-                    {% if user.is_dev == False %}
-                        <div class="card-body">
-                        <div class="mb-5">
-                            <span class="fw-bold">Email: </span>
-                            <a>{{ user.email }}</a>
-                        </div>
-                    {% endif %}
-                    </div>
-                    {% if user.is_dev == True %}
-                        <div class="card-body">
-                        <div class="mb-5 mt-3">
-                            {{ programmer.description }}
-                        </div>
-                        <div class="mb-3">
-                            <span class="fw-bold">Experience:</span>
-                            <h4 class="fw-bold {% if programmer.experience == 'Junior' %}junior{% elif programmer.experience == 'Mid' %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
-                        </div>
-                        <div class="technologies mb-3">
-                            <span class="fw-bold">Programming Languages:</span>
-                            {% for language in programmer.programming_languages %}
-                                <span class="badge bg-success ms-2">{{ language }}</span>
-                            {% empty %}
-                                <span class="fw-italic">No languages listed</span>
-                            {% endfor %}
-                        </div>
-                        <div class="technologies mb-3">
-                            <span class="fw-bold">Tech stack:</span>
-                            {% for framework in programmer.tech_stack %}
-                                <span class="badge bg-secondary ms-2">{{ framework }}</span>
-                            {% empty %}
-                                <span class="fw-italic">No Tech stack listed</span>
-                            {% endfor %}
-                        </div>
-                        <div class="mb-3">
-                            <span class="fw-bold">Wage [PLN/H]:</span> {{ programmer.wage }}
-                        </div>
 
-                        <div class="mb-3">
-                            <span class="fw-bold">Portfolio:</span> <a
-                                href="{{ programmer.portfolio }}">{{ programmer.portfolio }}</a>
-                        </div>
+
+                    <div class="card-body">
+                        {% if user.is_dev == True %}
+                            <div class="mb-5 mt-3">
+                                {{ programmer.description }}
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Experience:</span>
+                                <h4 class="fw-bold {% if programmer.experience == 'Junior' %}junior{% elif programmer.experience == 'Mid' %}mid{% else %}senior{% endif %}">{{ programmer.experience }}</h4>
+                            </div>
+                            <div class="technologies mb-3">
+                                <span class="fw-bold">Programming Languages:</span>
+                                {% for language in programmer.programming_languages %}
+                                    <span class="badge bg-success ms-2">{{ language }}</span>
+                                {% empty %}
+                                    <span class="fw-italic">No languages listed</span>
+                                {% endfor %}
+                            </div>
+                            <div class="technologies mb-3">
+                                <span class="fw-bold">Tech stack:</span>
+                                {% for framework in programmer.tech_stack %}
+                                    <span class="badge bg-secondary ms-2">{{ framework }}</span>
+                                {% empty %}
+                                    <span class="fw-italic">No Tech stack listed</span>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Wage [PLN/H]:</span> {{ programmer.wage }}
+                            </div>
+
+                            <div class="mb-3">
+                                <span class="fw-bold">Portfolio:</span> <a
+                                    href="{{ programmer.portfolio }}">{{ programmer.portfolio }}</a>
+                            </div>
+                        {% endif %}
                         {% if programmer.phone != None %}
                             <div class="mb-3">
                                 <span class="fw-bold">Phone: </span>
@@ -75,28 +70,45 @@
                             <span class="fw-bold">Email: </span>
                             <a>{{ programmer.user_id.email }}</a>
                         </div>
-                    {% endif %}
-                    <div class="mb-4 text-center">
-                        <div class="d-grid gap-2">
-                            <a href="{% url 'upload_avatar' user.id %}" class="btn btn-outline-info">Upload
-                                new avatar</a>
-                            <a href="{% url 'update_user' user.id %}"
-                               class="btn btn-outline-success">Edit user profile</a>
-                            {% if user.is_dev == True %}
-                                <a href="{% url 'programmer_update_model_form' programmer.id %}"
-                                   class="btn btn-outline-warning">Edit programmer profile</a>
-                                <a href="{% url 'programmer_delete_confirm' programmer.id %}"
-                                   class="btn btn-outline-danger">Delete programmer profile</a>
-                                <a href="{% url 'messages_person_list'%}"
+
+                        <div class="card-footer text-center">
+                            <div class="row">
+
+                                <div class="col">
+                                    <div class="d-grid gap-2">
+                                        <a href="{% url 'update_user' user.id %}" class="btn btn-outline-success">Edit
+                                            user
+                                            profile</a>
+                                        {% if user.is_dev == True %}
+                                            <a href="{% url 'programmer_update_model_form' programmer.id %}"
+                                               class="btn btn-outline-warning">Edit programmer profile</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    {% if user.is_dev == True %}
+                                        <div class="d-grid gap-2">
+                                            <a href="{% url 'upload_avatar' user.id %}" class="btn btn-outline-info">Upload
+                                                new
+                                                avatar</a>
+                                            {% if user.is_dev == True %}
+                                                <a href="{% url 'programmer_delete_confirm' programmer.id %}"
+                                                   class="btn btn-outline-danger">Delete programmer profile</a>
+                                           <a href="{% url 'messages_person_list'%}"
                                    class="btn btn-outline-dark">Messages history</a>
-                            {% else %}
-                                <a href="{% url 'programmer_create_form' %}"
-                                   class="btn btn-outline-dark">Create programmer profile</a>
-                                <a href="{% url 'messages_person_list'%}"
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <div class="d-grid gap-2">
+                                            <a href="{% url 'programmer_create_form' %}" class="btn btn-outline-dark">Create
+                                                programmer profile</a>
+                                          <a href="{% url 'messages_person_list'%}"
                                    class="btn btn-outline-warning">Messages history</a>
-                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
