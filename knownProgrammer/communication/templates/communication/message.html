@@ -39,7 +39,7 @@
                 <a href="{% url 'replay' message.id %}" class="btn btn-outline-primary mt-3 btn-block">Reply</a>
                 {% elif request.user.id == message.sent_by.id %}
                 <a href="{% url 'messages_with_list' message.sent_to.id %}" class="btn btn-outline-secondary mt-3">Return</a>
-                <a href="{% url 'send_message' message.sent_to.id %}" class="btn btn-outline-primary mt-3 btn-block">Send next message</a>
+                <a href="{% url 'replay' message.id %}" class="btn btn-outline-primary mt-3 btn-block">Send next message</a>
                 {% endif %}
             </div>
         </div>

@@ -56,13 +56,19 @@ def replay_message_view(request, id):
     message_exists = Message.objects.filter(id=id).exists()
     if not message_exists:
         raise PermissionDenied("Message not found")
-    if not user_profile_exists:
+    elif not user_profile_exists:
         raise PermissionDenied("User not found")
     elif request.user.id == id:
         raise PermissionDenied("You can't send message to yourself")
-    user_id = request.user.id
-    sent_by_user = get_object_or_404(CustomUser, id=user_id)
-    sent_to_user = get_object_or_404(CustomUser, id=previous_message.sent_by.id)
+    elif request.user.id != previous_message.sent_by.id and request.user.id != previous_message.sent_to.id:
+        raise PermissionDenied("You have not permission to replay on this messages")
+    user_session_id = request.user.id
+    if user_session_id == previous_message.sent_by.id:
+        sent_by_user = get_object_or_404(CustomUser, id=user_session_id)
+        sent_to_user = get_object_or_404(CustomUser, id=previous_message.sent_to.id)
+    else:
+        sent_by_user = get_object_or_404(CustomUser, id=user_session_id)
+        sent_to_user = get_object_or_404(CustomUser, id=previous_message.sent_by.id)
     form = MessageCreationModelForm
     previous_page = request.META.get('HTTP_REFERER')
     if request.method == "GET":
