@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.urls import reverse_lazy
+from datetime import datetime
 
 from accounts.models import CustomUser
 from communication.forms import MessageCreationModelForm
@@ -118,8 +119,8 @@ def my_messages_person_list_view(request):
 @login_required(login_url=login_redirect)
 def my_messages_with_user_view(request, id):
     user = get_object_or_404(CustomUser, id=id)
-    messages_sent_by_me = Message.objects.filter(sent_by=request.user.id, sent_to=id)
-    messages_sent_to_me = Message.objects.filter(sent_by=id, sent_to=request.user.id)
+    messages_sent_by_me = Message.objects.filter(sent_by=request.user.id, sent_to=id).order_by('-created_at')
+    messages_sent_to_me = Message.objects.filter(sent_by=id, sent_to=request.user.id).order_by('-created_at')
     if request.method == 'GET':
         ctx = {
             'user': user,
