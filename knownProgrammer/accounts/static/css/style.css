@@ -1,17 +1,23 @@
-{
-%
-load
-static
-%
+{% load static %}
+
+.around-navbar {
+    height: 100px;
+    background-color: #666666;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 .navbar {
     background-color: #3D3D3D;
-    height: 60px;
-    margin: 20px;
+    height: 80px;
+    margin: 10px;
     border-radius: 16px;
     padding: 0.5rem;
 }
+
 
 
 .navbar-brand {
@@ -39,7 +45,6 @@ static
     border: none;
     font-size: 1.25rem;
 }
-
 .navbar-toggler:focus, .btn-close:focus {
     box-shadow: none;
     outline: none;
@@ -57,6 +62,16 @@ static
     color: #000;
 }
 
+#unseen {
+    color: #3D3D3D;
+    text-decoration: none;
+    width: 145px;
+}
+#unseen1 {
+    color: #3D3D3D;
+    text-decoration: none;
+    width: 30px;
+}
 
 @media (min-width: 991px) {
     .nav-link:before {
@@ -73,8 +88,8 @@ static
     }
 
     .nav-link:hover::before, .nav-link:active::before {
-        width: 100%;
-        visibility: visible;
+    width: 100%;
+    visibility: visible;
     }
 }
 
@@ -88,19 +103,35 @@ static
     color: grey;
 }
 
-.star-active {
-    color: white;
-}
-
-.star-label {
-    display: inline-block;
-    font-size: 24px;
-    color: #FFD700;
-    margin-right: 5px;
-}
-
 .card-title {
     color: teal;
+}
+#hero-section{
+     background: url("../images/background.jpg") no-repeat center;
+     background-size: cover;
+    width: 100%;
+     }
+#hero-section::before {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#hero-section .container {
+    z-index: 1;
+    position: relative;
+}
+
+.hero-section h1 {
+    font-size: 1.5em;
+}
+
+.hero-section h2 {
+    font-size: 1.2em;
 }
 
 .card-creators {
@@ -131,32 +162,13 @@ static
     min-height: calc(100vh - 80px);
 }
 
-#hero-section {
-    background: url("../images/background.jpg") no-repeat center;
-    background-size: cover;
-    width: 100%;
+.star-active {
+    color: white;
 }
 
-#hero-section::before {
-    background-color: rgba(0, 0, 0, 0.6);
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-#hero-section .container {
-    height: 100vh;
-    z-index: 1;
-    position: relative;
-}
-
-.hero-section h1 {
-    font-size: 1.5em;
-}
-
-.hero-section h2 {
-    font-size: 1.2em;
+.star-label {
+    display: inline-block;
+    font-size: 24px;
+    color: #FFD700;
+    margin-right: 5px;
 }
