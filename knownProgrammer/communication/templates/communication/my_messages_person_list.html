@@ -2,6 +2,9 @@
 {% block title %}Contacts{% endblock title %}
 
 {% block body %}
+{% for message in messages %}
+    <li class="alert alert-info">{{ message }}</li>
+{% endfor %}
 <div class="container mt-4">
 
     <h2>Contacts who sent me messages:</h2>

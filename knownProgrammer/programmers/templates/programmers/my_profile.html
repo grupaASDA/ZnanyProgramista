@@ -82,18 +82,16 @@
                                 new avatar</a>
                             <a href="{% url 'update_user' user.id %}"
                                class="btn btn-outline-success">Edit user profile</a>
+                            <a href="{% url 'messages_person_list'%}"
+                                   class="btn btn-outline-dark">Messages history</a>
                             {% if user.is_dev == True %}
                                 <a href="{% url 'programmer_update_model_form' programmer.id %}"
                                    class="btn btn-outline-warning">Edit programmer profile</a>
                                 <a href="{% url 'programmer_delete_confirm' programmer.id %}"
                                    class="btn btn-outline-danger">Delete programmer profile</a>
-                                <a href="{% url 'messages_person_list'%}"
-                                   class="btn btn-outline-dark">Messages history</a>
                             {% else %}
                                 <a href="{% url 'programmer_create_form' %}"
-                                   class="btn btn-outline-dark">Create programmer profile</a>
-                                <a href="{% url 'messages_person_list'%}"
-                                   class="btn btn-outline-warning">Messages history</a>
+                                   class="btn btn-outline-warning">Create programmer profile</a>
                             {% endif %}
                         </div>
                     </div>
