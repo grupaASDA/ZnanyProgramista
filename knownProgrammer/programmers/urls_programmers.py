@@ -2,7 +2,7 @@ from django.urls import path
 
 from programmers.views import (
     programmer_detail,
-    programmers_list,
+    ProgrammerListView,
     programmer_create_form,
     programmer_update_model_form,
     programmer_delete_confirm,
@@ -13,7 +13,7 @@ from programmers.views import (
 )
 
 urlpatterns = [
-    path('list', programmers_list, name="programmers_list"),
+    path('list', ProgrammerListView.as_view(), name="programmers_list"),
     path('detail/<int:id>', programmer_detail, name="programmer_detail"),
     path('create', programmer_create_form, name="programmer_create_form"),
     path('update/<int:id>', programmer_update_model_form, name="programmer_update_model_form"),
