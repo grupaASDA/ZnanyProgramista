@@ -86,6 +86,7 @@
                             <div class="d-grid gap-2">
                                 <a href="{% url 'rate_programmer' programmer.id %}" class="btn btn-outline-warning">
                                     {% if rated %}Update rating {% else %} Rate {% endif %} </a>
+                                <a href="{% url 'send_message' programmer.id %}" class="btn btn-outline-dark">Send message</a>
                             </div>
 
                         {% endif %}

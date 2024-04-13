@@ -94,12 +94,16 @@
                                             {% if user.is_dev == True %}
                                                 <a href="{% url 'programmer_delete_confirm' programmer.id %}"
                                                    class="btn btn-outline-danger">Delete programmer profile</a>
+                                           <a href="{% url 'messages_person_list'%}"
+                                   class="btn btn-outline-dark">Messages history</a>
                                             {% endif %}
                                         </div>
                                     {% else %}
                                         <div class="d-grid gap-2">
                                             <a href="{% url 'programmer_create_form' %}" class="btn btn-outline-dark">Create
                                                 programmer profile</a>
+                                          <a href="{% url 'messages_person_list'%}"
+                                   class="btn btn-outline-warning">Messages history</a>
                                         </div>
                                     {% endif %}
                                 </div>

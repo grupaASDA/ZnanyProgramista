@@ -10,4 +10,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('programmers/', include('programmers.urls_programmers')),
     path('accounts/', include('accounts.urls_accounts')),
+    path('messages/', include('communication.urls_communication'))
 ]

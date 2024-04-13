@@ -1,0 +1,49 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Message{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card my-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Message Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Sent by:</h6>
+                            <img src="{{ message.sent_by.avatar }}" class="img-fluid rounded-circle" alt="Avatar" style="max-width: 50px; height: auto;">
+                            <p>{{ message.sent_by.first_name }} {{ message.sent_by.last_name }} ({{ message.sent_by.email }})</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Sent to:</h6>
+                            <img src="{{ message.sent_to.avatar }}" class="img-fluid rounded-circle" alt="Avatar" style="max-width: 50px; height: auto;">
+                            <p>{{ message.sent_to.first_name }} {{ message.sent_to.last_name }} ({{ message.sent_to.email }})</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Title:</h6>
+                    <p>{{ message.title }}</p>
+                    <h6>Content:</h6>
+                    <p>{{ message.contents }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                {% if request.user.id == message.sent_to.id %}
+                <a href="{% url 'messages_with_list' message.sent_by.id %}" class="btn btn-outline-secondary mt-3">Return</a>
+                <a href="{% url 'send_message' message.sent_by.id %}" class="btn btn-outline-primary mt-3 btn-block">Reply</a>
+                {% elif request.user.id == message.sent_by.id %}
+                <a href="{% url 'messages_with_list' message.sent_to.id %}" class="btn btn-outline-secondary mt-3">Return</a>
+                <a href="{% url 'send_message' message.sent_to.id %}" class="btn btn-outline-primary mt-3 btn-block">Send next message</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
