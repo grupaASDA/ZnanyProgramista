@@ -2,48 +2,35 @@
 {% block title %}Contacts{% endblock title %}
 
 {% block body %}
+{% for message in messages %}
+    <li class="alert alert-info">{{ message }}</li>
+{% endfor %}
 <div class="container mt-4">
-
-    <h2>Contacts who sent me messages:</h2>
+    <h2>My conversations:</h2>
     <div class="list-group">
-        {% if people_who_sent_message %}
-        {% for person in people_who_sent_message %}
-            <a href="{% url 'messages_with_list' person.id %}" class="list-group-item">
+    {% if contacts %}
+        {% for person in contacts %}
+            <a href="{% url 'messages_with_list' person.0.id  %}" class="list-group-item position-relative">
                 <div class="media">
-                    <img src="{{ person.avatar }}" class="mr-3 rounded-circle" alt="{{ person.first_name }} Avatar" style="width: 50px; height: 50px;">
+                    <img src="{{ person.0.avatar }}" class="mr-3 rounded-circle" alt="{{ person.0.first_name }} Avatar" style="width: 50px; height: 50px;">
                     <div class="media-body">
-                        <h5 class="mt-0 mb-1">{{ person.first_name }} {{ person.last_name }}</h5>
-                        <p class="mb-0">Email: {{ person.email }}</p>
+                        <h5 class="mt-0 mb-1">{{ person.0.first_name }} {{ person.0.last_name }}</h5>
+                        <p class="mb-0">Email: {{ person.0.email }}</p>
                     </div>
+                    {% if person.1 %}
+                    <div class="position-absolute top-0 end-0 p-2">
+                        <small class="text-muted">{{ person.1.created_at }}</small>
+                    </div>
+                    {% endif %}
                 </div>
             </a>
         {% endfor %}
-        {% else %}
-            <a style="color: #b00414">You haven't received any messages yet</a>
-        {% endif %}
-    </div>
-
-
-    <h2>Contacts I sent messages to:</h2>
-    <div class="list-group">
-    {% if people_i_sent_message %}
-        {% for person in people_i_sent_message %}
-            <a href="{% url 'messages_with_list' person.id  %}" class="list-group-item">
-                <div class="media">
-                    <img src="{{ person.avatar }}" class="mr-3 rounded-circle" alt="{{ person.first_name }} Avatar" style="width: 50px; height: 50px;">
-                    <div class="media-body">
-                        <h5 class="mt-0 mb-1">{{ person.first_name }} {{ person.last_name }}</h5>
-                        <p class="mb-0">Email: {{ person.email }}</p>
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
-        {% else %}
-            <a style="color: #b00414">You haven't sent any messages yet</a>
-        {% endif %}
+    {% else %}
+        <a style="color: #b00414">You haven't sent any messages yet</a>
+    {% endif %}
     </div>
     <div class="col-md-12">
-            <a href="{% url 'homepage' %}" class="btn btn-outline-secondary mt-3">Return to main page</a>
+        <a href="{% url 'homepage' %}" class="btn btn-outline-secondary mt-3">Return to main page</a>
     </div>
 </div>
 {% endblock body %}

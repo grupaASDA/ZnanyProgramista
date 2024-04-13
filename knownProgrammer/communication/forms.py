@@ -1,8 +1,8 @@
 from django import forms
 
-from communication.models import Communicate
+from communication.models import Message
 
-class CommunicationCreationModelForm(forms.ModelForm):
+class MessageCreationModelForm(forms.ModelForm):
     class Meta:
-        model = Communicate
-        fields = ['title', 'contents']
+        model = Message
+        fields = ['title', 'content']
