@@ -73,8 +73,6 @@ def replay_message_view(request, id):
         raise PermissionDenied("Message not found")
     elif not user_profile_exists:
         raise PermissionDenied("User not found")
-    elif request.user.id == id:
-        raise PermissionDenied("You can't send message to yourself")
     elif request.user.id != previous_message.sent_by.id and request.user.id != previous_message.sent_to.id:
         raise PermissionDenied("You have not permission to replay on this messages")
     user_session_id = request.user.id
