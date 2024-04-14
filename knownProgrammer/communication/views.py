@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from datetime import datetime
 
 from accounts.models import CustomUser
 from communication.forms import MessageCreationModelForm
@@ -11,11 +10,14 @@ from communication.models import Message
 
 login_redirect = reverse_lazy("login")
 
+
 # Create your views here.
 
 def get_last_message(user_id):
-    last_message_i_sent_date = Message.objects.filter(sent_by=user_id).order_by('-created_at').values('created_at').first()
-    last_message_i_get_date = Message.objects.filter(sent_to=user_id).order_by('-created_at').values('created_at').first()
+    last_message_i_sent_date = Message.objects.filter(sent_by=user_id).order_by('-created_at').values(
+        'created_at').first()
+    last_message_i_get_date = Message.objects.filter(sent_to=user_id).order_by('-created_at').values(
+        'created_at').first()
     last_message_i_sent = Message.objects.filter(sent_by=user_id).order_by('-created_at').first()
     last_message_i_get = Message.objects.filter(sent_to=user_id).order_by('-created_at').first()
     if last_message_i_sent_date and last_message_i_get_date:
@@ -26,6 +28,7 @@ def get_last_message(user_id):
         return last_message_i_sent
     elif last_message_i_get_date:
         return last_message_i_get
+
 
 @login_required(login_url=login_redirect)
 def send_message_view(request, id):
@@ -64,6 +67,7 @@ def send_message_view(request, id):
         }
         messages.error(request, ("Something went wrong"))
         return render(request, template_name="communication/send_message.html", context=ctx)
+
 
 def replay_message_view(request, id):
     previous_message = get_object_or_404(Message, id=id)
@@ -112,12 +116,14 @@ def replay_message_view(request, id):
         messages.error(request, ("Something went wrong"))
         return render(request, template_name="communication/replay_message.html", context=ctx)
 
+
 @login_required(login_url=login_redirect)
 def my_messages_people_list_view(request):
     recipients_ids = Message.objects.filter(sent_by=request.user.id).values('sent_to').distinct()
     senders_ids = Message.objects.filter(sent_to=request.user.id).values('sent_by').distinct()
 
-    recipients = {user_id['sent_to']: get_object_or_404(CustomUser, id=user_id['sent_to']) for user_id in recipients_ids}
+    recipients = {user_id['sent_to']: get_object_or_404(CustomUser, id=user_id['sent_to']) for user_id in
+                  recipients_ids}
     senders = {user_id['sent_by']: get_object_or_404(CustomUser, id=user_id['sent_by']) for user_id in senders_ids}
 
     contacts = []
@@ -134,13 +140,12 @@ def my_messages_people_list_view(request):
 
     contacts.sort(key=lambda x: x[1].created_at, reverse=True)
 
-
-
     if request.method == 'GET':
         ctx = {
             'contacts': contacts,
         }
-        return render(request, 'communication/my_messages_person_list.html', context=ctx)
+        return render(request, 'communication/my_messages_people_list.html', context=ctx)
+
 
 @login_required(login_url=login_redirect)
 def my_messages_with_correspondent_view(request, id):
@@ -156,6 +161,7 @@ def my_messages_with_correspondent_view(request, id):
         }
         return render(request, 'communication/my_messages_with_correspondent.html', context=ctx)
 
+
 @login_required(login_url=login_redirect)
 def message_view(request, id):
     message = get_object_or_404(Message, id=id)
@@ -166,17 +172,3 @@ def message_view(request, id):
             'message': message,
         }
         return render(request, 'communication/message.html', context=ctx)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
