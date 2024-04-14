@@ -1,6 +1,21 @@
 # 💻 KnownProgrammer
 
-Welcome to KnownProgrammer - a Django group project made by: Jakub Połeć, Krystian Tworek and Oktawian Czakiert.
+### Welcome to KnownProgrammer - a Django group project made by:
+
+#### - Jakub Połeć
+
+[![GitHub](/README_images/GitHub.png)](https://github.com/jpol1)
+
+#### - Krystian Tworek
+
+[![GitHub](/README_images/GitHub.png)](https://github.com/XDKrystian)
+[![LinkedIn](/README_images/LinkedIn.png)](https://linkedin.com/in/krystiantworek)
+
+#### - Oktawian Czakiert
+
+[![GitHub](/README_images/GitHub.png)](https://github.com/OktawianCzakiert)
+[![LinkedIn](/README_images/LinkedIn.png)](https://www.linkedin.com/in/oktawianczakiert/)
+
 
 ---
 
