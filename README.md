@@ -4,7 +4,7 @@ Welcome to KnownProgrammer - a Django group project made by: Jakub Połeć, Krys
 
 ---
 
-## 🌟 Introduction
+## 🎉 1. Introduction
 
 Looking for talented programmers? Look no further!  
 KnownProgrammer is your one-stop solution for finding programmers
@@ -13,7 +13,7 @@ frameworks, ratings, and wage.
 
 ---
 
-## 🔧 Technologies we use
+## 🕹 2. Technologies we use
 
 - 🐍 Python
 - 🚀 Django
@@ -22,7 +22,7 @@ frameworks, ratings, and wage.
 
 ---
 
-## 🔐 Registration and Authentication
+## 🔐 3. Registration and Authentication
 
 KnownProgrammer ensures secure registration and authentication processes for all users.  
 During the registration process, users are required to confirm their email address by clicking on the activation link
@@ -31,7 +31,7 @@ All passwords are hashed.
 
 ---
 
-## 💪 Features
+## 🔑 4. Key Features
 
 - Search for programmers based on their experience level: junior, mid, or senior.
 - Filter programmers by programming languages and frameworks they're proficient in.
@@ -43,16 +43,12 @@ All passwords are hashed.
 
 ---
 
-## 🛠️ KnownProgrammer Application Setup Guide
+## 🧾 5. Setup
 
 This guide will walk you through the steps required to set up and run the KnownProgrammer application.  
 You can choose to set up the application manually or use Docker for containerization.
 
----
-
-## 📝 Setup
-
-### Prerequisites
+### 5.1. Prerequisites
 
 Before you begin, make sure you have the following installed on your system:
 
@@ -62,7 +58,7 @@ Before you begin, make sure you have the following installed on your system:
 - Docker (for Docker setup)
 - You should be acquainted with these websites: docker.com, cloudinary.com.
 
-#### Clone the Repository
+### 5.2. Clone the Repository
 
 Clone the KnownProgrammer repository to your local machine using the following command:
 
@@ -70,7 +66,7 @@ Clone the KnownProgrammer repository to your local machine using the following c
 git clone https://github.com/grupaASDA/ZnanyProgramista`
 ```
 
-#### Set Up Environment Variables
+### 5.3. Set Up Environment Variables
 
 You need to set up environment variables for the Django settings, Cloudinary API, and email service. This can be
 done by creating a `.env` file in the root directory of the project (the same as we created envtemplate.txt) and
@@ -113,9 +109,9 @@ Link to template: [envtemplate.txt](knownProgrammer/knownProgrammer/envtemplate.
 > ⚠️
 > Ensure to keep your `.env` file secure and never commit it to the repository to protect sensitive information.
 
-## Now you have two convenient options:
+### 5.4. Now you have two convenient options and one manual:
 
-### 🐳 1. Docker Setup
+### 🐳 5.4.1. Docker Setup
 
 #### Build the Docker Image and run the Container
 
@@ -131,7 +127,10 @@ and `docker-compose.yaml`.
 Runs all commands to create database and populate it with data contained in `initial_db.json` fixture.  
 Once the image is built, it will run automatically, making the application accessible at `http://0.0.0.0:8000/`.
 
-### 🤚 2. Using Makefile
+### Ⓜ️ 5.4.2. Using Makefile
+
+If you are working on Linux or MacOs you have already installed `make`,  
+but if you are working on Windows you have to install it first or use manual option (see point 5.4.3).
 
 Ensure that you are in `/ZnanyProgramista/knownProgrammer` directory before runing below command.
 
@@ -144,7 +143,36 @@ make all
 
 The application will be accessible at `http://localhost:8000`
 
-### Conclusion
+### 🤚 5.4.3. By hand
+
+#### Install Dependencies
+
+Navigate to the cloned repository's directory and install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+
+```
+
+#### Create database and populate it with fixture
+
+Ensure that you are in `/ZnanyProgramista/knownProgrammer` directory before runing below commands:
+
+```bash
+python manage.py makemigrations accounts communication programmers
+python manage.py migrate
+python manage.py loaddata initial_db.json
+```
+
+#### Run the Application
+
+```bash
+python manage.py runserver
+```
+
+The application will be accessible at `http://localhost:8000`
+
+### 5.5. Conclusion
 
 You can now access the KnownProgrammer application either through your local setup at
 `http://localhost:8000` or through Docker at `http://0.0.0.0:8000/`.  
@@ -152,7 +180,7 @@ Enjoy using our service!
 
 ---
 
-## 💡 Usage
+## 💡 6. Usage
 
 - Register an account and confirm your e-mail to get full functionality access.
 - Explore programmers site, rate them, contact them.
@@ -165,21 +193,20 @@ Enjoy using our service!
 
 ---
 
-## 🤝 Contributing
+## 🤝 7. Contributing
 
-Contributions are welcome! Please follow the Commonly Recognized Contribution Guidelines 😺
+Contributions are welcome! Please follow the Commonly Recognized
+Contribution Guidelines
 
 ---
 
-## 📄 License
+## 📄 8. License
 
 This project is licensed under the MIT License.
 
-Thank you for choosing KnownProgrammer! 🚀
-
 ---
 
-## 🧪 Testing
+## 🔬 9. Testing
 
 ```bash
 Name                                                                             Stmts   Miss  Cover
@@ -240,12 +267,11 @@ programmers/urls_programmers.py                                                 
 programmers/views.py                                                               198    107    46%
 ----------------------------------------------------------------------------------------------------
 TOTAL                                                                              892    285    68%
-
 ```
 
 ---
 
-## 📁 Project Structure
+## 📁 10. Project Structure
 
 ```bash
 ZnanyProgramista
@@ -340,4 +366,9 @@ ZnanyProgramista
 
 ```
 
+---
+
+Thank you for choosing KnownProgrammer! 🚀  
 We highly invite you to test it!
+
+---
