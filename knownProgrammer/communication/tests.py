@@ -11,7 +11,6 @@ class MessagesTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.contacts_list_url = reverse('messages_person_list')
-        cls.user_create_url = reverse('register')
 
     def setUp(self):
         self.user1 = User.objects.create(
@@ -72,7 +71,7 @@ class MessagesTests(TestCase):
             sent_to = self.user1,
             title = "Title 1",
             content = "Content 1",
-            created_at = datetime.now(),
+            created_at = datetime(2010, 1, 1, 11, 40),
         )
         self.message2 = Message.objects.create(
             id=2,
@@ -80,7 +79,7 @@ class MessagesTests(TestCase):
             sent_to=self.user2,
             title="Title 2",
             content="Content 2",
-            created_at=datetime.now(),
+            created_at=datetime(2011, 7, 12, 11, 30),
         )
         self.message3 = Message.objects.create(
             id=3,
@@ -88,7 +87,7 @@ class MessagesTests(TestCase):
             sent_to=self.user2,
             title="Title 3",
             content="Content 3",
-            created_at=datetime.now(),
+            created_at=datetime(2012, 11, 11, 11, 30),
         )
         self.message4 = Message.objects.create(
             id=4,
@@ -96,7 +95,7 @@ class MessagesTests(TestCase):
             sent_to=self.user1,
             title="Re: Title 4",
             content="Content 4",
-            created_at=datetime.now(),
+            created_at=datetime(2013, 1, 13, 11, 30),
         )
 
         self.message5_replay = Message.objects.create(
@@ -105,7 +104,7 @@ class MessagesTests(TestCase):
         sent_to = self.user3,
         title = "Re: Title 1",
         content = "Content 5",
-        created_at = datetime.now(),
+        created_at = datetime(2014, 1, 14, 15, 30),
         )
 
         self.message6_replay = Message.objects.create(
@@ -114,7 +113,7 @@ class MessagesTests(TestCase):
             sent_to=self.user4,
             title="Re: Title 2",
             content="Content 6",
-            created_at=datetime.now(),
+            created_at=datetime(2015, 1, 14, 15, 50),
         )
 
         self.message7_sent_again = Message.objects.create(
@@ -123,7 +122,7 @@ class MessagesTests(TestCase):
             sent_to=self.user2,
             title="Re: Title 2",
             content="Content 7",
-            created_at=datetime.now(),
+            created_at=datetime(2016, 1, 15, 11, 30),
         )
 
         self.message8_sent_again = Message.objects.create(
@@ -132,7 +131,7 @@ class MessagesTests(TestCase):
             sent_to=self.user2,
             title="Re: Title 2",
             content="Content 8",
-            created_at=datetime.now(),
+            created_at=datetime(2017, 3, 14, 11, 30),
         )
         self.message9 = Message.objects.create(
             id=9,
@@ -140,7 +139,7 @@ class MessagesTests(TestCase):
             sent_to=self.user4,
             title="Title 9",
             content="Content 9",
-            created_at=datetime.now(),
+            created_at=datetime(2018, 4, 12, 11, 30),
         )
 
         self.message_data1 = dict(
@@ -162,7 +161,6 @@ class MessagesTests(TestCase):
             title="Re: Title 1",
             content="Content 5",
         )
-
     def test_set_up(self):
         users_count = User.objects.count()
         programmers_count = ProgrammerProfile.objects.count()
@@ -308,7 +306,30 @@ class MessagesTests(TestCase):
         self.assertEqual(response.status_code, expected_status_code)
         self.assertTemplateUsed("communication/replay_message.html")
         self.assertEqual(expected_message_count, messages_count)
-        
+
+    # def test_messages_people_list(self):
+    #     self.client.force_login(user=self.user2)
+    #     response = self.client.get(self.contacts_list_url)
+    #     response_contacts = response.context["contacts"]
+    #     expected_contacts = [[self.user4, self.message9], [self.user3, self.message3]]
+    #     expected_contacts.sort(key=lambda x: x[1], reverse=True)
+    #     self.assertEqual(expected_contacts, response_contacts)
+    #
+    # def test_my_messages_with_correspondent_view(self):
+    #     self.client.force_login(user=self.user2)
+    #     response = self.client.get(self.contacts_list_url)
+    #     response_sent_by_me = [message for message in response.context["sent_by_me"]]
+    #     response_sent_to_me = [message for message in response.context["sent_to_me"]]
+    #
+    #     user = response.context["user"]
+    #
+    #     expected_user = self.user2
+    #     expected_sent_by_me =[self.message6_replay, self.message9]
+    #     expected_sent_to_me = [self.message8_sent_again, self.message7_sent_again, self.message3, self.message2]
+    #
+    #     self.assertEqual(response_sent_by_me, expected_sent_by_me)
+    #     self.assertEqual(response_sent_to_me, expected_sent_to_me)
+    #     self.assertEqual(user, expected_user)
 
 
 
