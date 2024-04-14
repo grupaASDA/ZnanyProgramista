@@ -257,7 +257,7 @@ class MessagesTests(TestCase):
         message_i_respond_on = self.message1
         replay_to_send = self.message_respond_1
         expected_message_count = 9
-        expected_status_code = 302
+        expected_status_code = 403
         send_replay_url = reverse('replay', kwargs={'id': message_i_respond_on.id})
         response = self.client.post(send_replay_url, data=replay_to_send)
         messages_count = Message.objects.count()
