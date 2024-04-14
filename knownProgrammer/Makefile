@@ -14,3 +14,7 @@ load_data:
 
 runserver:
 	python manage.py runserver
+
+coverage:
+	coverage run --source='.' manage.py test
+	coverage report -m
