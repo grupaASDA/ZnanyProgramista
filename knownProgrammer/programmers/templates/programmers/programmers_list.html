@@ -29,7 +29,7 @@
                             <div class="col">
                                 <label for="id_experience" class="form-label">Experience:</label>
                                 <select name="experience" id="id_experience" class="form-select">
-                                   <option value="{{ experience }}" selected>{{ experience }}</option>
+                                    <option value="{{ experience }}" selected>{{ experience }}</option>
                                     <option value="Mid">Mid</option>
                                     <option value="Junior">Junior</option>
                                     <option value="Senior">Senior</option>
@@ -40,7 +40,8 @@
                                     languages:</label>
                                 <select name="programming_languages__contains" id="id_programming_languages__contains"
                                         class="form-select">
-                                    <option value="{{ programming_languages }}" selected>{{ programming_languages }}</option>
+                                    <option value="{{ programming_languages }}"
+                                            selected>{{ programming_languages }}</option>
                                     <option value="JavaScript">JavaScript</option>
 
                                     <option value="Python">Python</option>
@@ -106,26 +107,37 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label class="form-label">Wage:</label>
-                               <div class="input-group">
-                                    <input type="text" name="wage_min" id="id_wage_min" class="form-control" value="{{ wage_min }}">
+                                <div class="input-group">
+                                    <input type="text" name="wage_min" id="id_wage_min" class="form-control"
+                                           value="{{ wage_min }}">
                                     <span class="input-group-text">-</span>
-                                    <input type="text" name="wage_max" id="id_wage_max" class="form-control" value="{{ wage_max }}" >
+                                    <input type="text" name="wage_max" id="id_wage_max" class="form-control"
+                                           value="{{ wage_max }}">
                                 </div>
                             </div>
                             <div class="col">
                                 <label for="id_first_name" class="form-label">Name:</label>
-                                <input type="text" name="first_name" id="id_first_name" class="form-control" value="{{ first_name }}">
+                                <input type="text" name="first_name" id="id_first_name" class="form-control"
+                                       value="{{ first_name }}">
                             </div>
                             <div class="col">
                                 <label for="id_last_name" class="form-label">Last name:</label>
-                                <input type="text" name="last_name" id="id_last_name" class="form-control" value="{{ last_name }}">
+                                <input type="text" name="last_name" id="id_last_name" class="form-control"
+                                       value="{{ last_name }}">
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="d-grid gap-2 mb-5">
-                                <button type="submit" class="btn btn-outline-primary">Filter</button>
-                                <a href="{% url 'programmers_list' %}" class="btn btn-outline-dark">Reset filters</a>
+                            <div class="col">
+                                <div class="d-grid gap-2 mb-5">
+                                    <button type="submit" class="btn btn-outline-primary">Filter</button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="d-grid gap-2 mb-5">
+                                    <a href="{% url 'programmers_list' %}" class="btn btn-outline-dark">Reset
+                                        filters</a>
+                                </div>
                             </div>
                         </div>
                     </div>

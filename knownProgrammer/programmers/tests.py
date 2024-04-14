@@ -167,8 +167,6 @@ class ProgrammerProfileTests(TestCase):
             user_id=5,
         )
 
-        self.client.force_login(user=self.user1)
-
     def test_set_up(self):
         users_count = User.objects.count()
         programmers_count = ProgrammerProfile.objects.count()
@@ -293,6 +291,7 @@ class ProgrammerProfileTests(TestCase):
         self.assertEqual(expected_programmer.phone, response.context['programmer'].phone)
 
     def test_edit_programmer_when_valid_data_given_but_without_permission_given(self):
+        self.client.force_login(user=self.user1)
         edited_user = self.user4
 
         id_programmer_to_edit = ProgrammerProfile.get_profile_by_user_id(edited_user.id).id
@@ -337,6 +336,7 @@ class ProgrammerProfileTests(TestCase):
         self.assertEqual(no_of_programmers_before_delete, no_of_programmers_after_delete + 1)
 
     def test_delete_programmer_profile_without_permission_given(self):
+        self.client.force_login(user=self.user1)
         deleted_programmer = self.user4
         no_of_programmers_before_delete = ProgrammerProfile.objects.count()
 

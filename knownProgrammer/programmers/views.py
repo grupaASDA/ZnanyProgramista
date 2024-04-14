@@ -22,16 +22,17 @@ class ProgrammerListView(ListView):
 
     def get_queryset(self):
         queryset = ProgrammerFilter(self.request.GET, queryset=self.queryset).qs
+        current_user = self.request.user
+        queryset = queryset.exclude(id=current_user.id)
 
         return queryset
 
     def get_context_data(self, **kwargs):
-        filters = self.request.GET
+
         context = super().get_context_data(**kwargs)
         context['form'] = ProgrammerFilter.form
         context['creators'] = self.creators_ids
-        # context['filters'] = filters
-        print(filters)
+
         if 'experience' in self.request.GET:
             context['experience'] = self.request.GET['experience']
 
@@ -46,7 +47,7 @@ class ProgrammerListView(ListView):
 
         if 'wage_max' in self.request.GET:
             context['wage_max'] = self.request.GET['wage_max']
-            print(context['wage_max'])
+
         if 'first_name' in self.request.GET:
             context['first_name'] = self.request.GET['first_name']
 
