@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from datetime import datetime
 
 from accounts.models import CustomUser
 from communication.forms import MessageCreationModelForm
@@ -10,25 +11,39 @@ from communication.models import Message
 
 login_redirect = reverse_lazy("login")
 
-
 # Create your views here.
 
-def get_last_message(user_id):
-    last_message_i_sent_date = Message.objects.filter(sent_by=user_id).order_by('-created_at').values(
-        'created_at').first()
-    last_message_i_get_date = Message.objects.filter(sent_to=user_id).order_by('-created_at').values(
-        'created_at').first()
-    last_message_i_sent = Message.objects.filter(sent_by=user_id).order_by('-created_at').first()
-    last_message_i_get = Message.objects.filter(sent_to=user_id).order_by('-created_at').first()
-    if last_message_i_sent_date and last_message_i_get_date:
+def get_last_message(contact, request_user):
+    last_message_i_sent_date = Message.objects.filter(sent_by=request_user, sent_to=contact).order_by('created_at').values('created_at').last()
+    last_message_i_get_date = Message.objects.filter(sent_to=request_user, sent_by=contact).order_by('created_at').values('created_at').last()
+    if last_message_i_sent_date == None:
+        return last_message_i_get_date['created_at']
+    elif last_message_i_get_date == None:
+        return last_message_i_sent_date['created_at']
+    else:
         if last_message_i_sent_date['created_at'] > last_message_i_get_date['created_at']:
-            return last_message_i_sent
-        return last_message_i_get
-    elif last_message_i_sent_date:
-        return last_message_i_sent
-    elif last_message_i_get_date:
-        return last_message_i_get
+            return last_message_i_sent_date['created_at']
+        else:
+            return last_message_i_get_date['created_at']
 
+
+def get_recipients(recipients_ids:list):
+    return {user_id['sent_to']: get_object_or_404(CustomUser, id=user_id['sent_to']) for user_id in recipients_ids}
+
+
+def get_senders(senders_ids:list):
+    return {user_id['sent_by']: get_object_or_404(CustomUser, id=user_id['sent_by']) for user_id in senders_ids}
+
+def delete_contact_duplicates(senders, recipients):
+    contacts = []
+    for contact in recipients.values():
+        contacts.append(contact)
+
+    for contact_id, contact in senders.items():
+        if contact_id not in recipients.keys():
+            contacts.append(contact)
+
+    return contacts
 
 @login_required(login_url=login_redirect)
 def send_message_view(request, id):
@@ -67,7 +82,6 @@ def send_message_view(request, id):
         }
         messages.error(request, ("Something went wrong"))
         return render(request, template_name="communication/send_message.html", context=ctx)
-
 
 def replay_message_view(request, id):
     previous_message = get_object_or_404(Message, id=id)
@@ -116,36 +130,26 @@ def replay_message_view(request, id):
         messages.error(request, ("Something went wrong"))
         return render(request, template_name="communication/replay_message.html", context=ctx)
 
-
 @login_required(login_url=login_redirect)
 def my_messages_people_list_view(request):
-    recipients_ids = Message.objects.filter(sent_by=request.user.id).values('sent_to').distinct()
-    senders_ids = Message.objects.filter(sent_to=request.user.id).values('sent_by').distinct()
+    recipients_ids = Message.objects.filter(sent_by=request.user).values('sent_to').distinct()
+    senders_ids = Message.objects.filter(sent_to=request.user).values('sent_by').distinct()
 
-    recipients = {user_id['sent_to']: get_object_or_404(CustomUser, id=user_id['sent_to']) for user_id in
-                  recipients_ids}
-    senders = {user_id['sent_by']: get_object_or_404(CustomUser, id=user_id['sent_by']) for user_id in senders_ids}
+    senders = get_senders(senders_ids)
+    recipients = get_recipients(recipients_ids)
 
-    contacts = []
+    contacts = delete_contact_duplicates(senders, recipients)
 
-    for contact in recipients.values():
-        contacts.append(contact)
+    contacts_with_date = [[contact, get_last_message(contact, request.user)] for contact in contacts]
 
-    for contact_id, contact in senders.items():
-        if contact_id not in recipients.keys():
-            contacts.append(contact)
+    contacts_with_date.sort(key=lambda x: x[1], reverse=True)
 
-    for index, contact in enumerate(contacts):
-        contacts[index] = [contact, get_last_message(contact.id)]
-
-    contacts.sort(key=lambda x: x[1].created_at, reverse=True)
 
     if request.method == 'GET':
         ctx = {
-            'contacts': contacts,
+            'contacts': contacts_with_date,
         }
         return render(request, 'communication/my_messages_people_list.html', context=ctx)
-
 
 @login_required(login_url=login_redirect)
 def my_messages_with_correspondent_view(request, id):
@@ -161,7 +165,6 @@ def my_messages_with_correspondent_view(request, id):
         }
         return render(request, 'communication/my_messages_with_correspondent.html', context=ctx)
 
-
 @login_required(login_url=login_redirect)
 def message_view(request, id):
     message = get_object_or_404(Message, id=id)
@@ -172,3 +175,17 @@ def message_view(request, id):
             'message': message,
         }
         return render(request, 'communication/message.html', context=ctx)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

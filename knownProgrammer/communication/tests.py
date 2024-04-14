@@ -83,11 +83,11 @@ class MessagesTests(TestCase):
         )
         self.message3 = Message.objects.create(
             id=3,
-            sent_by=self.user3,
-            sent_to=self.user2,
-            title="Title 3",
-            content="Content 3",
-            created_at=datetime(2012, 11, 11, 11, 30),
+            sent_by=self.user2,
+            sent_to=self.user3,
+            title='Title3',
+            content="Content3",
+            created_at=datetime(2012, 7, 12, 11, 30),
         )
         self.message4 = Message.objects.create(
             id=4,
@@ -257,7 +257,7 @@ class MessagesTests(TestCase):
         message_i_respond_on = self.message1
         replay_to_send = self.message_respond_1
         expected_message_count = 9
-        expected_status_code = 403
+        expected_status_code = 302
         send_replay_url = reverse('replay', kwargs={'id': message_i_respond_on.id})
         response = self.client.post(send_replay_url, data=replay_to_send)
         messages_count = Message.objects.count()
@@ -267,13 +267,13 @@ class MessagesTests(TestCase):
         self.assertEqual(expected_message_count, messages_count)
 
     def test_send_replay_message_when_invalid_data_given_user_doesnt_exist(self):
+        self.client.force_login(user=self.user1)
         #USER DOESN'T EXIST
-        message_i_respond_on = self.message1
         replay_to_send = self.message_respond_1
         expected_message_count = 9
-        expected_status_code = 403
-        del self.user3
-        send_replay_url = reverse('replay', kwargs={'id': message_i_respond_on.id})
+        expected_status_code = 404
+        invalid_id = 999
+        send_replay_url = reverse('replay', kwargs={'id': invalid_id})
         response = self.client.post(send_replay_url, data=replay_to_send)
         messages_count = Message.objects.count()
 
@@ -281,12 +281,12 @@ class MessagesTests(TestCase):
         self.assertTemplateUsed("communication/replay_message.html")
         self.assertEqual(expected_message_count, messages_count)
     def test_send_replay_message_when_invalid_data_given_message_doesnt_exist(self):
-        message_i_respond_on = self.message1
+        self.client.force_login(user=self.user1)
         replay_to_send = self.message_respond_1
         expected_message_count = 9
-        expected_status_code = 403
-        del self.message1
-        send_replay_url = reverse('replay', kwargs={'id': message_i_respond_on.id})
+        expected_status_code = 404
+        invalid_message_id = 999
+        send_replay_url = reverse('replay', kwargs={'id': invalid_message_id})
         response = self.client.post(send_replay_url, data=replay_to_send)
         messages_count = Message.objects.count()
 
@@ -307,30 +307,77 @@ class MessagesTests(TestCase):
         self.assertTemplateUsed("communication/replay_message.html")
         self.assertEqual(expected_message_count, messages_count)
 
-    # def test_messages_people_list(self):
-    #     self.client.force_login(user=self.user2)
-    #     response = self.client.get(self.contacts_list_url)
-    #     response_contacts = response.context["contacts"]
-    #     expected_contacts = [[self.user4, self.message9], [self.user3, self.message3]]
-    #     expected_contacts.sort(key=lambda x: x[1], reverse=True)
-    #     self.assertEqual(expected_contacts, response_contacts)
-    #
-    # def test_my_messages_with_correspondent_view(self):
-    #     self.client.force_login(user=self.user2)
-    #     response = self.client.get(self.contacts_list_url)
-    #     response_sent_by_me = [message for message in response.context["sent_by_me"]]
-    #     response_sent_to_me = [message for message in response.context["sent_to_me"]]
-    #
-    #     user = response.context["user"]
-    #
-    #     expected_user = self.user2
-    #     expected_sent_by_me =[self.message6_replay, self.message9]
-    #     expected_sent_to_me = [self.message8_sent_again, self.message7_sent_again, self.message3, self.message2]
-    #
-    #     self.assertEqual(response_sent_by_me, expected_sent_by_me)
-    #     self.assertEqual(response_sent_to_me, expected_sent_to_me)
-    #     self.assertEqual(user, expected_user)
+    def test_my_messages_with_correspondent_view(self):
+        self.client.force_login(user=self.user2)
+        messages_with = self.user4
+        messages_with_correspondent_url = reverse('messages_with_list', kwargs={'id': messages_with.id})
+        response = self.client.get(messages_with_correspondent_url)
+        response_sent_by_me = [message for message in response.context["sent_by_me"]]
+        response_sent_to_me = [message for message in response.context["sent_to_me"]]
+        user = response.context["user"]
+
+        expected_user = self.user4
+        expected_sent_by_me = [self.message6_replay, self.message9]
+        expected_sent_to_me = [self.message7_sent_again, self.message8_sent_again, self.message2]
+
+        response_sent_by_me.sort(key= lambda message: message.id)
+        response_sent_to_me.sort(key=lambda message: message.id)
+
+        expected_sent_by_me.sort(key=lambda message: message.id)
+        expected_sent_to_me.sort(key=lambda message: message.id)
+
+        self.assertEqual(response_sent_by_me, expected_sent_by_me)
+        self.assertEqual(response_sent_to_me, expected_sent_to_me)
+        self.assertEqual(user, expected_user)
+
+    def test_messages_people_list(self):
+        self.client.force_login(user=self.user2)
+        response = self.client.get(self.contacts_list_url)
+        response_contacts = response.context["contacts"]
+        expected_contacts = [[self.user4, self.message9.created_at], [self.user3, self.message3.created_at]]
+        self.assertEqual(expected_contacts, response_contacts)
 
 
+    def test_message_valid_view_sent_by_user(self):
+        self.client.force_login(user=self.user2)
+        expected_message = self.message2
+        message_url = reverse('message', kwargs={'id': expected_message.id})
+        response = self.client.get(message_url)
 
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "communication/message.html")
+        self.assertEqual(expected_message.sent_to, response.context['message'].sent_to)
+        self.assertEqual(expected_message.sent_by, response.context['message'].sent_by)
+        self.assertEqual(expected_message.title, response.context['message'].title)
+        self.assertEqual(expected_message.content, response.context['message'].content)
 
+    def test_message_valid_view_sent_to_user(self):
+        self.client.force_login(user=self.user4)
+        expected_message = self.message2
+        message_url = reverse('message', kwargs={'id': expected_message.id})
+        response = self.client.get(message_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "communication/message.html")
+        self.assertEqual(expected_message.sent_to, response.context['message'].sent_to)
+        self.assertEqual(expected_message.sent_by, response.context['message'].sent_by)
+        self.assertEqual(expected_message.title, response.context['message'].title)
+        self.assertEqual(expected_message.content, response.context['message'].content)
+
+    def test_message_invalid_view_wrong_user(self):
+        self.client.force_login(user=self.user3)
+        expected_message = self.message2
+        message_url = reverse('message', kwargs={'id': expected_message.id})
+        response = self.client.get(message_url)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertTemplateUsed("communication/message.html")
+
+    def test_message_invalid_view_logged_out_user(self):
+        expected_message = self.message2
+        message_url = reverse('message', kwargs={'id': expected_message.id})
+        response = self.client.get(message_url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTemplateUsed("communication/message.html")
+        self.assertRedirects(response, '/accounts/login/?next=/messages/message/2')
