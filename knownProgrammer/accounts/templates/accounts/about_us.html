@@ -1,0 +1,118 @@
+{% extends "accounts/base.html" %}
+{% block title %}
+    About Us
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <h2>About Us</h2>
+            <p>Looking for talented programmers? Look no further!</p>
+            <p>KnownProgrammer is your one-stop solution for finding programmers based on their experience, programming languages, frameworks, ratings, and wage.</p>
+            <h3>Creators</h3>
+            <p>Project made by: Jakub Połeć, Krystian Tworek and Oktawian Czakiert</p>
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-4 hover-effect card-creators">
+                <div class="card-body text-center">
+                    <a href="/programmers/detail/1" class="text-decoration-none text-reset">
+                        <img src="https://res.cloudinary.com/dbpcaze0b/image/upload/c_thumb,g_face,h_200,w_200/r_max/f_auto/v1712690767/avatars/JCLQOCGpwVi26AaZrqyQCITT8sjnda" alt="User Avatar" class="rounded-circle mx-auto d-block mb-3" style="width: 150px;">
+                        <h4 class="card-title fw-bold">Jakub Połeć</h4>
+                        <div class="rating">
+                            <span class="fw-bold">Rating:</span>
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <span class="ratings">5 rating(s)</span>
+                        </div>
+                        <div class="experience mt-2">
+                            <span class="fw-bold">Experience:</span>
+                            <span class="fw-bold junior ml-1">Junior</span>
+                        </div>
+                        <div class="technologies mt-3">
+                            <span class="fw-bold">Programming Languages:</span>
+                            <span class="badge bg-success ms-2">Python</span>
+                            <span class="badge bg-success ms-2">SQL</span>
+                            <span class="badge bg-success ms-2">HTML</span>
+                        </div>
+                        <div class="technologies mt-2">
+                            <span class="fw-bold">Tech stack:</span>
+                            <span class="badge bg-secondary ms-2">Django</span>
+                            <span class="badge bg-secondary ms-2">Git | GitHub</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="card mb-4 hover-effect card-creators">
+                <div class="card-body text-center">
+                    <a href="/programmers/detail/2" class="text-decoration-none text-reset">
+                        <img src="https://res.cloudinary.com/dbpcaze0b/image/upload/c_thumb,g_face,h_200,w_200/r_max/f_auto/v1712690929/avatars/a328m26x7yY0RsmfofCW11EDeaYKjw" alt="User Avatar" class="rounded-circle mx-auto d-block mb-3" style="width: 150px;">
+                        <h4 class="card-title fw-bold">Krystian Tworek</h4>
+                        <div class="rating">
+                            <span class="fw-bold">Rating:</span>
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <img width="20" height="20" src="/static/images/star-full.png" alt="star-full">
+                            <span class="ratings">5 rating(s)</span>
+                        </div>
+                        <div class="experience mt-2">
+                            <span class="fw-bold">Experience:</span>
+                            <span class="fw-bold junior ml-1">Junior</span>
+                        </div>
+                        <div class="technologies mt-3">
+                            <span class="fw-bold">Programming Languages:</span>
+                            <span class="badge bg-success ms-2">Python</span>
+                            <span class="badge bg-success ms-2">SQL</span>
+                            <span class="badge bg-success ms-2">HTML</span>
+                        </div>
+                        <div class="technologies mt-2">
+                            <span class="fw-bold">Tech stack:</span>
+                            <span class="badge bg-secondary ms-2">Django</span>
+                            <span class="badge bg-secondary ms-2">Git | GitHub</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="card mb-4 hover-effect card-creators">
+                <div class="card-body text-center">
+                    <a href="/programmers/detail/3" class="text-decoration-none text-reset">
+                        <img src="https://res.cloudinary.com/dbpcaze0b/image/upload/c_thumb,g_face,h_200,w_200/r_max/f_auto/v1712690995/avatars/GdXgtFnQWlsbHWBt5QKTP4p7ikribz" alt="User Avatar" style="width: 150px;" class="rounded-circle mx-auto d-block mb-3">
+                        <h4 class="card-title fw-bold">Oktawian Czakiert</h4>
+                        <div class="rating">
+                            <span class="fw-bold">Rating:</span>
+                            <img width="30" height="30" src="/static/images/star-full.png" alt="star-full"><img width="30" height="30" src="/static/images/star-full.png" alt="star-full"><img width="30" height="30" src="/static/images/star-full.png" alt="star-full"><img width="30" height="30" src="/static/images/star-full.png" alt="star-full"><img width="30" height="30" src="/static/images/star-full.png" alt="star-full">
+                            <span class="ratings">  rating(s)</span>
+                        </div>
+                        <div class="experience">
+                            <span class="fw-bold">Experience:</span>
+                            <h4 class="fw-bold junior">Junior</h4>
+                        </div>
+                        <div class="technologies mt-3">
+                            <span class="fw-bold">Programming Languages:</span>
+                            <span class="badge bg-success ms-2">Python</span>
+                            <span class="badge bg-success ms-2">SQL</span>
+                        </div>
+                        <div class="technologies mt-2">
+                            <span class="fw-bold">Tech stack:</span>
+                            <span class="badge bg-secondary ms-2">Django</span>
+                            <span class="badge bg-secondary ms-2">FastAPI</span>
+                            <span class="badge bg-secondary ms-2">Databases</span>
+                            <span class="badge bg-secondary ms-2">Docker</span>
+                            <span class="badge bg-secondary ms-2">Git | GitHub</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-light text-center py-4 mt-5">
+    <p>&copy; 2024 Know Programmer. All rights reserved.</p>
+</footer>
+{% endblock %}

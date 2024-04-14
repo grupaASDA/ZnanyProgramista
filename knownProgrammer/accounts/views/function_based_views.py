@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import SignUpForm, UserUpdateForm, DeleteAccountForm
 from accounts.models import CustomUser
+from programmers.models import ProgrammerProfile ,Rating
 from accounts.tokens import change_email_token
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -227,3 +228,10 @@ def account_delete_confirm(request, id):
             }
             messages.error(request, "Wrong password, please try again")
             return render(request, "accounts/account_delete_confirm.html", context=ctx)
+
+
+def about_us(request):
+    return render(request, template_name='accounts/about_us.html')
+
+def data_privacy(request):
+    return render(request, template_name='accounts/data_privacy.html')
