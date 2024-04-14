@@ -232,3 +232,6 @@ def account_delete_confirm(request, id):
 
 def about_us(request):
     return render(request, template_name='accounts/about_us.html')
+
+def data_privacy(request):
+    return render(request, template_name='accounts/data_privacy.html')
