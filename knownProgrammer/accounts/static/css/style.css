@@ -1,7 +1,12 @@
-{% load static %}
+{
+%
+load
+static
+%
+}
 
 .around-navbar {
-    height: 100px;
+    height: 85px;
     background-color: #666666;
     position: fixed;
     top: 0;
@@ -10,14 +15,14 @@
     z-index: 1000;
 }
 
+
 .navbar {
     background-color: #3D3D3D;
-    height: 80px;
+    height: 60px;
     margin: 10px;
     border-radius: 16px;
     padding: 0.5rem;
 }
-
 
 
 .navbar-brand {
@@ -45,6 +50,7 @@
     border: none;
     font-size: 1.25rem;
 }
+
 .navbar-toggler:focus, .btn-close:focus {
     box-shadow: none;
     outline: none;
@@ -67,6 +73,7 @@
     text-decoration: none;
     width: 145px;
 }
+
 #unseen1 {
     color: #3D3D3D;
     text-decoration: none;
@@ -88,8 +95,8 @@
     }
 
     .nav-link:hover::before, .nav-link:active::before {
-    width: 100%;
-    visibility: visible;
+        width: 100%;
+        visibility: visible;
     }
 }
 
@@ -106,11 +113,13 @@
 .card-title {
     color: teal;
 }
-#hero-section{
-     background: url("../images/background.jpg") no-repeat center;
-     background-size: cover;
-    width: 100%;
-     }
+
+#hero-section {
+    background: url("../images/background.jpg") no-repeat center;
+    background-size: cover;
+
+}
+
 #hero-section::before {
     content: "";
     background-color: rgba(0, 0, 0, 0.6);

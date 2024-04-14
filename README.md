@@ -1,10 +1,26 @@
 # 💻 KnownProgrammer
 
-Welcome to KnownProgrammer - a Django group project made by: Jakub Połeć, Krystian Tworek and Oktawian Czakiert
+Welcome to KnownProgrammer - a Django group project made by: Jakub Połeć, Krystian Tworek and Oktawian Czakiert.
 
 ---
 
-## 🎉 1. Introduction
+## Table of Contents
+
+1. [Introduction](#-1-introduction)
+2. [Technologies we use](#-2-technologies-we-use)
+3. [Registration and Authentication](#-3-registration-and-authentication)
+4. [Key Features](#-4-key-features)
+5. [Getting started](#-5-getting-started)
+6. [Usage](#-6-usage)
+7. [Testing](#-7-testing)
+8. [Project tree](#-8-project-tree)
+9. [Quick View](#-9-quick-view)
+10. [License](#-10-license)
+11. [Contributing](#-11-contributing)
+
+---
+
+## 💥 1. Introduction
 
 Looking for talented programmers? Look no further!  
 KnownProgrammer is your one-stop solution for finding programmers
@@ -17,6 +33,7 @@ frameworks, ratings, and wage.
 
 - 🐍 Python
 - 🚀 Django
+- 🪶 SQLite
 - 🐳 Docker
 - ☁️ Cloudinary
 
@@ -43,7 +60,7 @@ All passwords are hashed.
 
 ---
 
-## 🧾 5. Setup
+## 🧾 5. Getting started
 
 This guide will walk you through the steps required to set up and run the KnownProgrammer application.  
 You can choose to set up the application manually or use Docker for containerization.
@@ -63,7 +80,7 @@ Before you begin, make sure you have the following installed on your system:
 Clone the KnownProgrammer repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/grupaASDA/ZnanyProgramista`
+git clone https://github.com/grupaASDA/ZnanyProgramista
 ```
 
 ### 5.3. Set Up Environment Variables
@@ -145,6 +162,8 @@ The application will be accessible at `http://localhost:8000`
 
 ### 🤚 5.4.3. By hand
 
+If you want to avoid using Docker and Makefile you can choose below approach to setup the project.
+
 #### Install Dependencies
 
 Navigate to the cloned repository's directory and install the required dependencies:
@@ -193,20 +212,7 @@ Enjoy using our service!
 
 ---
 
-## 🤝 7. Contributing
-
-Contributions are welcome! Please follow the Commonly Recognized
-Contribution Guidelines
-
----
-
-## 📄 8. License
-
-This project is licensed under the MIT License.
-
----
-
-## 🔬 9. Testing
+## 🔬 7. Testing
 
 ```bash
 Name                                                                             Stmts   Miss  Cover
@@ -271,21 +277,23 @@ TOTAL                                                                           
 
 ---
 
-## 📁 10. Project Structure
+## 🌳 8. Project Tree
 
 ```bash
 ZnanyProgramista
 ├── README.md
 └── knownProgrammer
-    ├── __pycache__
-    │   └── manage.cpython-312.pyc
+    ├── Dockerfile
+    ├── Makefile
     ├── accounts
+    │   ├── __init__.py
     │   ├── admin.py
     │   ├── apps.py
     │   ├── forms.py
     │   ├── managers.py
     │   ├── migrations
     │   │   ├── 0001_initial.py
+    │   │   ├── __init__.py
     │   ├── models.py
     │   ├── static
     │   │   ├── css
@@ -301,13 +309,16 @@ ZnanyProgramista
     │   │   └── js
     │   │       └── popup.js
     │   ├── templates
+    │   │   ├── __init__.py
     │   │   └── accounts
+    │   │       ├── about_us.html
     │   │       ├── account_delete_confirm.html
     │   │       ├── base.html
     │   │       ├── change_new_email_message.html
     │   │       ├── change_old_email_message.html
     │   │       ├── change_password.html
     │   │       ├── changed_password.html
+    │   │       ├── data_privacy.html
     │   │       ├── home_page.html
     │   │       ├── login.html
     │   │       ├── password_reset_complete.html
@@ -323,7 +334,28 @@ ZnanyProgramista
     │   └── views
     │       ├── function_based_views.py
     │       └── generic_views.py
+    ├── communication
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── forms.py
+    │   ├── migrations
+    │   │   ├── 0001_initial.py
+    │   │   ├── __init__.py
+    │   ├── models.py
+    │   ├── templates
+    │   │   └── communication
+    │   │       ├── message.html
+    │   │       ├── my_messages_person_list.html
+    │   │       ├── my_messages_with_correspondent.html
+    │   │       ├── replay_message.html
+    │   │       └── send_message.html
+    │   ├── tests.py
+    │   ├── urls_communication.py
+    │   └── views.py
+    ├── docker-compose.yaml
     ├── knownProgrammer
+    │   ├── __init__.py
     │   ├── asgi.py
     │   ├── envtemplate.txt
     │   ├── settings.py
@@ -332,6 +364,7 @@ ZnanyProgramista
     ├── manage.py
     ├── mydatabase
     ├── programmers
+    │   ├── __init__.py
     │   ├── admin.py
     │   ├── apps.py
     │   ├── filters.py
@@ -340,13 +373,13 @@ ZnanyProgramista
     │   ├── forms.py
     │   ├── migrations
     │   │   ├── 0001_initial.py
+    │   │   ├── __init__.py
     │   ├── models.py
     │   ├── services
+    │   │   ├── __init__.py
     │   │   ├── cloudinary.py
     │   │   └── ratings_generator.py
     │   ├── templates
-    │   │   ├── filtered
-    │   │   │   └── programmers_list_filtered.html
     │   │   └── programmers
     │   │       ├── my_profile.html
     │   │       ├── programmer_avatar_update.html
@@ -357,6 +390,7 @@ ZnanyProgramista
     │   │       ├── programmers_list.html
     │   │       └── rate_programmer.html
     │   ├── templatetags
+    │   │   ├── __init__.py
     │   │   └── stars.py
     │   ├── tests.py
     │   ├── urls_programmers.py
@@ -364,11 +398,73 @@ ZnanyProgramista
     ├── project_tree.txt
     └── requirements.txt
 
+
 ```
 
 ---
 
-Thank you for choosing KnownProgrammer! 🚀  
+## 📷 9. Quick View
+
+Below you find some screenshots from our app.
+
+### About us
+
+![About_us](/README_images/About_us.png)
+
+### Programmers list:
+
+![Programmers_list](/README_images/Programmers_list.png)
+
+### Programmers list filtered:
+
+![Programmers_list_filtered](/README_images/Programmers_list_filtered.png)
+
+### Programmer detail:
+
+![Programmer_detail](/README_images/Programmer_detail.png)
+
+### Rating programmer:
+
+![Rating_programmer](/README_images/Rating_programmer.png)
+
+### Sending message to programmer:
+
+![Sending_message_to_programmer](/README_images/Sending_message_to_programmer.png)
+
+### My profile:
+
+![My_profile](/README_images/My_profile.png)
+
+### Register:
+
+![Register](/README_images/Register.png)
+
+### Login:
+
+![Login](/README_images/Login.png)
+
+### Password reset:
+
+![Password_reset](/README_images/Password_reset.png)
+
+
+---
+
+## 📄 10. License
+
+This project is licensed under the MIT License.
+
+---
+
+## 🤝 11. Contributing
+
+Contributions are welcome! Please follow the Commonly Recognized
+Contribution Guidelines
+
+---
+
+🔥 Thank you for choosing KnownProgrammer!   
 We highly invite you to test it!
 
 ---
+[Return to Table of Contenst](#table-of-contents)

@@ -5,41 +5,49 @@
 
 {% block body %}
     <style>
-    .lead {
-        font-size: 30px;
-        font-weight: initial;
-    }
-    .text-lg {
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
+        .lead {
+            font-size: 30px;
+            font-weight: initial;
+        }
+
+        .text-lg {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
     </style>
     {% for message in messages %}
         <li class="alert alert-info">{{ message }}</li>
     {% endfor %}
     <section id="hero-section">
         <div class="container py-5 vertical-center">
-    <div class="row justify-content-center">
-        <div class="col-lg-10 text-center text-white"> <!-- Increased col size to col-lg-10 -->
-            <h1 class="display-3 py-4 fw-bold">Welcome to KnownProgrammer</h1> <!-- Changed display size to display-3 -->
-            <p class="lead">Where expertise meets innovation!</p>
-            <p class="text-lg"> <!-- Added a class text-lg for larger text -->
-                KnownProgrammer is your gateway to a world of coding excellence. Our platform connects you with a diverse community of talented programmers, engineers, and developers from around the globe.
-            </p>
-            <p class="text-lg"> <!-- Added a class text-lg for larger text -->
-                Whether you're a startup in need of a technical co-founder, an enterprise seeking specialized skills, or an individual with a brilliant idea, KnownProgrammer has you covered.
-            </p>
-            <p class="text-lg"> <!-- Added a class text-lg for larger text -->
-                Explore a wide range of services including web development, mobile app development, machine learning, blockchain, and more. Our experts are equipped with the latest tools and technologies to turn your vision into reality.
-            </p>
-            <p class="text-lg"> <!-- Added a class text-lg for larger text -->
-                At KnownProgrammer, we believe in the power of collaboration. Our platform fosters meaningful connections between clients and professionals, enabling seamless communication and efficient project management.
-            </p>
-            <p class="text-lg"> <!-- Added a class text-lg for larger text -->
-                Join us today and embark on a journey of creativity, innovation, and success. Let's build something extraordinary together!
-            </p>
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center text-white">
+                    <h1 class="display-3 py-4 fw-bold">Welcome to KnownProgrammer</h1>
+                    <p class="lead">Where expertise meets innovation!</p>
+                    <p class="text-lg">
+                        KnownProgrammer is your gateway to a world of coding excellence. Our platform connects you with
+                        a diverse community of talented programmers, engineers, and developers from around the globe.
+                    </p>
+                    <p class="text-lg">
+                        Whether you're a startup in need of a technical co-founder, an enterprise seeking specialized
+                        skills, or an individual with a brilliant idea, KnownProgrammer has you covered.
+                    </p>
+                    <p class="text-lg">
+                        Explore a wide range of services including web development, mobile app development, machine
+                        learning, blockchain, and more. Our experts are equipped with the latest tools and technologies
+                        to turn your vision into reality.
+                    </p>
+                    <p class="text-lg">
+                        At KnownProgrammer, we believe in the power of collaboration. Our platform fosters meaningful
+                        connections between clients and professionals, enabling seamless communication and efficient
+                        project management.
+                    </p>
+                    <p class="text-lg">
+                        Join us today and embark on a journey of creativity, innovation, and success. Let's build
+                        something extraordinary together!
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
     </section>
 {% endblock body %}
