@@ -2,20 +2,48 @@
 
 ### Welcome to KnownProgrammer - a Django group project made by:
 
-#### - Jakub Połeć
+<style>
 
-&emsp; &emsp;[![GitHub](/README_images/GitHub.png)](https://github.com/jpol1)
+    .creators th {
+        background: #393E46;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+    }
+    .creators td {
+        text-align: center;
+        color: #393E46;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .creators tr:nth-child(1) { 
+        color: #27374D;
+        background: #DDE6ED;
 
-#### - Krystian Tworek
+    }
+    .creators tr:nth-child(2) { 
+        color: #27374D;
+        background: #DDE6ED;
+    }
+    .tech_table th {
+        background: #DDE6ED;
+        text-align: center;
+    }
+    .tech_table tr:nth-child(1) { 
+        color: #F9F7F7;
+        background: #393E46; 
+        font-size: 18px;
+    }
+</style>
 
-&emsp; &emsp;[![GitHub](/README_images/GitHub.png)](https://github.com/XDKrystian) &emsp; &emsp;
-[![LinkedIn](/README_images/LinkedIn.png)](https://linkedin.com/in/krystiantworek)
+<div class="creators">
 
-#### - Oktawian Czakiert
+|          |                           Jakub Połeć                            |                                  Krystian Tworek                                   |                                     Oktawian Czakiert                                     | 
+|:--------:|:----------------------------------------------------------------:|:----------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
+|  GitHub  | [![GitHub](/README_images/GitHub.png)](https://github.com/jpol1) |       [![GitHub](/README_images/GitHub.png)](https://github.com/XDKrystian)        |        [![GitHub](/README_images/GitHub.png)](https://github.com/OktawianCzakiert)        
+| LinkedIn |                                -                                 | [![LinkedIn](/README_images/LinkedIn.png)](https://linkedin.com/in/krystiantworek) | [![LinkedIn](/README_images/LinkedIn.png)](https://www.linkedin.com/in/oktawianczakiert/) |   
 
-&emsp; &emsp;[![GitHub](/README_images/GitHub.png)](https://github.com/OktawianCzakiert)&emsp; &emsp;
-[![LinkedIn](/README_images/LinkedIn.png)](https://www.linkedin.com/in/oktawianczakiert/)
-
+</div>
 
 ---
 
@@ -46,10 +74,13 @@ frameworks, ratings, and wage.
 
 ## 🕹 2. Technologies we use
 
+<div class="tech_table">
+
 | <img src="/README_images/Python.png" alt="Python" style="width:45px; height: 45px"/> | <img src="/README_images/Django.png" alt="Django" style="width:45px; height: 45px"/> | <img src="/README_images/Sqlite.svg" alt="SQLite" style="width:70px; height: 80x"/> | <img src="/README_images/Docker.png" alt="Docker" style="width:50px; height: 50px"/> | <img src="/README_images/Cloudinary.svg" alt="Cloudinary" style="width:50px; height: 50px"/> 
 |:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|
 |                                        Python                                        |                                        Django                                        |                                       SQLite                                        |                                        Docker                                        |                                          Cloudinary                                          
 
+</div>
 ---
 
 ## 🔐 3. Registration and Authentication
