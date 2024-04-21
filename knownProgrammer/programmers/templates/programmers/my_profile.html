@@ -69,12 +69,11 @@
                         <div class="mb-5">
                             <span class="fw-bold">Email: </span>
                             {% if user.is_dev == True %}
-                            <a>{{ programmer.user_id.email }}</a>
+                                <a>{{ programmer.user_id.email }}</a>
                             {% else %}
-                            <a>{{ user.email }}</a>
+                                <a>{{ user.email }}</a>
                             {% endif %}
                         </div>
-
 
 
                         <div class="card-footer text-center">
@@ -92,26 +91,24 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    {% if user.is_dev == True %}
-                                        <div class="d-grid gap-2">
-                                            <a href="{% url 'upload_avatar' user.id %}" class="btn btn-outline-info">Upload
-                                                new
-                                                avatar</a>
-                                            {% if user.is_dev == True %}
-                                                <a href="{% url 'programmer_delete_confirm' programmer.id %}"
-                                                   class="btn btn-outline-danger">Delete programmer profile</a>
-                                           <a href="{% url 'messages_person_list'%}"
-                                   class="btn btn-outline-dark">Messages history</a>
-                                            {% endif %}
-                                        </div>
-                                    {% else %}
-                                        <div class="d-grid gap-2">
-                                            <a href="{% url 'programmer_create_form' %}" class="btn btn-outline-warning">Create
-                                                programmer profile</a>
-                                          <a href="{% url 'messages_person_list'%}"
-                                   class="btn btn-outline-dark">Messages history</a>
-                                        </div>
-                                    {% endif %}
+                                    <div class="d-grid gap-2">
+                                        <a href="{% url 'upload_avatar' user.id %}" class="btn btn-outline-info">Upload
+                                            new avatar</a>
+                                        {% if user.is_dev == True %}
+                                            <a href="{% url 'programmer_delete_confirm' programmer.id %}"
+                                               class="btn btn-outline-danger">Delete programmer profile</a>
+                                            <a href="{% url 'messages_person_list' %}"
+                                               class="btn btn-outline-dark">Messages history</a>
+                                            </div>
+                                        {% else %}
+                                            <div class="d-grid gap-2">
+                                                <a href="{% url 'programmer_create_form' %}"
+                                                   class="btn btn-outline-warning">Create
+                                                    programmer profile</a>
+                                                <a href="{% url 'messages_person_list' %}"
+                                                   class="btn btn-outline-dark">Messages history</a>
+                                            </div>
+                                        {% endif %}
                                 </div>
                             </div>
                         </div>

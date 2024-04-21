@@ -233,6 +233,8 @@ def rate_programmer(request, id):
 
     if request.method == "GET":
         user = request.user
+        if user.id == programmer.user_id.id:
+            raise PermissionDenied("You cannot rate yourself.")
         rating_exists = Rating.objects.filter(programmer=programmer, user=user).first()
         if rating_exists:
             form = RatingForm(initial={'rating': rating_exists.rating})
@@ -251,10 +253,6 @@ def rate_programmer(request, id):
     if request.method == 'POST':
         form = RatingForm(request.POST)
         user = request.user
-        if user.id == programmer.user_id.id:
-            owner = True
-        else:
-            owner = False
 
         if form.is_valid():
             user_rating = form.cleaned_data['rating']
@@ -290,7 +288,6 @@ def rate_programmer(request, id):
                 "programmer": programmer,
                 "user": user,
                 "rated": rated,
-                "owner": owner,
             }
 
             return render(
@@ -310,7 +307,7 @@ def rate_programmer(request, id):
 @login_required(login_url="/accounts/login/")
 def upload_avatar(request, id):
     logged_user = request.user
-    user = get_object_or_404(CustomUser, id=request.user.id)
+    user = get_object_or_404(CustomUser, id=id)
 
     if logged_user.id != user.id:
         raise PermissionDenied("You do not have permission to upload/ update this avatar.")
@@ -376,7 +373,7 @@ def upload_avatar(request, id):
 @login_required(login_url="/accounts/login/")
 def restore_avatar(request, id):
     logged_user = request.user
-    user = get_object_or_404(CustomUser, id=request.user.id)
+    user = get_object_or_404(CustomUser, id=id)
 
     if logged_user.id != user.id:
         raise PermissionDenied("You do not have permission to upload/ update this avatar.")

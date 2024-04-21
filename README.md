@@ -4,16 +4,16 @@
 
 #### - Jakub Połeć
 
-[![GitHub](/README_images/GitHub.png)](https://github.com/jpol1)
+&emsp; &emsp;[![GitHub](/README_images/GitHub.png)](https://github.com/jpol1)
 
 #### - Krystian Tworek
 
-[![GitHub](/README_images/GitHub.png)](https://github.com/XDKrystian)
+&emsp; &emsp;[![GitHub](/README_images/GitHub.png)](https://github.com/XDKrystian) &emsp; &emsp;
 [![LinkedIn](/README_images/LinkedIn.png)](https://linkedin.com/in/krystiantworek)
 
 #### - Oktawian Czakiert
 
-[![GitHub](/README_images/GitHub.png)](https://github.com/OktawianCzakiert)
+&emsp; &emsp;[![GitHub](/README_images/GitHub.png)](https://github.com/OktawianCzakiert)&emsp; &emsp;
 [![LinkedIn](/README_images/LinkedIn.png)](https://www.linkedin.com/in/oktawianczakiert/)
 
 
@@ -46,11 +46,9 @@ frameworks, ratings, and wage.
 
 ## 🕹 2. Technologies we use
 
-- 🐍 Python
-- 🚀 Django
-- 🪶 SQLite
-- 🐳 Docker
-- ☁️ Cloudinary
+| <img src="/README_images/Python.png" alt="Python" style="width:45px; height: 45px"/> | <img src="/README_images/Django.png" alt="Django" style="width:45px; height: 45px"/> | <img src="/README_images/Sqlite.svg" alt="SQLite" style="width:70px; height: 80x"/> | <img src="/README_images/Docker.png" alt="Docker" style="width:50px; height: 50px"/> | <img src="/README_images/Cloudinary.svg" alt="Cloudinary" style="width:50px; height: 50px"/> 
+|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|
+|                                        Python                                        |                                        Django                                        |                                       SQLite                                        |                                        Docker                                        |                                          Cloudinary                                          
 
 ---
 
@@ -230,21 +228,21 @@ Enjoy using our service!
 ## 🔬 7. Testing
 
 ```bash
-Name                                                                Stmts   Miss  Cover
----------------------------------------------------------------------------------------
+Name                                                                Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------------------
 accounts/__init__.py                                                    0      0   100%
 accounts/admin.py                                                       3      0   100%
 accounts/apps.py                                                        4      0   100%
 accounts/forms.py                                                      29      0   100%
-accounts/managers.py                                                   20      9    55%
+accounts/managers.py                                                   20      9    55%   15, 26-34
 accounts/migrations/0001_initial.py                                     6      0   100%
 accounts/migrations/__init__.py                                         0      0   100%
 accounts/models.py                                                     18      0   100%
 accounts/templates/__init__.py                                          0      0   100%
 accounts/tests.py                                                     124      0   100%
-accounts/tokens.py                                                     10      1    90%
+accounts/tokens.py                                                     10      1    90%   9
 accounts/urls_accounts.py                                               5      0   100%
-accounts/views/function_based_views.py                                160     69    57%
+accounts/views/function_based_views.py                                160     69    57%   18-33, 51, 106-118, 120-134, 137-152, 155-170, 193-203, 218-230, 234, 237
 accounts/views/generic_views.py                                         6      0   100%
 communication/__init__.py                                               0      0   100%
 communication/admin.py                                                  1      0   100%
@@ -253,38 +251,40 @@ communication/forms.py                                                  6      0
 communication/migrations/0001_initial.py                                7      0   100%
 communication/migrations/__init__.py                                    0      0   100%
 communication/models.py                                                 8      0   100%
-communication/tests.py                                                153      0   100%
+communication/tests.py                                                213      0   100%
 communication/urls_communication.py                                     3      0   100%
-communication/views.py                                                116     52    55%
+communication/views.py                                                120     15    88%   20, 27, 44, 61-67, 77-84, 91, 93, 106-113, 123-131
 knownProgrammer/__init__.py                                             0      0   100%
-knownProgrammer/asgi.py                                                 4      4     0%
+knownProgrammer/asgi.py                                                 4      4     0%   10-16
 knownProgrammer/settings.py                                            31      0   100%
 knownProgrammer/urls.py                                                 4      0   100%
-knownProgrammer/wsgi.py                                                 4      4     0%
-manage.py                                                              11      2    82%
+knownProgrammer/wsgi.py                                                 4      4     0%   10-16
+manage.py                                                              11      2    82%   11-12
 programmers/__init__.py                                                 0      0   100%
 programmers/admin.py                                                    3      0   100%
 programmers/apps.py                                                     4      0   100%
 programmers/filters.py                                                  9      0   100%
-programmers/forms.py                                                   24      2    92%
+programmers/forms.py                                                   24      1    96%   16
 programmers/migrations/0001_initial.py                                  8      0   100%
 programmers/migrations/0002_alter_programmerprofile_experience.py       4      0   100%
 programmers/migrations/0003_alter_programmerprofile_experience.py       4      0   100%
 programmers/migrations/0004_alter_programmerprofile_experience.py       4      0   100%
 programmers/migrations/0005_alter_programmerprofile_experience.py       4      0   100%
 programmers/migrations/0006_alter_programmerprofile_experience.py       4      0   100%
+programmers/migrations/0007_alter_programmerprofile_experience.py       4      0   100%
+programmers/migrations/0008_alter_programmerprofile_experience.py       4      0   100%
 programmers/migrations/__init__.py                                      0      0   100%
-programmers/models.py                                                  40      6    85%
+programmers/models.py                                                  40      5    88%   59, 68, 80-81, 90
 programmers/services/__init__.py                                        0      0   100%
-programmers/services/cloudinary.py                                     15      4    73%
-programmers/services/ratings_generator.py                              16     16     0%
+programmers/services/cloudinary.py                                     15      0   100%
 programmers/templatetags/__init__.py                                    1      0   100%
-programmers/templatetags/stars.py                                      20      1    95%
-programmers/tests.py                                                  171      0   100%
+programmers/templatetags/stars.py                                      20      1    95%   9
+programmers/tests.py                                                  469      0   100%
 programmers/urls_programmers.py                                         3      0   100%
-programmers/views.py                                                  217    113    48%
----------------------------------------------------------------------------------------
-TOTAL                                                                1288    283    78%
+programmers/views.py                                                  216     10    95%   37, 40, 43, 46, 49, 52, 55, 72, 283-284
+-------------------------------------------------------------------------------------------------
+TOTAL                                                                1641    121    93%
+
 
 ```
 
