@@ -12,6 +12,20 @@
                     <div class="card-header text-center">
                         <h4 class="card-title">Upload new avatar</h4>
                     </div>
+                    {% if messages %}
+                        <div class="col-12">
+                            <ul class="list-unstyled mb-5">
+                                {% for message in messages %}
+                                    <li class="alert alert-info">{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                     <br>
                     <div class="d-grid gap-2">
                         <form method="POST" action="{% url 'restore_avatar' user.id %}">
