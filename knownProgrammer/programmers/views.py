@@ -53,6 +53,10 @@ class ProgrammerListView(ListView):
 
         if 'last_name' in self.request.GET:
             context['last_name'] = self.request.GET['last_name']
+
+        for programmer in context['programmers']:
+            programmer.count = programmer.ratings_count()
+
         return context
 
 
